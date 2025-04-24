@@ -87,7 +87,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: Publish scratch-vm
-        run:  |
+        run: |
           npm run build --workspace @scratch/scratch-vm
           npm publish --access=public --tag="${{steps.npm_tag.outputs.npm_tag}}" --workspace=@scratch/scratch-vm
         env:
