@@ -356,6 +356,8 @@ const loadCostumeFromAsset = function (costume, runtime, optVersion) {
  * @returns {?Promise} - a promise which will resolve after skinId is set, or null on error.
  */
 const loadCostume = function (md5ext, costume, runtime, optVersion) {
+    console.log('CCCCCCCCCCCCCCCCCCCCCCCCCCCC');
+    console.log(md5ext);
     const idParts = StringUtil.splitFirst(md5ext, '.');
     const md5 = idParts[0];
     const ext = idParts[1].toLowerCase();
@@ -394,6 +396,8 @@ const loadCostume = function (md5ext, costume, runtime, optVersion) {
             if (assetArray[0]) {
                 costume.asset = assetArray[0];
             } else {
+                console.log('BBBBBBBBBBBBBBBBBBBBBBBBBBB');
+                console.log(md5ext);
                 return handleCostumeLoadError(costume, runtime);
             }
 
@@ -405,6 +409,8 @@ const loadCostume = function (md5ext, costume, runtime, optVersion) {
         .catch(error => {
             // Handle case where storage.load rejects with errors
             // instead of resolving null
+            console.log('AAAAAAAAAAAAAAAAAAAAAAAA');
+            console.log(md5ext);
             log.warn('Error loading costume: ', error);
             return handleCostumeLoadError(costume, runtime);
         });
