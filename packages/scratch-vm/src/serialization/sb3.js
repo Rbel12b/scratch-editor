@@ -894,17 +894,13 @@ const parseScratchAssets = function (object, runtime, zip) {
             costumeSource.md5ext : `${costumeSource.assetId}.${dataFormat}`;
         costume.md5 = costumeMd5Ext;
         costume.dataFormat = dataFormat;
-        console.log('////////////////////////////');
-        console.log('sb3: old md5');
-        console.log(costumeMd5Ext);
-        console.log('////////////////////////////');
         // deserializeCostume should be called on the costume object we're
         // creating above instead of the source costume object, because this way
         // we're always loading the 'sb3' representation of the costume
         // any translation that needs to happen will happen in the process
         // of building up the costume object into an sb3 format
         return deserializeCostume(costume, runtime, zip)
-            .then(() => loadCostume(costume.md5, costume, runtime));
+            .then(() => loadCostume(costumeMd5Ext, costume, runtime));
         // Only attempt to load the costume after the deserialization
         // process has been completed
     });

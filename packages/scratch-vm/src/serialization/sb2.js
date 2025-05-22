@@ -452,10 +452,6 @@ const parseScratchAssets = function (object, runtime, topLevel, zip) {
             if (costumeSource.textLayerMD5) {
                 costume.textLayerMD5 = StringUtil.splitFirst(costumeSource.textLayerMD5, '.')[0];
             }
-            console.log('////////////////////////////');
-            console.log('sb2: old md5');
-            console.log(costume.md5);
-            console.log('////////////////////////////');
             // If there is no internet connection, or if the asset is not in storage
             // for some reason, and we are doing a local .sb2 import, (e.g. zip is provided)
             // the file name of the costume should be the baseLayerID followed by the file ext
