@@ -61,7 +61,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.27.4",
-    "@babel/eslint-parser": "7.27.1",
+    "@babel/eslint-parser": "7.27.5",
     "@babel/polyfill": "7.12.1",
     "@babel/preset-env": "7.27.2",
     "@scratch/scratch-vm": "11.2.0-svg-sanitization.2",
