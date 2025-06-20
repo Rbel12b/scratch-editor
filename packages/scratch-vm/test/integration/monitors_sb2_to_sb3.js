@@ -14,18 +14,15 @@ test('saving and loading sb2 project with monitors preserves sliderMin and slide
     vm.attachStorage(makeTestStorage());
 
     vm.on('playgroundData', e /* eslint-disable-line no-unused-vars */ => {
-        // TODO related to above TODO, comment these back in when we figure out
-        // why running threads doesn't work with this test
-
-        // const threads = JSON.parse(e.threads);
+        const threads = JSON.parse(e.threads);
         // All monitors should create threads that finish during the step and
         // are revoved from runtime.threads.
-        // t.equal(threads.length, 0);
+        t.equal(threads.length, 0);
 
         // we care that the last step updated the right number of monitors
         // we don't care whether the last step ran other threads or not
-        // const lastStepUpdatedMonitorThreads = vm.runtime._lastStepDoneThreads.filter(thread => thread.updateMonitor);
-        // t.equal(lastStepUpdatedMonitorThreads.length, 8);
+        const lastStepUpdatedMonitorThreads = vm.runtime._lastStepDoneThreads.filter(thread => thread.updateMonitor);
+        t.equal(lastStepUpdatedMonitorThreads.length, 8);
 
         // There should be one additional hidden monitor that is in the monitorState but
         // does not start a thread.
