@@ -61,7 +61,7 @@ const ProjectSaverHOC = function (WrappedComponent) {
             // Allow the GUI consumer to pass in a function to receive a trigger
             // for triggering thumbnail or whole project saves.
             // These functions are called with null on unmount to prevent stale references.
-            this.props.onSetProjectThumbnailer((callback) => getProjectThumbnail(this.props.vm, callback));
+            this.props.onSetProjectThumbnailer(callback => getProjectThumbnail(this.props.vm, callback));
             this.props.onSetProjectSaver(this.tryToAutoSave);
         }
         componentDidUpdate (prevProps) {
