@@ -183,7 +183,7 @@ const ProjectSaverHOC = function (WrappedComponent) {
                 });
         }
         createNewProjectToStorage () {
-            return this.storeProject(null)
+            return this.storeProject(null, {}, {isCreatingProject: true})
                 .then(response => {
                     this.props.onCreatedProject(response.id.toString(), this.props.loadingState);
                 })
@@ -229,8 +229,9 @@ const ProjectSaverHOC = function (WrappedComponent) {
          * @param  {number|string|undefined} projectId - defined value will PUT/update; undefined/null will POST/create
          * @return {Promise} - resolves with json object containing project's existing or new id
          * @param {?object} requestParams - object of params to add to request body
+         * @param {?object} options - additional options for the store operation
          */
-        storeProject (projectId, requestParams) {
+        storeProject (projectId, requestParams, options) {
             requestParams = requestParams || {};
             this.clearAutoSaveTimeout();
             // Serialize VM state now before embarking on
@@ -267,7 +268,9 @@ const ProjectSaverHOC = function (WrappedComponent) {
                 .then(response => {
                     this.props.onSetProjectUnchanged();
                     const id = response.id.toString();
-                    if (!this.props.manuallySaveThumbnails && id && this.props.onUpdateProjectThumbnail) {
+                    if ((!this.props.manuallySaveThumbnails && id && this.props.onUpdateProjectThumbnail) ||
+                        // Always save thumbnail on project creation
+                        options?.isCreatingProject) {
                         storeProjectThumbnail(this.props.vm, dataURI => {
                             this.props.onUpdateProjectThumbnail(
                                 id,
