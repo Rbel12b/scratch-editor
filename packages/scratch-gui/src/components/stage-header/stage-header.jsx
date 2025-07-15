@@ -20,7 +20,7 @@ import scratchLogo from '../menu-bar/scratch-logo.svg';
 import styles from './stage-header.css';
 import {storeProjectThumbnail} from '../../lib/store-project-thumbnail.js';
 import dataURItoBlob from '../../lib/data-uri-to-blob.js';
-import debounce from 'lodash.debounce';
+import throttle from 'lodash.throttle';
 
 const messages = defineMessages({
     largeStageSizeMessage: {
@@ -75,7 +75,7 @@ const StageHeaderComponent = function (props) {
     let header = null;
 
     const onUpdateThumbnail = useCallback(
-        debounce(
+        throttle(
             () => {
                 if (!onUpdateProjectThumbnail) {
                     return;

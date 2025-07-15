@@ -185,7 +185,6 @@ const GUIComponent = props => {
                 loading={loading}
                 manuallySaveThumbnails={
                     manuallySaveThumbnails &&
-                    isPlayerOnly &&
                     userOwnsProject
                 }
                 onUpdateProjectThumbnail={onUpdateProjectThumbnail}

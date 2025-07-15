@@ -93,4 +93,8 @@
         color: $ui-white;
         background-color: $motion-primary;
     }
+
+    .setThumbnailButton:active {
+        filter: brightness(90%);
+    }
 }
