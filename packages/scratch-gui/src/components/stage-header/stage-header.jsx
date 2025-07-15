@@ -45,7 +45,7 @@ const messages = defineMessages({
     },
     setThumbnail: {
         defaultMessage: 'Set Thumbnail',
-        description: 'Manually save project thumbnail   ',
+        description: 'Manually save project thumbnail',
         id: 'gui.stageHeader.saveThumbnail'
     },
     fullscreenControl: {
