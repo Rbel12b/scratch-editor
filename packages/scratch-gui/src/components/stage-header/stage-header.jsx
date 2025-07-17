@@ -77,10 +77,6 @@ const StageHeaderComponent = function (props) {
     const onUpdateThumbnail = useCallback(
         throttle(
             () => {
-                if (!onUpdateProjectThumbnail) {
-                    return;
-                }
-
                 storeProjectThumbnail(vm, dataURI => {
                     onUpdateProjectThumbnail(projectId, dataURItoBlob(dataURI));
                 });

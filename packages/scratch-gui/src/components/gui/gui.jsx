@@ -489,7 +489,7 @@ GUIComponent.propTypes = {
     onTelemetryModalOptIn: PropTypes.func,
     onTelemetryModalOptOut: PropTypes.func,
     onToggleLoginOpen: PropTypes.func,
-    onUpdateProjectThumbnail: PropTypes.func,
+    onUpdateProjectThumbnail: PropTypes.func.isRequired,
     platform: PropTypes.oneOf(Object.keys(PLATFORM)),
     renderLogin: PropTypes.func,
     showComingSoon: PropTypes.bool,
