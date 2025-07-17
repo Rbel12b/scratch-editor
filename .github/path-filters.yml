@@ -1,0 +1,26 @@
+# Files in the `global` filter affect all workspaces, even if workspace-specific files have not changed.
+global:
+  - ".github/path-filters.yml"
+  - ".github/workflows/ci.yml"
+  - ".nvmrc"
+  - "package.json"
+  - "package-lock.json"
+  - "scripts/**"
+
+any-workspace:
+  - "packages/**"
+
+scratch-svg-renderer:
+  - "packages/scratch-svg-renderer/**"
+scratch-render:
+  - "packages/scratch-render/**"
+  - "packages/scratch-svg-renderer/**"
+scratch-vm:
+  - "packages/scratch-render/**"
+  - "packages/scratch-svg-renderer/**"
+  - "packages/scratch-vm/**"
+scratch-gui:
+  - "packages/scratch-gui/**"
+  - "packages/scratch-render/**"
+  - "packages/scratch-svg-renderer/**"
+  - "packages/scratch-vm/**"
