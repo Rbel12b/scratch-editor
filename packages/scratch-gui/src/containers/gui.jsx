@@ -96,7 +96,7 @@ class GUI extends React.Component {
             loadingStateVisible,
             ...componentProps
         } = this.props;
-        
+
 
         return (
             <GUIComponent
@@ -127,7 +127,6 @@ GUI.propTypes = {
     onSeeCommunity: PropTypes.func,
     onStorageInit: PropTypes.func,
     onUpdateProjectId: PropTypes.func,
-    onUpdateProjectThumbnail: PropTypes.func,
     onVmInit: PropTypes.func,
     platform: PropTypes.oneOf(Object.keys(PLATFORM)),
     setPlatform: PropTypes.func.isRequired,
@@ -152,10 +151,8 @@ GUI.defaultProps = {
 
 const mapStateToProps = (state, ownProps) => {
     const loadingState = state.scratchGui.projectState.loadingState;
-    const storage = state.scratchGui.config.storage;
-    const noop = () => {};
     return {
-        storage,
+        storage: state.scratchGui.config.storage,
         activeTabIndex: state.scratchGui.editorTab.activeTabIndex,
         alertsVisible: state.scratchGui.alerts.visible,
         backdropLibraryVisible: state.scratchGui.modals.backdropLibrary,
@@ -172,10 +169,6 @@ const mapStateToProps = (state, ownProps) => {
         isRtl: state.locales.isRtl,
         isShowingProject: getIsShowingProject(loadingState),
         loadingStateVisible: state.scratchGui.modals.loadingProject,
-        onUpdateProjectThumbnail:
-            ownProps.onUpdateProjectThumbnail ??
-            storage.saveProjectThumbnail?.bind(storage) ??
-            noop,
         platform: ownProps.platform,
         projectId: state.scratchGui.projectState.projectId,
         soundsTabVisible: state.scratchGui.editorTab.activeTabIndex === SOUNDS_TAB_INDEX,

@@ -391,7 +391,7 @@ const ProjectSaverHOC = function (WrappedComponent) {
         onShowSaveSuccessAlert: PropTypes.func,
         onShowSavingAlert: PropTypes.func,
         onUpdateProjectData: PropTypes.func,
-        onUpdateProjectThumbnail: PropTypes.func.isRequired,
+        onUpdateProjectThumbnail: PropTypes.func,
         onUpdatedProject: PropTypes.func,
         noBeforeUnloadHandler: PropTypes.bool.isRequired,
         projectChanged: PropTypes.bool,
@@ -430,6 +430,9 @@ const ProjectSaverHOC = function (WrappedComponent) {
             isManualUpdating: getIsManualUpdating(loadingState),
             loadingState: loadingState,
             locale: state.locales.locale,
+            onUpdateProjectThumbnail:
+                ownProps.onUpdateProjectThumbnail ??
+                storage.saveProjectThumbnail?.bind(storage),
             projectChanged: state.scratchGui.projectChanged,
             reduxProjectId: state.scratchGui.projectState.projectId,
             reduxProjectTitle: state.scratchGui.projectTitle,
