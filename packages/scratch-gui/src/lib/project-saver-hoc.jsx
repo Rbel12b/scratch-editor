@@ -74,6 +74,7 @@ const ProjectSaverHOC = function (WrappedComponent) {
 
             if (
                 !this.props.manuallySaveThumbnails &&
+                this.props.onUpdateProjectThumbnail &&
                 this.props.saveThumbnailOnLoad &&
                 this.props.isShowingWithId &&
                 !prevProps.isShowingWithId
@@ -268,9 +269,10 @@ const ProjectSaverHOC = function (WrappedComponent) {
                 .then(response => {
                     this.props.onSetProjectUnchanged();
                     const id = response.id.toString();
-                    if ((!this.props.manuallySaveThumbnails && id && this.props.onUpdateProjectThumbnail) ||
+                    if (this.props.onUpdateProjectThumbnail && id && (
+                        !this.props.manuallySaveThumbnails ||
                         // Always save thumbnail on project creation
-                        options?.isCreatingProject) {
+                        options?.isCreatingProject)) {
                         storeProjectThumbnail(this.props.vm, dataURI => {
                             this.props.onUpdateProjectThumbnail(
                                 id,
@@ -430,6 +432,7 @@ const ProjectSaverHOC = function (WrappedComponent) {
             isManualUpdating: getIsManualUpdating(loadingState),
             loadingState: loadingState,
             locale: state.locales.locale,
+            manuallySaveThumbnails: ownProps.manuallySaveThumbnails ?? false,
             onUpdateProjectThumbnail:
                 ownProps.onUpdateProjectThumbnail ??
                 storage.saveProjectThumbnail?.bind(storage),
