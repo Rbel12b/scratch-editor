@@ -13,6 +13,7 @@ concurrency:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     outputs:
       any-workspace: ${{ steps.filter.outputs.any-workspace }}
@@ -85,3 +86,26 @@ jobs:
       - uses: ./.github/actions/test-package
         with:
           package_name: ${{ matrix.package }}
+
+  results:
+    name: Results
+    runs-on: ubuntu-latest
+    needs: test
+    if: ${{ always() }}
+    steps:
+      - run: |
+          case "${{ needs.test.result }}" in
+            success)
+              echo "Tests passed successfully."
+              exit 0
+              ;;
+            skipped)
+              echo "Tests were unnecessary for these changes, so they were skipped."
+              echo "If this is unexpected, check the path filters."
+              exit 0
+              ;;
+            *)
+              echo "Tests failed."
+              exit 1
+              ;;
+          esac
