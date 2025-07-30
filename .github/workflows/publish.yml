@@ -72,6 +72,10 @@ jobs:
           npm version "$NEW_VERSION" --no-git-tag-version
           git add package* && git commit -m "chore(release): $NEW_VERSION [skip ci]"
 
+      # Install dependencies after the version update so that
+      # the build outputs refer to the newest version of inner packages
+      - uses: ./.github/actions/install-dependencies
+
       - name: Publish scratch-svg-renderer
         run: |
           npm run build --workspace @scratch/scratch-svg-renderer
