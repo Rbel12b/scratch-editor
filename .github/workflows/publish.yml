@@ -95,8 +95,14 @@ jobs:
 
       - name: Publish scratch-gui
         run: |
+          cp ./packages/scratch-gui/package.json ./packages/scratch-gui/package-copy.json
+
+          jq 'del(.exports["./standalone"])' ./packages/scratch-gui/package.json | npx sponge ./packages/scratch-gui/package.json
+
           npm run build:dist --workspace @scratch/scratch-gui
           npm publish --access=public --tag="${{steps.npm_tag.outputs.npm_tag}}" --workspace=@scratch/scratch-gui
+
+          mv ./packages/scratch-gui/package-copy.json ./packages/scratch-gui/package.json
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
@@ -109,8 +115,7 @@ jobs:
             del(.exports."./standalone")
           ' ./packages/scratch-gui/package.json | npx sponge ./packages/scratch-gui/package.json
 
-          npm i
-          npm run clean && npm run build:dist-standalone --workspace @scratch/scratch-gui-standalone
+          npm --workspace=@scratch/scratch-gui-standalone run clean && npm --workspace=@scratch/scratch-gui-standalone run build:dist-standalone
           npm publish --access=public --tag="${{steps.npm_tag.outputs.npm_tag}}" --workspace=@scratch/scratch-gui-standalone
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
