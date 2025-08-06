@@ -31,12 +31,7 @@ describe('Working with sounds', () => {
         await loadUri(uri);
         await clickText('Sounds');
 
-        // Delete the sound
-        await rightClickText('Meow', scope.soundsTab);
-        await driver.sleep(500); // Wait a moment for context menu; only needed for local testing
-        await clickText('delete', scope.soundsTab);
-
-        // Add it back
+        // Add sound from library
         await clickXpath('//button[@aria-label="Choose a Sound"]');
         let el = await findByXpath("//input[@placeholder='Search']");
         await el.sendKeys('meow');
@@ -77,6 +72,12 @@ describe('Working with sounds', () => {
     test('Duplicating a sound', async () => {
         await loadUri(uri);
         await clickText('Sounds');
+
+        // Add sound from library
+        await clickXpath('//button[@aria-label="Choose a Sound"]');
+        const el = await findByXpath("//input[@placeholder='Search']");
+        await el.sendKeys('meow');
+        await clickText('Meow', scope.modal); // Should close the modal
 
         await rightClickText('Meow', scope.soundsTab);
         await clickText('duplicate', scope.soundsTab);
@@ -136,6 +137,12 @@ describe('Working with sounds', () => {
     test('Copy to new button adds a new sound', async () => {
         await loadUri(uri);
         await clickText('Sounds');
+        // Add sound from library
+        await clickXpath('//button[@aria-label="Choose a Sound"]');
+        const el = await findByXpath("//input[@placeholder='Search']");
+        await el.sendKeys('meow');
+        await clickText('Meow', scope.modal); // Should close the modal
+
         await clickText('Copy to New', scope.soundsTab);
         await clickText('Meow2', scope.soundsTab);
 
@@ -146,6 +153,13 @@ describe('Working with sounds', () => {
     test('Copy and pasting within a sound changes its duration', async () => {
         await loadUri(uri);
         await clickText('Sounds');
+
+        // Add sound from library
+        await clickXpath('//button[@aria-label="Choose a Sound"]');
+        const el = await findByXpath("//input[@placeholder='Search']");
+        await el.sendKeys('meow');
+        await clickText('Meow', scope.modal); // Should close the modal
+
         await findByText('0.85', scope.soundsTab); // Original meow sound duration
         await clickText('Copy', scope.soundsTab);
         await clickText('Paste', scope.soundsTab);
@@ -158,6 +172,13 @@ describe('Working with sounds', () => {
     test('Can copy a sound from a sprite and paste into a sound on the stage', async () => {
         await loadUri(uri);
         await clickText('Sounds');
+
+        // Add sound from library
+        await clickXpath('//button[@aria-label="Choose a Sound"]');
+        const el = await findByXpath("//input[@placeholder='Search']");
+        await el.sendKeys('meow');
+        await clickText('Meow', scope.modal); // Should close the modal
+
         await clickText('Copy', scope.soundsTab); // Copy the meow sound
         await clickXpath('//span[text()="Stage"]');
         await findByText('0.02', scope.soundsTab); // Original pop sound duration
@@ -173,7 +194,14 @@ describe('Working with sounds', () => {
 
         await loadUri(uri);
         await clickText('Sounds');
-        const el = await findByXpath('//button[@aria-label="Choose a Sound"]');
+
+        // Add sound from library
+        await clickXpath('//button[@aria-label="Choose a Sound"]');
+        let el = await findByXpath("//input[@placeholder='Search']");
+        await el.sendKeys('meow');
+        await clickText('Meow', scope.modal); // Should close the modal
+
+        el = await findByXpath('//button[@aria-label="Choose a Sound"]');
         await el.sendKeys(Key.chord(cmdCtrl, 'a')); // Select all
         await findByText('0.85', scope.soundsTab); // Meow sound duration
         await el.sendKeys(Key.DELETE);

@@ -101,9 +101,9 @@ const extensions = [
         translationMap: microbitMoreTranslations,
         name: (
             <FormattedMessage
-                defaultMessage='MicroBit More'
-                description='Name of this extension'
-                id='mbitMore.entry.name'
+                defaultMessage="MicroBit More"
+                description="Name of this extension"
+                id="mbitMore.entry.name"
             />
         ),
         extensionId: 'microbitMore',
@@ -113,9 +113,9 @@ const extensions = [
         insetIconURL: microbitMoreInsetIconURL,
         description: (
             <formatMessage
-                defaultMessage='Play with all functions of micro:bit.'
+                defaultMessage="Play with all functions of micro:bit."
                 description="Description for the 'Microbit More' extension"
-                id='mbitMore.entry.description'
+                id="mbitMore.entry.description"
             />
         ),
         featured: true,
@@ -128,12 +128,12 @@ const extensions = [
         connectionSmallIconURL: microbitMoreConnectionSmallIconURL,
         connectingMessage: (
             <formatMessage
-                defaultMessage='Connecting'
-                description='Message to help people connect to their micro:bit.'
-                id='gui.extension.microbit.connectingMessage'
+                defaultMessage="Connecting"
+                description="Message to help people connect to their micro:bit."
+                id="gui.extension.microbit.connectingMessage"
             />
         ),
-        helpLink: 'https://microbit-more.github.io/',
+        helpLink: 'https://microbit-more.github.io/'
     },
     {
         name: (

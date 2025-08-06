@@ -5,7 +5,7 @@ import iconImage from './extensionLoader.png';
 import insetImage from './extensionLoader-small.svg';
 
 const translationMap = {
-    'en': {
+    en: {
         'gui.extension.extensionLoader.name': 'Extension Loader',
         'gui.extension.extensionLoader.description': 'Load extension from internet.'
     }
