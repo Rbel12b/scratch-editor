@@ -31,9 +31,15 @@ describe('Working with backdrops', () => {
         // Start on the sounds tab of sprite1 to test switching behavior
         await clickText('Sounds');
 
+        // Add sound from library
+        await clickXpath('//button[@aria-label="Choose a Sound"]');
+        let el = await findByXpath("//input[@placeholder='Search']");
+        await el.sendKeys('meow');
+        await clickText('Meow', scope.modal); // Should close the modal
+
         // Add a backdrop without selecting the stage first to test switching
         await clickXpath('//button[@aria-label="Choose a Backdrop"]');
-        const el = await findByXpath("//input[@placeholder='Search']");
+        el = await findByXpath("//input[@placeholder='Search']");
         await el.sendKeys('blue');
         await clickText('Blue Sky'); // Adds the backdrop
 
@@ -74,10 +80,16 @@ describe('Working with backdrops', () => {
         // Start on the sounds tab of sprite1 to test switching behavior
         await clickText('Sounds');
 
+        // Add sound from library
+        await clickXpath('//button[@aria-label="Choose a Sound"]');
+        let el = await findByXpath("//input[@placeholder='Search']");
+        await el.sendKeys('meow');
+        await clickText('Meow', scope.modal); // Should close the modal
+
         const buttonXpath = '//button[@aria-label="Choose a Backdrop"]';
         const surpriseXpath = `${buttonXpath}/following-sibling::div//button[@aria-label="Surprise"]`;
 
-        const el = await findByXpath(buttonXpath);
+        el = await findByXpath(buttonXpath);
         await driver.actions().mouseMove(el)
             .perform();
         await driver.sleep(500); // Wait for thermometer menu to come up

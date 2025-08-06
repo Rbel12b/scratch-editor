@@ -117,6 +117,7 @@ class LibraryItem extends React.PureComponent {
                 description={this.props.description}
                 disabled={this.props.disabled}
                 extensionId={this.props.extensionId}
+                extensionURL={this.props.extensionURL}
                 featured={this.props.featured}
                 hidden={this.props.hidden}
                 iconSource={iconSource}
@@ -153,6 +154,7 @@ LibraryItem.propTypes = {
     ]),
     disabled: PropTypes.bool,
     extensionId: PropTypes.string,
+    extensionURL: PropTypes.string,
     featured: PropTypes.bool,
     hidden: PropTypes.bool,
     icons: PropTypes.oneOfType([

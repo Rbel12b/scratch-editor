@@ -1,8 +1,8 @@
 {
   "name": "scratch-editor",
-  "version": "11.6.0-gui-standalone",
+  "version": "11.6.0-sam-scratch",
   "private": "true",
-  "description": "Scratch editor mono-repository",
+  "description": "SAM Scratch editor mono-repository",
   "author": "Scratch Foundation",
   "license": "AGPL-3.0-only",
   "homepage": "https://github.com/scratchfoundation/scratch-editor#readme",
@@ -14,9 +14,14 @@
     "refresh-gh-workflow": "ts-node scripts/build-gha-workflows.ts",
     "build-monorepo": "cross-env-shell ./scripts/build-monorepo.sh",
     "prepare": "husky install",
-    "build": "cross-env NODE_ENV=production npm run --workspaces build",
+    "build": "cross-env NODE_ENV=production npm run -w @scratch/scratch-gui build",
+    "build:dev": "npm run -w @scratch/scratch-gui build:dev",
     "clean": "npm run --workspaces clean",
-    "version": "cross-env-shell ./scripts/npm-version.sh"
+    "version": "cross-env-shell ./scripts/npm-version.sh",
+    "setup-dev": "npm run -w scratch-samlabs setup-dev && npm run -w scratch-babysambot setup-dev && npm run -w scratch-huskylens setup-dev",
+    "test": "npm run -w @scratch/scratch-gui test",
+    "watch": "npm run -w @scratch/scratch-gui watch",
+    "start": "npm run -w @scratch/scratch-gui start"
   },
   "config": {
     "commitizen": {
@@ -24,8 +29,9 @@
     }
   },
   "workspaces": [
-    "packages/scratch-svg-renderer",
-    "packages/scratch-render",
+    "packages/scratch-samlabs",
+    "packages/scratch-BabySamBot",
+    "packages/scratch-huskylens",
     "packages/scratch-vm",
     "packages/scratch-gui"
   ],
@@ -33,8 +39,10 @@
     "@commitlint/cli": "17.8.1",
     "@commitlint/config-conventional": "17.8.1",
     "cross-env": "7.0.3",
+    "docdash": "^2.0.2",
     "husky": "8.0.3",
     "npm": "10.9.3",
-    "ts-node": "10.9.2"
+    "ts-node": "10.9.2",
+    "typescript": "^5.5.4"
   }
 }

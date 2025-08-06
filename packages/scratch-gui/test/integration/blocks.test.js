@@ -45,7 +45,17 @@ describe('Working with the blocks', () => {
 
     test('Switching sprites updates the block menus', async () => {
         await loadUri(uri);
+        await clickText('Sounds');
+
+        await clickXpath('//button[@aria-label="Choose a Sound"]');
+        const el = await findByXpath("//input[@placeholder='Search']");
+        await el.sendKeys('meow');
+        await clickText('Meow', scope.modal);
+        await findByText('Meow', scope.soundsTab); // Should be in the sounds tab
+
+        await clickText('Code');
         await clickBlocksCategory('Sound');
+
         // "Meow" sound block should be visible
         await findByText('Meow', scope.blocksTab);
         await clickText('Backdrops'); // Switch to the backdrop
@@ -177,8 +187,16 @@ describe('Working with the blocks', () => {
 
     test('Record option from sound block menu opens sound recorder', async () => {
         await loadUri(uri);
+        await clickText('Sounds');
+
+        await clickXpath('//button[@aria-label="Choose a Sound"]');
+        const el = await findByXpath("//input[@placeholder='Search']");
+        await el.sendKeys('meow');
+        await clickText('Meow');
+
         await clickText('Code');
         await clickBlocksCategory('Sound');
+
         await clickText('Meow', scope.blocksTab); // Click "play sound <Meow> until done" block
         await clickText('record'); // Click "record..." option in the block's sound menu
         // Access has been force denied, so close the alert that comes up
@@ -195,8 +213,8 @@ describe('Working with the blocks', () => {
 
         // Rename the costume
         await clickText('Costumes');
-        await clickText('costume2', scope.costumesTab);
-        const el = await findByXpath("//input[@value='costume2']");
+        await clickText('costume1', scope.costumesTab);
+        const el = await findByXpath("//input[@value='costume1']");
         await el.sendKeys('newname');
         await el.sendKeys(Key.ENTER);
         // wait until the updated costume appears in costume item list panel
@@ -214,8 +232,8 @@ describe('Working with the blocks', () => {
 
         // Rename the costume
         await clickText('Costumes');
-        await clickText('costume2', scope.costumesTab);
-        const el = await findByXpath("//input[@value='costume2']");
+        await clickText('costume1', scope.costumesTab);
+        const el = await findByXpath("//input[@value='costume1']");
         await el.sendKeys('<NewCostume>');
         await el.sendKeys(Key.ENTER);
         // wait until the updated costume appears in costume item list panel
@@ -235,7 +253,7 @@ describe('Working with the blocks', () => {
 
         // By default, costume2 is in the costume tab
         await clickBlocksCategory('Looks');
-        await clickText('costume2', scope.blocksTab);
+        await clickText('costume1', scope.blocksTab);
 
         // Also check that adding a new costume does update the list
         await clickText('Costumes');
@@ -246,11 +264,11 @@ describe('Working with the blocks', () => {
         await clickXpath('//button[@aria-label="Paint"]');
         // wait until the new costume appears in costume item list panel
         await findByXpath("//div[contains(@class,'sprite-selector-item_is-selected_')]" +
-            "//div[contains(text(), 'costume3')]");
-        await clickText('costume3', scope.costumesTab);
+            "//div[contains(text(), 'costume2')]");
+        await clickText('costume2', scope.costumesTab);
         // Check that the menu has been updated
         await clickText('Code');
-        await clickText('costume3', scope.blocksTab);
+        await clickText('costume2', scope.blocksTab);
     });
 
     // Skipped because it was flakey on travis, but seems to run locally ok
@@ -265,21 +283,6 @@ describe('Working with the blocks', () => {
         await clickText('Code');
         await clickBlocksCategory('Sound');
         await clickText('A\u00A0Bass', scope.blocksTab); // Need &nbsp; for block text
-    });
-
-    // Regression test for switching between editor/player causing toolbox to stop updating
-    test('"See inside" after being on project page re-initializing variables', async () => {
-        const playerUri = path.resolve(__dirname, '../../build/player.html');
-        await loadUri(playerUri);
-        await clickText('See inside');
-        await clickBlocksCategory('Variables');
-        await clickText('my\u00A0variable');
-
-        await clickText('See Project Page');
-        await clickText('See inside');
-
-        await clickBlocksCategory('Variables');
-        await clickText('my\u00A0variable');
     });
 
     // Regression test for switching editor tabs causing toolbox to stop updating

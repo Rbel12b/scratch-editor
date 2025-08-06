@@ -1,6 +1,32 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import samlabs from 'scratch-samlabs/src/gui/lib/libraries/extensions/entry/samlabs';
+import sambot from 'scratch-babysambot/src/gui/lib/libraries/extensions/entry/sambot';
+
+import microbitMoreIconURL from './microbitmore/entry-icon.png';
+import microbitMoreInsetIconURL from './microbitmore/inset-icon.svg';
+import microbitMoreConnectionIconURL from './microbitmore/connection-icon.svg';
+import microbitMoreConnectionSmallIconURL from './microbitmore/connection-small-icon.svg';
+import microbitMoreTranslations from './microbitmore/translations.json';
+
+import rootImage from './root/root.png';
+import rootPeripheralImage from './root/root-illustration.svg';
+import rootMenuImage from './root/root-small.svg';
+
+import huskylens from 'scratch-huskylens/src/gui/lib/libraries/extensions/entry/huskylens';
+
+import controlplus from './controlplus';
+import duplotrain from './duplotrain';
+import legoble from './legoble';
+import legoluigi from './legoluigi';
+import legomario from './legomario';
+import legopeach from './legopeach';
+import legoremote from './legoremote';
+import poweredup from './poweredup';
+import spikeessential from './spikeessential';
+// import spikeprime from './spikeprime';
+
 import musicIconURL from './music/music.png';
 import musicInsetIconURL from './music/music-small.svg';
 
@@ -46,7 +72,122 @@ import gdxforInsetIconURL from './gdxfor/gdxfor-small.svg';
 import gdxforConnectionIconURL from './gdxfor/gdxfor-illustration.svg';
 import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 
-export default [
+import tm2scratchIconURL from './tm2scratch/tm2scratch.png';
+import tm2scratchInsetIconURL from './tm2scratch/tm2scratch-small.png';
+
+const extensions = [
+    samlabs,
+    sambot,
+    {
+        name: 'TM2Scratch',
+        extensionId: 'tm2scratch',
+        collaborator: 'Tsukurusha, YengawaLab and Google',
+        iconURL: tm2scratchIconURL,
+        insetIconURL: tm2scratchInsetIconURL,
+        description: (
+            <FormattedMessage
+                defaultMessage="Recognize your own images and sounds."
+                id="gui.extension.tm2scratchblocks.description"
+            />
+        ),
+        featured: true,
+        disabled: false,
+        internetConnectionRequired: true,
+        bluetoothRequired: false,
+        translationMap: {
+            'ja': {
+                'gui.extension.tm2scratchblocks.description': '画像や音声を学習させよう。'
+            },
+            'ja-Hira': {
+                'gui.extension.tm2scratchblocks.description': 'がぞうやおんせいをがくしゅうさせよう。'
+            },
+            'en': {
+                'gui.extension.tm2scratchblocks.description': 'Recognize your own images and sounds.'
+            },
+            'ko': {
+                'gui.extension.tm2scratchblocks.description': '나의 이미지와 소리를 인식해볼까요'
+            }
+        }
+    },
+    {
+        translationMap: microbitMoreTranslations,
+        name: (
+            <FormattedMessage
+                defaultMessage="MicroBit More"
+                description="Name of this extension"
+                id="mbitMore.entry.name"
+            />
+        ),
+        extensionId: 'microbitMore',
+        extensionURL: 'https://microbit-more.github.io/dist/microbitMore.mjs',
+        collaborator: 'Yengawa Lab',
+        iconURL: microbitMoreIconURL,
+        insetIconURL: microbitMoreInsetIconURL,
+        description: (
+            <formatMessage
+                defaultMessage="Play with all functions of micro:bit."
+                description="Description for the 'Microbit More' extension"
+                id="mbitMore.entry.description"
+            />
+        ),
+        featured: true,
+        disabled: false,
+        bluetoothRequired: true,
+        internetConnectionRequired: false,
+        launchPeripheralConnectionFlow: true,
+        useAutoScan: false,
+        connectionIconURL: microbitMoreConnectionIconURL,
+        connectionSmallIconURL: microbitMoreConnectionSmallIconURL,
+        connectingMessage: (
+            <formatMessage
+                defaultMessage="Connecting"
+                description="Message to help people connect to their micro:bit."
+                id="gui.extension.microbit.connectingMessage"
+            />
+        ),
+        helpLink: 'https://microbit-more.github.io/'
+    },
+    {
+        name: 'Root',
+        extensionId: 'root',
+        collaborator: 'Root Robotics',
+        iconURL: rootImage,
+        insetIconURL: rootMenuImage,
+        description: (
+            <FormattedMessage
+                defaultMessage="Draw and create with Root."
+                description="Use Root with Scratch 3.0!"
+                id="gui.extension.root.description"
+            />
+        ),
+        featured: true,
+        disabled: false,
+        bluetoothRequired: true,
+        launchPeripheralConnectionFlow: true,
+        useAutoScan: false,
+        peripheralImage: rootPeripheralImage,
+        smallPeripheralImage: rootMenuImage,
+        connectingMessage: (
+            <FormattedMessage
+                defaultMessage="Connecting..."
+                description="Message to help people connect to their Root."
+                id="gui.extension.root.connectingMessage"
+            />
+        ),
+        helpLink: 'https://github.com/raphaelcherney/scratch-vm'
+
+    },
+    huskylens,
+    controlplus,
+    duplotrain,
+    legoble,
+    legoluigi,
+    legomario,
+    legopeach,
+    legoremote,
+    poweredup,
+    spikeessential,
+    // spikeprime,
     {
         name: (
             <FormattedMessage
@@ -391,3 +532,8 @@ export default [
         helpLink: 'https://scratch.mit.edu/wedo'
     }
 ];
+
+export default extensions;
+
+import extensionLoader from './extensionLoader/index.jsx';
+extensions.unshift(extensionLoader);

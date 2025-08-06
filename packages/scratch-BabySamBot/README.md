@@ -1,0 +1,1 @@
+# Baby SAM Bot extension for Scratch

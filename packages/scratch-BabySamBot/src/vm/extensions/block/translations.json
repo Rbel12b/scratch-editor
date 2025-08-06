@@ -1,0 +1,60 @@
+{
+  "en": {
+    "sambot.name": "Baby SAM Bot",
+    "sambot.getBattery": "battery percentage, Baby SAM Bot[num]",
+    "sambot.BabyBotExecCommand": "Baby SAM Bot[num] [command]",
+    "sambot.BabyBotPushCommand": "Baby SAM Bot[num] push[command] to itiner",
+    "sambot.BabyBotStart": "Baby SAM Bot[num] start",
+    "sambot.BabyBotStop": "Baby SAM Bot[num] stop",
+    "sambot.BabyBotClear": "Baby SAM Bot[num] clear itiner",
+    "sambot.BabyBotWrite": "Baby SAM Bot[num] set motor speed right [r], left [l]",
+    "sambot.commandMenu.forward": "move forward",
+    "sambot.commandMenu.backward": "move backward",
+    "sambot.commandMenu.right": "turn right",
+    "sambot.commandMenu.left": "turn left"
+  },
+  "es": {
+    "sambot.name": "Baby SAM Bot",
+    "sambot.getBattery": "Porcentaje de batería, Baby SAM Bot[num]",
+    "sambot.BabyBotExecCommand": "Baby SAM Bot[num] [command]",
+    "sambot.BabyBotPushCommand": "Baby SAM Bot[num] pulse[command] a itinerario",
+    "sambot.BabyBotStart": "Baby SAM Bot[num] iniciar",
+    "sambot.BabyBotStop": "Baby SAM Bot[num] stop",
+    "sambot.BabyBotClear": "Baby SAM Bot[num] itinerario claro",
+    "sambot.BabyBotWrite": "Baby SAM Bot[num] Ajustar la velocidad del motor derecho [r], e izquierdo [l]"
+  },
+  "it": {
+    "sambot.name": "Baby SAM Bot",
+    "sambot.getBattery": "Percentuale di batteria, Baby SAM Bot[num]",
+    "sambot.BabyBotExecCommand": "Baby SAM Bot[num] [command]",
+    "sambot.BabyBotPushCommand": "Baby SAM Bot[num] Imporre [command] all’itinerario",
+    "sambot.BabyBotStart": "Baby SAM Bot[num] Inizio",
+    "sambot.BabyBotStop": "Baby SAM Bot[num] Stop",
+    "sambot.BabyBotClear": "Baby SAM Bot[num] Reset itinerario",
+    "sambot.BabyBotWrite": "Baby SAM Bot[num] Impostare la velocità del moto a destra [r], a sinistra [l]"
+  },
+  "hu": {
+    "sambot.name": "Baby SAM Bot",
+    "sambot.getBattery": "Baby SAM Bot[num] akkumulátor töltöttsége (%)",
+    "sambot.BabyBotExecCommand": "Baby SAM Bot[num] [command]",
+    "sambot.BabyBotPushCommand": "add hozzá Baby SAM Bot[num] útvonalához a [command] parancsot",
+    "sambot.BabyBotStart": "Baby SAM Bot[num] induljon el",
+    "sambot.BabyBotStop": "Baby SAM Bot[num] álljon meg",
+    "sambot.BabyBotClear": "Baby SAM Bot[num] törölje az útvonalat",
+    "sambot.BabyBotWrite": "Baby SAM Bot[num] motorok sebessége legyen: bal[l], jobb[r]",
+    "sambot.commandMenu.forward": "menj előre",
+    "sambot.commandMenu.backward": "menj hátra",
+    "sambot.commandMenu.right": "fordulj jobbra",
+    "sambot.commandMenu.left": "fordulj balra"
+  },
+  "cs": {
+    "sambot.name": "Baby SAM Bot",
+    "sambot.getBattery": "procento baterie, Baby SAM Bot číslo [num]",
+    "sambot.BabyBotExecCommand": "Baby SAM Bot číslo [num] [command]",
+    "sambot.BabyBotPushCommand": "Baby SAM Bot číslo [num] přidat [command] do seznamu úkolů",
+    "sambot.BabyBotStart": "Baby SAM Bot číslo [num] start",
+    "sambot.BabyBotStop": "Baby SAM Bot číslo [num] stop",
+    "sambot.BabyBotClear": "Baby SAM Bot číslo [num] vymazat seznam úkolů",
+    "sambot.BabyBotWrite": "Baby SAM Bot číslo [num] nastavit rychlost motoru: pravý [r], levý [l]"
+  }
+}

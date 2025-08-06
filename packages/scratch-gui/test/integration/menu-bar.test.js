@@ -50,14 +50,17 @@ describe('Menu bar settings', () => {
 
     test('Share button should NOT be enabled', async () => {
         await loadUri(uri);
-        await findByXpath('//div[span[div[span[text()="Share"]]] and @data-tip="tooltip"]');
+        // Try to find the Share button, expecting it to NOT be present
+        const elements = await driver.findElements(
+            {xpath: '//div[span[div[span[text()="Share"]]] and @data-tip="tooltip"]'});
+        expect(elements.length).toBe(0);
     });
 
     test('Logo should be clickable', async () => {
         await loadUri(uri);
         await clickXpath('//img[@alt="Scratch"]');
         const currentUrl = await driver.getCurrentUrl();
-        await expect(currentUrl).toEqual('https://scratch.mit.edu/');
+        await expect(currentUrl).toEqual('https://scratch.samlabs.com/');
     });
 
     test('(GH#4064) Project name should be editable', async () => {
