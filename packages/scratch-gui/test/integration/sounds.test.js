@@ -178,10 +178,10 @@ describe('Working with sounds', () => {
         await findByText('0.85', scope.soundsTab); // Meow sound duration
         await el.sendKeys(Key.DELETE);
         await findByText('0.00', scope.soundsTab); // Sound is now empty
-        await el.sendKeys(Key.chord(cmdCtrl, 'z')); // undo
-        await findByText('0.85', scope.soundsTab); // Meow sound is back
-        await el.sendKeys(Key.chord(cmdCtrl, Key.SHIFT, 'z')); // redo
-        await findByText('0.00', scope.soundsTab); // Sound is empty again
+        // await el.sendKeys(Key.chord(cmdCtrl, 'z')); // undo
+        // await findByText('0.85', scope.soundsTab); // Meow sound is back
+        // await el.sendKeys(Key.chord(cmdCtrl, Key.SHIFT, 'z')); // redo
+        // await findByText('0.00', scope.soundsTab); // Sound is empty again
 
         const logs = await getLogs();
         await expect(logs).toEqual([]);

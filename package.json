@@ -14,7 +14,8 @@
     "refresh-gh-workflow": "ts-node scripts/build-gha-workflows.ts",
     "build-monorepo": "cross-env-shell ./scripts/build-monorepo.sh",
     "prepare": "husky install",
-    "build": "npm run --workspaces build",
+    "build": "cross-env NODE_ENV=production npm run -w @scratch/scratch-gui build",
+    "build:dev": "npm run -w @scratch/scratch-gui build:dev",
     "clean": "npm run --workspaces clean",
     "version": "cross-env-shell ./scripts/npm-version.sh"
   },
@@ -34,6 +35,7 @@
     "docdash": "^2.0.2",
     "husky": "8.0.3",
     "npm": "10.9.3",
-    "ts-node": "10.9.2"
+    "ts-node": "10.9.2",
+    "typescript": "^5.5.4"
   }
 }
