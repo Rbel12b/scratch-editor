@@ -22,8 +22,6 @@ const entry = {
         });
     },
     extensionId: 'sambot',
-    extensionURL: 'https://Rbel12b.github.io/Scratch/dist/sambot.mjs',
-    // collaborator: 'Rbel12b',
     iconURL: iconURL,
     get description () {
         return formatMessage({

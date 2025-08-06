@@ -23,8 +23,6 @@ const entry = {
         });
     },
     extensionId: 'samlabs',
-    extensionURL: 'https://Rbel12b.github.io/Scratch/dist/samlabs.mjs',
-    // collaborator: 'Rbel12b',
     iconURL: iconURL,
     insetIconURL: insetIconURL,
     get description () {

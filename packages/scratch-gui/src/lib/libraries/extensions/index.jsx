@@ -1,10 +1,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import samlabsIconURL from './samlabs/samlabs.png';
-import samlabsInsetIconURL from './samlabs/samlabs-small.svg';
-
-import sambotIconURL from './sambot/sambot.png';
+import samlabs from 'scratch-samlabs/src/gui/lib/libraries/extensions/entry/samlabs';
+import sambot from 'scratch-babysambot/src/gui/lib/libraries/extensions/entry/sambot';
 
 import microbitMoreIconURL from './microbitmore/entry-icon.png';
 import microbitMoreInsetIconURL from './microbitmore/inset-icon.svg';
@@ -16,7 +14,7 @@ import rootImage from './root/root.png';
 import rootPeripheralImage from './root/root-illustration.svg';
 import rootMenuImage from './root/root-small.svg';
 
-import huskylens from './huskylens';
+import huskylens from 'scratch-huskylens/src/gui/lib/libraries/extensions/entry/huskylens';
 
 import controlplus from './controlplus';
 import duplotrain from './duplotrain';
@@ -78,6 +76,8 @@ import tm2scratchIconURL from './tm2scratch/tm2scratch.png';
 import tm2scratchInsetIconURL from './tm2scratch/tm2scratch-small.png';
 
 const extensions = [
+    samlabs,
+    sambot,
     {
         name: 'TM2Scratch',
         extensionId: 'tm2scratch',
@@ -86,8 +86,8 @@ const extensions = [
         insetIconURL: tm2scratchInsetIconURL,
         description: (
             <FormattedMessage
-                defaultMessage='Recognize your own images and sounds.'
-                id='gui.extension.tm2scratchblocks.description'
+                defaultMessage="Recognize your own images and sounds."
+                id="gui.extension.tm2scratchblocks.description"
             />
         ),
         featured: true,
@@ -106,30 +106,8 @@ const extensions = [
             },
             'ko': {
                 'gui.extension.tm2scratchblocks.description': '나의 이미지와 소리를 인식해볼까요'
-            },
+            }
         }
-    },
-    {
-        name: (
-            <FormattedMessage
-                defaultMessage="SAM Labs"
-                description="Name for the 'SAM Labs' extension"
-                id="gui.extension.samlabs.name"
-            />
-        ),
-        extensionId: 'samlabs',
-        iconURL: samlabsIconURL,
-        insetIconURL: samlabsInsetIconURL,
-        description: (
-            <FormattedMessage
-                defaultMessage="SAM Labs"
-                description="Description for the 'SAM Labs' extension"
-                id="gui.extension.samlabs.description"
-            />
-        ),
-        featured: true,
-        disabled: false,
-        bluetoothRequired: true
     },
     {
         translationMap: microbitMoreTranslations,
@@ -168,27 +146,6 @@ const extensions = [
             />
         ),
         helpLink: 'https://microbit-more.github.io/'
-    },
-    {
-        name: (
-            <FormattedMessage
-                defaultMessage="Baby SAM Bot"
-                description="Name for the 'Baby SAM Bot' extension"
-                id="gui.extension.sambot.name"
-            />
-        ),
-        extensionId: 'sambot',
-        iconURL: sambotIconURL,
-        description: (
-            <FormattedMessage
-                defaultMessage="Baby SAM Bot"
-                description="Description for the 'Baby SAM Bot' extension"
-                id="gui.extension.sambot.description"
-            />
-        ),
-        featured: true,
-        disabled: false,
-        bluetoothRequired: true
     },
     {
         name: 'Root',
@@ -573,36 +530,6 @@ const extensions = [
             />
         ),
         helpLink: 'https://scratch.mit.edu/wedo'
-    },
-    {
-        name: 'Go Direct Force & Acceleration',
-        extensionId: 'gdxfor',
-        collaborator: 'Vernier',
-        iconURL: gdxforIconURL,
-        insetIconURL: gdxforInsetIconURL,
-        description: (
-            <FormattedMessage
-                defaultMessage="Sense push, pull, motion, and spin."
-                description="Description for the Vernier Go Direct Force and Acceleration sensor extension"
-                id="gui.extension.gdxfor.description"
-            />
-        ),
-        featured: true,
-        disabled: false,
-        bluetoothRequired: true,
-        internetConnectionRequired: true,
-        launchPeripheralConnectionFlow: true,
-        useAutoScan: false,
-        connectionIconURL: gdxforConnectionIconURL,
-        connectionSmallIconURL: gdxforConnectionSmallIconURL,
-        connectingMessage: (
-            <FormattedMessage
-                defaultMessage="Connecting"
-                description="Message to help people connect to their force and acceleration sensor."
-                id="gui.extension.gdxfor.connectingMessage"
-            />
-        ),
-        helpLink: 'https://scratch.mit.edu/vernier'
     }
 ];
 
