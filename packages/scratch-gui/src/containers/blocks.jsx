@@ -117,9 +117,15 @@ class Blocks extends React.Component {
             this.ScratchBlocks.Procedures.createProcedureDefCallback_(this.workspace);
         };
 
+        const sambotConnect = () => {
+            this.props.vm.runtime.peripheralExtensions['sambot'].connectToDevice();
+        };
+
         toolboxWorkspace.registerButtonCallback('MAKE_A_VARIABLE', varListButtonCallback(''));
         toolboxWorkspace.registerButtonCallback('MAKE_A_LIST', varListButtonCallback('list'));
         toolboxWorkspace.registerButtonCallback('MAKE_A_PROCEDURE', procButtonCallback);
+        toolboxWorkspace.registerButtonCallback('CONNECT_SAMLABS', this.props.vm.runtime.peripheralExtensions['samlabs'].connectToDevice);
+        toolboxWorkspace.registerButtonCallback('CONNECT_SAMBOT', sambotConnect);
 
         // Store the xml of the toolbox that is actually rendered.
         // This is used in componentDidUpdate instead of prevProps, because

@@ -831,6 +831,7 @@ class Runtime extends EventEmitter {
         const categoryInfo = {
             id: extensionInfo.id,
             name: maybeFormatMessage(extensionInfo.name),
+            extensionURL: extensionInfo.extensionURL,
             showStatusButton: extensionInfo.showStatusButton,
             blockIconURI: extensionInfo.blockIconURI,
             menuIconURI: extensionInfo.menuIconURI
@@ -1242,7 +1243,13 @@ class Runtime extends EventEmitter {
      */
     _convertButtonForScratchBlocks (buttonInfo) {
         // for now we only support these pre-defined callbacks handled in scratch-blocks
-        const supportedCallbackKeys = ['MAKE_A_LIST', 'MAKE_A_PROCEDURE', 'MAKE_A_VARIABLE'];
+        const supportedCallbackKeys = [
+            'MAKE_A_LIST',
+            'MAKE_A_PROCEDURE',
+            'MAKE_A_VARIABLE',
+            'CONNECT_SAMLABS',
+            'CONNECT_SAMBOT'
+        ];
         if (supportedCallbackKeys.indexOf(buttonInfo.func) < 0) {
             log.error(`Custom button callbacks not supported yet: ${buttonInfo.func}`);
         }

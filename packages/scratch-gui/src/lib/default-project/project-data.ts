@@ -69,28 +69,9 @@ const projectData = (translateFunction?: TranslatorFunction): object => {
                         dataFormat: 'svg',
                         rotationCenterX: 48,
                         rotationCenterY: 50
-                    },
-                    {
-                        assetId: '0fb9be3e8397c983338cb71dc84d0b25',
-                        name: translator(messages.costume, {index: 2}),
-                        bitmapResolution: 1,
-                        md5ext: '0fb9be3e8397c983338cb71dc84d0b25.svg',
-                        dataFormat: 'svg',
-                        rotationCenterX: 46,
-                        rotationCenterY: 53
                     }
                 ],
-                sounds: [
-                    {
-                        assetId: '83c36d806dc92327b9e7049a565c6bff',
-                        name: translator(messages.meow),
-                        dataFormat: 'wav',
-                        format: '',
-                        rate: 22050,
-                        sampleCount: 18688,
-                        md5ext: '83c36d806dc92327b9e7049a565c6bff.wav'
-                    }
-                ],
+                sounds: [],
                 volume: 100,
                 visible: true,
                 x: 0,

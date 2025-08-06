@@ -1,0 +1,10 @@
+{
+  "huskylens.entry.description": {
+    "defaultMessage": "",
+    "description": "Description for the extension"
+  },
+  "huskylens.entry.name": {
+    "defaultMessage": "DFRobot HuskyLens",
+    "description": "Name for the extension"
+  }
+}
