@@ -1,7 +1,7 @@
 import BlockType from '../../extension-support/block-type';
 import ArgumentType from '../../extension-support/argument-type';
 import translations from './translations.json';
-import {SamLabsBLE, DeviceTypes, BabyBotIndex, SAMDevice} from './device';
+import {SamLabsBLE, DeviceTypes, BabyBotIndex, SAMDevice} from 'scratch-samlabs/src/vm/extensions/block/device';
 
 /**
  * Formatter which is used for translation.

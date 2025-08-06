@@ -8,6 +8,9 @@
     "watch": "rollup -c ./scripts/rollup.config.mjs --watch",
     "test": "mocha"
   },
+  "dependencies": {
+    "scratch-samlabs": "0.0.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.26.9",
     "@babel/eslint-parser": "^7.26.8",

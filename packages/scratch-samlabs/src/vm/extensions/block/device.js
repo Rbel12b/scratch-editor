@@ -174,6 +174,10 @@ class SAMDevice {
         // Connect to the GATT server
         const server = await this.device.gatt.connect();
         console.log('Connected to GATT Server:', server);
+        return await this.getCharacteristics(server);
+    }
+
+    async getCharacteristics (server) {
         // Get the Battery Service
         const battServ = await server.getPrimaryService(SamLabsBLE.battServ);
 
@@ -203,7 +207,7 @@ class SAMDevice {
             this.ActorAvailable = false;
         }
         this.SAMBotCharacteristic = null;
-        this.SAMBotAvailable = (device.name === 'SAM BabyBot');
+        this.SAMBotAvailable = (this.device.name === 'SAM BabyBot');
 
         if (this.SAMBotAvailable) {
             try {
@@ -219,13 +223,13 @@ class SAMDevice {
 
         let sameDevices = 1;
         this.deviceMap.forEach(value => {
-            if (value.device.name === device.name) {
+            if (value.device.name === this.device.name) {
                 sameDevices++;
             }
         });
         this.typeId = 0;
         for (this.typeId = 0; this.typeId < DeviceTypes.length; this.typeId++) {
-            if (DeviceTypes[this.typeId].advName === device.name) {
+            if (DeviceTypes[this.typeId].advName === this.device.name) {
                 break;
             }
         }
@@ -233,10 +237,9 @@ class SAMDevice {
             this.typeId = 0;
         }
         this.displayName = `${DeviceTypes[this.typeId].name} ${sameDevices}`;
-        this.id = device.id;
+        this.id = this.device.id;
         this.deviceType = DeviceTypes[this.typeId];
         this.sameDevices = sameDevices;
-        this.device = device;
 
         this.setMenuDetails();
 
@@ -260,7 +263,8 @@ class SAMDevice {
             console.log('Failed to subscribe to battery events:', error);
         }
 
-        console.log(`Connected to ${device.name || 'Unknown Device'}, id ${device.id}, sambot ${this.SAMBotAvailable}`);
+        console.log(`Connected to ${this.device.name || 'Unknown Device'}, id ${this.device.id}, sambot ${this.SAMBotAvailable}`);
+        this.waitingForReconnect = false;
         return true;
     }
 
@@ -282,20 +286,20 @@ class SAMDevice {
                 z-index: 9999; /* Ensure it appears above Scratch */
                 font-family: Arial, sans-serif;
             }
-    
+
             #device-list-container h3 {
                 margin: 0;
                 padding-bottom: 10px;
                 text-align: center;
                 border-bottom: 1px solid #ccc;
             }
-    
+
             #device-list {
                 list-style: none;
                 padding: 0;
                 margin: 10px 0;
             }
-    
+
             #device-list li {
                 padding: 10px;
                 cursor: pointer;
@@ -305,11 +309,11 @@ class SAMDevice {
                 text-align: center;
                 transition: background 0.2s;
             }
-    
+
             #device-list li:hover {
                 background: #ddd;
             }
-    
+
             #close-device-list {
                 display: block;
                 width: 100%;
@@ -322,7 +326,7 @@ class SAMDevice {
                 cursor: pointer;
                 text-align: center;
             }
-    
+
             #close-device-list:hover {
                 background: #cc0000;
             }
@@ -336,12 +340,12 @@ class SAMDevice {
                 this._ble.disconnect();
             }
             this.discoverCancelled = false;
-            this._ble = new BLE(this._runtime, this.extID, options, this._onConnect.bind(this), this.reset);
+            this._ble = new BLE(this._runtime, this.extID, options, this._onConnect.bind(this));
             this.discovering = true;
 
             // Ensure styles are applied
             this.addStyles();
-    
+
             // Create floating UI container
             let container = document.getElementById('device-list-container');
             if (!container) {
@@ -353,14 +357,14 @@ class SAMDevice {
                     <button id="close-device-list">Close</button>
                 `;
                 document.body.appendChild(container);
-    
+
                 document.getElementById('close-device-list').onclick = () => {
                     document.body.removeChild(container);
                     this.discovering = false; // Stop discovery when closed
                     this.discoverCancelled = true;
                 };
             }
-    
+
             await this.scanForDevices();
 
             if (this.discoverCancelled) {
@@ -370,7 +374,7 @@ class SAMDevice {
 
             const device = this.device;
             console.log(device);
-            
+
             let sameDevices = 1;
             this.deviceMap.forEach(value => {
                 if (value.device.name === device.name) {
@@ -426,13 +430,13 @@ class SAMDevice {
             await new Promise(resolve => setTimeout(resolve, 100)); // Non-blocking delay
         }
     }
-    
+
     updateDeviceList () {
         const deviceList = document.getElementById('device-list');
         if (!deviceList) return;
-    
+
         deviceList.innerHTML = ''; // Clear existing list
-    
+
         for (const [id, device] of Object.entries(this._ble._availablePeripherals)) {
             const item = document.createElement('li');
             item.textContent = device.name || `Unknown Device (${id})`;
@@ -441,7 +445,7 @@ class SAMDevice {
             deviceList.appendChild(item);
         }
     }
-    
+
     handleDeviceSelection (deviceId) {
         console.log(`Selected device: ${deviceId}`);
         this.deviceId = deviceId;
@@ -449,7 +453,7 @@ class SAMDevice {
         console.log('connecting');
         this._ble.connectPeripheral(deviceId);
         this.discovering = false;
-        
+
         // Close UI after selection
         const container = document.getElementById('device-list-container');
         if (container) {
@@ -461,7 +465,7 @@ class SAMDevice {
     discoverTimeout () {
         this.discovering = false;
         this.discoverCancelled = true;
-        
+
         const container = document.getElementById('device-list-container');
         if (container) {
             document.body.removeChild(container);
@@ -469,7 +473,7 @@ class SAMDevice {
     }
 
     /**
-     * Write a message to the device with Csratch Link
+     * Write a message to the device with scratch Link
      * @param {string} uuid - the UUID of the characteristic to write to
      * @param {Uint8Array} message - the message to write
      */
@@ -511,6 +515,8 @@ class SAMDevice {
     }
 
     onDisconnected () {
+        this.waitingForReconnect = true;
+        this.SAMStatusLEDCharacteristic.service.device.gatt.connect().then(server => this.getCharacteristics(server));
     }
 
     /**
@@ -523,6 +529,13 @@ class SAMDevice {
             if (!this._rateLimiter.okayToSend()) return Promise.resolve();
         }
         if (this.webBLE) {
+            if (!this.SAMStatusLEDCharacteristic.service.device.gatt.connected) {
+                this.waitingForReconnect = true;
+                this.SAMStatusLEDCharacteristic.service.device.gatt.connect().then(server => this.getCharacteristics(server));
+                return Promise.resolve(); // no status LED characteristic available
+            } else if (this.waitingForReconnect) {
+                return Promise.resolve(); // waiting for reconnect, do not send message
+            }
             await this.SAMStatusLEDCharacteristic.writeValue(msg);
         } else {
             await this.sendScratchLink(SamLabsBLE.StatusLedCharacteristic, msg);
@@ -544,6 +557,13 @@ class SAMDevice {
             if (!this._rateLimiter.okayToSend()) return Promise.resolve();
         }
         if (this.webBLE) {
+            if (!this.SAMActorCharacteristic.service.device.gatt.connected) {
+                this.waitingForReconnect = true;
+                this.SAMActorCharacteristic.service.device.gatt.connect().then(server => this.getCharacteristics(server));
+                return Promise.resolve(); // no status LED characteristic available
+            } else if (this.waitingForReconnect) {
+                return Promise.resolve(); // waiting for reconnect, do not send message
+            }
             await this.SAMActorCharacteristic.writeValue(msg);
         } else {
             await this.sendScratchLink(SamLabsBLE.ActorCharacteristic, msg);
