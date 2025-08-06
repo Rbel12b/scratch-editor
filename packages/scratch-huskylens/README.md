@@ -7,6 +7,7 @@ This extension enables you to use the **DFRobot HuskyLens AI camera** in your pr
 ## Quick Start
 
 ### 1. Flash the Micro:bit Firmware
+
 - Download the latest `.hex` file:
   - 👉 [Download micro:bit firmware (binary.hex)](https://github.com/Rbel12b/scratch-huskylens/releases/download/v1.0.0/binary.hex)
 - To program your micro:bit:
@@ -17,6 +18,7 @@ This extension enables you to use the **DFRobot HuskyLens AI camera** in your pr
 ---
 
 ### 2. Wire the HuskyLens to Micro:bit (via I²C)
+
 | HuskyLens | micro:bit Pin |
 |:---------:|:-------------:|
 | SDA       | Pin 20 (SDA)  |
