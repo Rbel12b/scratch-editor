@@ -138,6 +138,41 @@ const playgroundBuilder = webBuilder
         })
     );
 
+const tsRule = {
+    test: /\.ts$/,
+    use: 'ts-loader',
+    exclude: /node_modules/
+};
+
+const tsExtensions = ['.ts', '.js', '.json'];
+
+nodeBuilder
+    .addModuleRule(tsRule)
+    .merge({
+        resolve: {
+            extensions: tsExtensions
+        }
+    });
+
+webBuilder
+    .addModuleRule(tsRule)
+    .merge({
+        resolve: {
+            extensions: tsExtensions,
+            fallback: {
+                Buffer: require.resolve('buffer/')
+            }
+        }
+    });
+
+playgroundBuilder
+    .addModuleRule(tsRule)
+    .merge({
+        resolve: {
+            extensions: tsExtensions
+        }
+    });
+
 module.exports = [
     nodeBuilder.get(),
     webBuilder.get(),
