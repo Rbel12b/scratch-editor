@@ -74,7 +74,41 @@ import gdxforInsetIconURL from './gdxfor/gdxfor-small.svg';
 import gdxforConnectionIconURL from './gdxfor/gdxfor-illustration.svg';
 import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 
+import tm2scratchIconURL from './tm2scratch/tm2scratch.png';
+import tm2scratchInsetIconURL from './tm2scratch/tm2scratch-small.png';
+
 const extensions = [
+    {
+        name: 'TM2Scratch',
+        extensionId: 'tm2scratch',
+        collaborator: 'Tsukurusha, YengawaLab and Google',
+        iconURL: tm2scratchIconURL,
+        insetIconURL: tm2scratchInsetIconURL,
+        description: (
+            <FormattedMessage
+                defaultMessage='Recognize your own images and sounds.'
+                id='gui.extension.tm2scratchblocks.description'
+            />
+        ),
+        featured: true,
+        disabled: false,
+        internetConnectionRequired: true,
+        bluetoothRequired: false,
+        translationMap: {
+            'ja': {
+                'gui.extension.tm2scratchblocks.description': '画像や音声を学習させよう。'
+            },
+            'ja-Hira': {
+                'gui.extension.tm2scratchblocks.description': 'がぞうやおんせいをがくしゅうさせよう。'
+            },
+            'en': {
+                'gui.extension.tm2scratchblocks.description': 'Recognize your own images and sounds.'
+            },
+            'ko': {
+                'gui.extension.tm2scratchblocks.description': '나의 이미지와 소리를 인식해볼까요'
+            },
+        }
+    },
     {
         name: (
             <FormattedMessage
