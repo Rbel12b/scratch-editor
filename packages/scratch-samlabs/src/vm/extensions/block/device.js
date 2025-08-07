@@ -174,7 +174,7 @@ class SAMDevice {
         // Connect to the GATT server
         const server = await this.device.gatt.connect();
         console.log('Connected to GATT Server:', server);
-        return await this.getCharacteristics(server);
+        return this.getCharacteristics(server);
     }
 
     async getCharacteristics (server) {
@@ -263,7 +263,8 @@ class SAMDevice {
             console.log('Failed to subscribe to battery events:', error);
         }
 
-        console.log(`Connected to ${this.device.name || 'Unknown Device'}, id ${this.device.id}, sambot ${this.SAMBotAvailable}`);
+        console.log(`Connected to ${this.device.name || 'Unknown Device'},
+            id ${this.device.id}, sambot ${this.SAMBotAvailable}`);
         this.waitingForReconnect = false;
         return true;
     }
@@ -531,7 +532,8 @@ class SAMDevice {
         if (this.webBLE) {
             if (!this.SAMStatusLEDCharacteristic.service.device.gatt.connected) {
                 this.waitingForReconnect = true;
-                this.SAMStatusLEDCharacteristic.service.device.gatt.connect().then(server => this.getCharacteristics(server));
+                this.SAMStatusLEDCharacteristic.service.device.gatt.connect()
+                    .then(server => this.getCharacteristics(server));
                 return Promise.resolve(); // no status LED characteristic available
             } else if (this.waitingForReconnect) {
                 return Promise.resolve(); // waiting for reconnect, do not send message
@@ -559,7 +561,8 @@ class SAMDevice {
         if (this.webBLE) {
             if (!this.SAMActorCharacteristic.service.device.gatt.connected) {
                 this.waitingForReconnect = true;
-                this.SAMActorCharacteristic.service.device.gatt.connect().then(server => this.getCharacteristics(server));
+                this.SAMActorCharacteristic.service.device.gatt.connect()
+                    .then(server => this.getCharacteristics(server));
                 return Promise.resolve(); // no status LED characteristic available
             } else if (this.waitingForReconnect) {
                 return Promise.resolve(); // waiting for reconnect, do not send message
