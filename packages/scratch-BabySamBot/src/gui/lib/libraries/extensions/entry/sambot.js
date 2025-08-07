@@ -1,9 +1,13 @@
+/* eslint-disable import/no-commonjs */
 /**
  * This is an extension for Xcratch.
  */
 
-import iconURL from './sambot.png';
-import translations from './translations.json';
+// import iconURL from './sambot.png';
+// import translations from './translations.json';
+
+const iconURL = require('./sambot.png');
+const translations = require('./translations.json');
 
 /**
  * Formatter to translate the messages in this extension.
@@ -42,5 +46,6 @@ const entry = {
     translationMap: translations
 };
 
-export {entry}; // loadable-extension needs this line.
-export default entry;
+// export {entry}; // loadable-extension needs this line.
+// export default entry;
+module.exports = entry;
