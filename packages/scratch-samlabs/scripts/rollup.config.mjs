@@ -14,7 +14,7 @@ const blockSrcDir = path.resolve(process.cwd(), './src/vm/extensions/block');
 const blockFile = path.resolve(blockSrcDir, 'samlabs.js');
 // path for entry
 const entrySrcDir = path.resolve(process.cwd(), './src/gui/lib/libraries/extensions/entry');
-const entryFile = path.resolve(entrySrcDir, 'samlabs.jsx');
+const entryFile = path.resolve(entrySrcDir, 'samlabs.js');
 // path for output
 const moduleName = 'samlabs';
 const outputDir = path.resolve(process.cwd(), './dist');
