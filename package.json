@@ -14,7 +14,7 @@
     "refresh-gh-workflow": "ts-node scripts/build-gha-workflows.ts",
     "build-monorepo": "cross-env-shell ./scripts/build-monorepo.sh",
     "prepare": "husky install",
-    "build": "cross-env NODE_ENV=production npm run -w @scratch/scratch-gui build",
+    "build": "cross-env NODE_ENV=production npm run -w @scratch/scratch-vm build && npm run -w @scratch/scratch-gui build",
     "build:dev": "npm run -w @scratch/scratch-vm build && npm run -w @scratch/scratch-gui build:dev",
     "clean": "npm run --workspaces clean",
     "version": "cross-env-shell ./scripts/npm-version.sh",
