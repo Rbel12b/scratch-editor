@@ -9,7 +9,7 @@ module.exports =
     parser: '@typescript-eslint/parser',
     parserOptions: {
         ecmaVersion: 'latest',
-        sourceType: 'module', // allow import/export by default
+        sourceType: 'module',
         ecmaFeatures: {
             jsx: true
         }
@@ -25,12 +25,9 @@ module.exports =
     overrides: [
         {
             files: ['*.js', '*.jsx'],
-            parser: 'espree', // default parser for JS
+            parser: 'espree',
             parserOptions: {
-                sourceType: 'script' // for CommonJS
-            },
-            rules: {
-                // JS/JSX-specific rules (if any)
+                sourceType: 'script'
             }
         },
         {
@@ -39,9 +36,6 @@ module.exports =
             parserOptions: {
                 project: './tsconfig.json',
                 tsconfigRootDir: '.'
-            },
-            rules: {
-                // TS/TSX-specific rules (if any)
             }
         }
     ],

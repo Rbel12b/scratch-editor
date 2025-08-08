@@ -1,12 +1,7 @@
 /* eslint-disable import/no-commonjs */
 /**
- * This is an extension for Xcratch.
+ * This is an extension for SAM Scratch.
  */
-
-// import iconURL from './samlabs.png';
-// import insetIconURL from './samlabs-small.svg';
-// import translations from './translations.json';
-
 const iconURL = require('./samlabs.png');
 const insetIconURL = require('./samlabs-small.svg');
 const translations = require('./translations.json');

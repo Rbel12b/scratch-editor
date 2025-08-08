@@ -1,11 +1,7 @@
 /* eslint-disable import/no-commonjs */
 /**
- * This is an extension for Xcratch.
+ * This is an extension for SAM Scratch.
  */
-
-// import iconURL from './huskylens.png';
-// import en from './translations/en.json';
-
 const iconURL = require('./huskylens.png');
 const en = require('./translations/en.json');
 
