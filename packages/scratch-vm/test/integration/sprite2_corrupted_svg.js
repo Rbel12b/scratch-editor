@@ -16,7 +16,8 @@ const FakeBitmapAdapter = require('../fixtures/fake-bitmap-adapter');
 const {extractAsset, readFileToBuffer} = require('../fixtures/readProjectFile');
 const VirtualMachine = require('../../src/index');
 const {serializeCostumes} = require('../../src/serialization/serialize-assets');
-const {sanitizeByteStream} = require('../../../scratch-svg-renderer/src/sanitize-svg');
+const {sanitizeSvg} = require('@scratch/scratch-svg-renderer');
+const {sanitizeByteStream} = sanitizeSvg;
 
 const projectUri = path.resolve(__dirname, '../fixtures/default.sb3');
 const project = readFileToBuffer(projectUri);
