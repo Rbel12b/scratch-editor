@@ -30,8 +30,6 @@
  * @license MIT Lesser General Public License (see original repository for full license text)
  */
 
-// @ts-expect-error the original file contains a lot of errors
-
 import Base64Util from '../../util/base64-util';
 
 const MM_SERVICE = {
