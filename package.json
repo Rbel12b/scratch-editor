@@ -19,7 +19,7 @@
     "clean": "npm run --workspaces clean",
     "version": "cross-env-shell ./scripts/npm-version.sh",
     "setup-dev": "npm run -w scratch-samlabs setup-dev && npm run -w scratch-babysambot setup-dev && npm run -w scratch-huskylens setup-dev",
-    "test": "npm run -w @scratch/scratch-gui test",
+    "test": "npm run -w @scratch/scratch-gui test && npm run -w scratch-samlabs test && npm run -w scratch-babysambot test && npm run -w scratch-huskylens test",
     "watch": "npm run -w @scratch/scratch-gui watch",
     "start": "npm run -w @scratch/scratch-gui start"
   },
@@ -43,6 +43,7 @@
     "husky": "8.0.3",
     "npm": "10.9.3",
     "ts-loader": "^9.5.2",
-    "ts-node": "10.9.2"
+    "ts-node": "10.9.2",
+    "typescript": "5.5.4"
   }
 }
