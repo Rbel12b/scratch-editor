@@ -34,7 +34,7 @@ module.exports = {
         }
     ],
     settings: {
-        'react': {
+        react: {
             version: '16.2' // Prevent 16.3 lifecycle method errors
         }
     }

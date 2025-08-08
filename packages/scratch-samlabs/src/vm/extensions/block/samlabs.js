@@ -1,14 +1,16 @@
-import BlockType from '../../extension-support/block-type';
-import ArgumentType from '../../extension-support/argument-type';
-import translations from './translations.json';
-import {SamLabsBLE, SAMDevice} from './device';
+const BlockType = require('../../extension-support/block-type');
+const ArgumentType = require('../../extension-support/argument-type');
+const translations = require('./translations.json');
+const {SamLabsBLE, SAMDevice} = require('./device');
 
 // eslint-disable-next-line no-unused-vars
 class LEDArg {
-    num = '';
-    red = 0;
-    green = 0;
-    blue = 0;
+    constructor () {
+        this.num = '';
+        this.red = 0;
+        this.green = 0;
+        this.blue = 0;
+    }
 }
 
 /**
@@ -271,7 +273,7 @@ class ExtensionBlocks {
             }
         };
     }
-    
+
     updateDeviceMenu () {
         this.deviceMenu = [];
         this.buttonMenu = [];
@@ -412,7 +414,7 @@ class ExtensionBlocks {
         if (!block || !block.ActorAvailable) {
             return;
         }
-            
+
         block.lastActorValue[0] = Number(args.red);
         block.lastActorValue[1] = Number(args.green);
         block.lastActorValue[2] = Number(args.blue);
@@ -523,4 +525,6 @@ class ExtensionBlocks {
     }
 }
 
-export {ExtensionBlocks as default, ExtensionBlocks as blockClass};
+// export {ExtensionBlocks as default, ExtensionBlocks as blockClass};
+module.exports = ExtensionBlocks;
+module.exports.blockClass = ExtensionBlocks;

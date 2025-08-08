@@ -1,11 +1,9 @@
+/* eslint-disable import/no-commonjs */
 /**
- * This is an extension for Xcratch.
+ * This is an extension for SAM Scratch.
  */
-
-import iconURL from './huskylens.png';
-// import insetIconURL from './huskylens-small.svg';
-
-import en from './translations/en.json';
+const iconURL = require('./huskylens.png');
+const en = require('./translations/en.json');
 
 const translations = {
     en
@@ -53,5 +51,6 @@ const entry = {
     translationMap: translations
 };
 
-export {entry}; // loadable-extension needs this line.
-export default entry;
+// export {entry}; // loadable-extension needs this line.
+// export default entry;
+module.exports = entry;

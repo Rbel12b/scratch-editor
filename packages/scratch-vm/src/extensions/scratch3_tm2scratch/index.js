@@ -7,6 +7,8 @@ const formatMessage = require('format-message');
 // eslint-disable-next-line max-len
 const blockIconURI = 'data:image/png;base64,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';
 
+/* global ml5 */
+
 const Message = {
     image_classification_model_url: {
         'ja': '画像分類モデルURL[URL]',
@@ -234,7 +236,7 @@ const Message = {
 const AvailableLocales = ['en', 'ja', 'ja-Hira', 'ko', 'zh-cn', 'zh-tw', 'de'];
 
 class Scratch3TM2ScratchBlocks {
-    constructor(runtime) {
+    constructor (runtime) {
         this.runtime = runtime;
         this.locale = this.setLocale();
 
@@ -274,10 +276,10 @@ class Scratch3TM2ScratchBlocks {
 
         this.runtime.ioDevices.video.enableVideo();
 
-        this.devices = [{ text: 'default', value: '' }];
+        this.devices = [{text: 'default', value: ''}];
         try {
-            navigator.mediaDevices.enumerateDevices().then(media => {
-                for (const device of media) {
+            navigator.mediaDevices.enumerateDevices().then(mediaDevice => {
+                for (const device of mediaDevice) {
                     if (device.kind === 'videoinput') {
                         this.devices.push({
                             text: device.label,
@@ -290,7 +292,7 @@ class Scratch3TM2ScratchBlocks {
             console.error('failed to load media devices!');
         }
 
-        let script = document.createElement('script');
+        const script = document.createElement('script');
         script.src = 'https://stretch3.github.io/ml5-library/ml5.min.js';
         document.head.appendChild(script);
     }
@@ -298,15 +300,15 @@ class Scratch3TM2ScratchBlocks {
     /**
      * Initialize the result of image classification.
      */
-    initImageProbableLabels() {
+    initImageProbableLabels () {
         this.imageProbableLabels = [];
     }
 
-    initSoundProbableLabels() {
+    initSoundProbableLabels () {
         this.soundProbableLabels = [];
     }
 
-    getInfo() {
+    getInfo () {
         this.locale = this.setLocale();
 
         return {
@@ -535,7 +537,7 @@ class Scratch3TM2ScratchBlocks {
      * @property {string} LABEL - The label to detect.
      * @return {boolean} - Whether the label is most probable or not.
      */
-    whenReceived(args) {
+    whenReceived (args) {
         const label = this.getImageLabel();
         if (args.LABEL === Message.any[this.locale]) {
             return label !== '';
@@ -549,7 +551,7 @@ class Scratch3TM2ScratchBlocks {
      * @property {string} LABEL - The label to detect.
      * @return {boolean} - Whether the label is most probable or not.
      */
-    whenReceivedSoundLabel(args) {
+    whenReceivedSoundLabel (args) {
         if (!this.soundClassifierEnabled) {
             return;
         }
@@ -567,7 +569,7 @@ class Scratch3TM2ScratchBlocks {
      * @property {string} LABEL - The label to detect.
      * @return {boolean} - Whether the label is most probable or not.
      */
-    isImageLabelDetected(args) {
+    isImageLabelDetected (args) {
         const label = this.getImageLabel();
         if (args.LABEL === Message.any[this.locale]) {
             return label !== '';
@@ -581,7 +583,7 @@ class Scratch3TM2ScratchBlocks {
      * @property {string} LABEL - The label to detect.
      * @return {boolean} - Whether the label is most probable or not.
      */
-    isSoundLabelDetected(args) {
+    isSoundLabelDetected (args) {
         const label = this.getSoundLabel();
         if (args.LABEL === Message.any[this.locale]) {
             return label !== '';
@@ -595,7 +597,7 @@ class Scratch3TM2ScratchBlocks {
      * @property {string} LABEL - Selected label.
      * @return {number} - Confidence of the label.
      */
-    imageLabelConfidence(args) {
+    imageLabelConfidence (args) {
         if (args.LABEL === '') {
             return 0;
         }
@@ -609,7 +611,7 @@ class Scratch3TM2ScratchBlocks {
      * @property {string} LABEL - Selected label.
      * @return {number} - Confidence of the label.
      */
-    soundLabelConfidence(args) {
+    soundLabelConfidence (args) {
         if (!this.soundProbableLabels || this.soundProbableLabels.length === 0) return 0;
 
         if (args.LABEL === '') {
@@ -625,7 +627,7 @@ class Scratch3TM2ScratchBlocks {
      * @property {string} URL - URL of model to be loaded.
      * @return {Promise} - A Promise that resolve after loaded.
      */
-    setImageClassificationModelURL(args) {
+    setImageClassificationModelURL (args) {
         return this.loadImageClassificationModelFromURL(args.URL);
     }
 
@@ -635,7 +637,7 @@ class Scratch3TM2ScratchBlocks {
      * @property {string} URL - URL of model to be loaded.
      * @return {Promise} - A Promise that resolve after loaded.
      */
-    setSoundClassificationModelURL(args) {
+    setSoundClassificationModelURL (args) {
         return this.loadSoundClassificationModelFromURL(args.URL);
     }
 
@@ -644,7 +646,7 @@ class Scratch3TM2ScratchBlocks {
      * @param {string} url - URL of model to be loaded.
      * @return {Promise} - A Promise that resolves after loaded.
      */
-    loadImageClassificationModelFromURL(url) {
+    loadImageClassificationModelFromURL (url) {
         return new Promise(resolve => {
             const timestamp = new Date().getTime();
             fetch(`${url}metadata.json?${timestamp}`)
@@ -681,7 +683,7 @@ class Scratch3TM2ScratchBlocks {
      * @param {string} url - URL of model to be loaded.
      * @return {Promise} - A Promise that resolves after loaded.
      */
-    loadSoundClassificationModelFromURL(url) {
+    loadSoundClassificationModelFromURL (url) {
         return new Promise(resolve => {
             const timestamp = new Date().getTime();
             fetch(`${url}metadata.json?${timestamp}`)
@@ -719,7 +721,7 @@ class Scratch3TM2ScratchBlocks {
      * Return menu items to detect label in the image.
      * @return {Array} - Menu items with 'any'.
      */
-    getLabelsMenu() {
+    getLabelsMenu () {
         let items = [Message.any[this.locale]];
         if (!this.imageMetadata) return items;
         items = items.concat(this.imageMetadata.labels);
@@ -730,7 +732,7 @@ class Scratch3TM2ScratchBlocks {
      * Return menu items to detect label in the image.
      * @return {Array} - Menu items with 'any without of'.
      */
-    getLabelsWithAnyWithoutOfMenu() {
+    getLabelsWithAnyWithoutOfMenu () {
         let items = [Message.any_without_of[this.locale]];
         if (!this.imageMetadata) return items;
         items = items.concat(this.imageMetadata.labels);
@@ -741,7 +743,7 @@ class Scratch3TM2ScratchBlocks {
      * Return menu items to detect label in the image.
      * @return {Array} - Menu items with 'any'.
      */
-    getSoundLabelsMenu() {
+    getSoundLabelsMenu () {
         let items = [Message.any[this.locale]];
         if (!this.soundMetadata) return items;
         items = items.concat(this.soundMetadata.wordLabels);
@@ -752,7 +754,7 @@ class Scratch3TM2ScratchBlocks {
      * Return menu itmes to get properties of the image label.
      * @return {Array} - Menu items with ''.
      */
-    getLabelsWithoutAnyMenu() {
+    getLabelsWithoutAnyMenu () {
         let items = [''];
         if (this.imageMetadata) {
             items = items.concat(this.imageMetadata.labels);
@@ -764,22 +766,22 @@ class Scratch3TM2ScratchBlocks {
      * Return menu itmes to get properties of the sound label.
      * @return {Array} - Menu items with ''.
      */
-    getSoundLabelsWithoutAnyMenu() {
+    getSoundLabelsWithoutAnyMenu () {
         if (this.soundMetadata) {
             return this.soundMetadata.wordLabels;
-        } else {
-            return [''];
         }
+        return [''];
+
     }
 
     /**
      * Return menu itmes to get properties of the sound label.
      * @return {Array} - Menu items without '_background_noise_'.
      */
-    getSoundLabelsWithoutBackgroundMenu() {
-        let items = [Message.any[this.locale]];
+    getSoundLabelsWithoutBackgroundMenu () {
+        const items = [Message.any[this.locale]];
         if (!this.soundMetadata) return items;
-        let arr = this.soundMetadata.wordLabels;
+        const arr = this.soundMetadata.wordLabels;
         for (let i = 0; i < arr.length; i++) {
             if (arr[i] !== '_background_noise_') {
                 items.push(arr[i]);
@@ -792,10 +794,10 @@ class Scratch3TM2ScratchBlocks {
      * Return menu itmes to get properties of the sound label.
      * @return {Array} - Menu items without '_background_noise_' and with 'any without of'.
      */
-    getSoundLabelsWithoutBackgroundWithAnyWithoutOfMenu() {
-        let items = [Message.any_without_of[this.locale]];
+    getSoundLabelsWithoutBackgroundWithAnyWithoutOfMenu () {
+        const items = [Message.any_without_of[this.locale]];
         if (!this.soundMetadata) return items;
-        let arr = this.soundMetadata.wordLabels;
+        const arr = this.soundMetadata.wordLabels;
         for (let i = 0; i < arr.length; i++) {
             if (arr[i] !== '_background_noise_') {
                 items.push(arr[i]);
@@ -810,7 +812,7 @@ class Scratch3TM2ScratchBlocks {
      * @property {number} probabilities.confidence - Probability of the label.
      * @return {object} - One of the highest confidence probability.
      */
-    getMostProbableOne(probabilities) {
+    getMostProbableOne (probabilities) {
         if (probabilities.length === 0) return null;
         let mostOne = probabilities[0];
         probabilities.forEach(clss => {
@@ -829,7 +831,7 @@ class Scratch3TM2ScratchBlocks {
      * @param {object} util - utility object provided by the runtime.
      * @return {Promise} - a Promise that resolves after classification.
      */
-    classifyVideoImageBlock(_args, util) {
+    classifyVideoImageBlock (_args, util) {
         if (this._isImageClassifying) {
             if (util) util.yield();
             return;
@@ -850,7 +852,7 @@ class Scratch3TM2ScratchBlocks {
      * @return {Promise} - A Promise that resolves the result of classification.
      *  The result will be empty when the imageClassifier was not set.
      */
-    classifyImage(input) {
+    classifyImage (input) {
         if (!this.imageMetadata || !this.imageClassifier) {
             this._isImageClassifying = false;
             return Promise.resolve([]);
@@ -874,7 +876,7 @@ class Scratch3TM2ScratchBlocks {
     /**
      * Classify sound.
      */
-    classifySound() {
+    classifySound () {
         this.soundClassifier.classify((err, result) => {
             if (this.soundClassifierEnabled && result) {
                 this.soundProbableLabels = result.slice();
@@ -894,7 +896,7 @@ class Scratch3TM2ScratchBlocks {
      * Retrun the last classification result or '' when the first classification was not done.
      * @return {string} label
     */
-    getImageLabel() {
+    getImageLabel () {
         if (!this.imageProbableLabels || this.imageProbableLabels.length === 0) return '';
         const mostOne = this.getMostProbableOne(this.imageProbableLabels);
         return (mostOne.confidence >= this.confidenceThreshold) ? mostOne.label : '';
@@ -905,7 +907,7 @@ class Scratch3TM2ScratchBlocks {
      * Retrun the last classification result or '' when the first classification was not done.
      * @return {string} label
     */
-    getSoundLabel() {
+    getSoundLabel () {
         if (!this.soundProbableLabels || this.soundProbableLabels.length === 0) return '';
         const mostOne = this.getMostProbableOne(this.soundProbableLabels);
         return (mostOne.confidence >= this.confidenceThreshold) ? mostOne.label : '';
@@ -916,7 +918,7 @@ class Scratch3TM2ScratchBlocks {
      * @param {object} args - the block's arguments.
      * @property {number} CONFIDENCE_THRESHOLD - Value of confidence threshold.
      */
-    setConfidenceThreshold(args) {
+    setConfidenceThreshold (args) {
         let threshold = Cast.toNumber(args.CONFIDENCE_THRESHOLD);
         threshold = MathUtil.clamp(threshold, 0, 1);
         this.confidenceThreshold = threshold;
@@ -927,7 +929,7 @@ class Scratch3TM2ScratchBlocks {
      * @param {object} args - the block's arguments.
      * @return {number} - Value of confidence threshold.
      */
-    getConfidenceThreshold() {
+    getConfidenceThreshold () {
         return this.confidenceThreshold;
     }
 
@@ -936,7 +938,7 @@ class Scratch3TM2ScratchBlocks {
      * @param {object} args - the block's arguments.
      * @property {string} CLASSIFICATION_STATE - State to be ['on'|'off'].
      */
-    toggleClassification(args) {
+    toggleClassification (args) {
         const state = args.CLASSIFICATION_STATE;
         if (this.timer) {
             clearTimeout(this.timer);
@@ -955,7 +957,7 @@ class Scratch3TM2ScratchBlocks {
      * @param {object} args - the block's arguments.
      * @property {number} CLASSIFICATION_INTERVAL - Interval time (seconds).
      */
-    setClassificationInterval(args) {
+    setClassificationInterval (args) {
         if (this.timer) {
             clearTimeout(this.timer);
         }
@@ -970,7 +972,7 @@ class Scratch3TM2ScratchBlocks {
      * @param {object} args - the block's arguments.
      * @property {string} VIDEO_STATE - Show or not ['on'|'off'].
      */
-    videoToggle(args) {
+    videoToggle (args) {
         const state = args.VIDEO_STATE;
         if (state === 'off') {
             this.runtime.ioDevices.video.disableVideo();
@@ -985,7 +987,7 @@ class Scratch3TM2ScratchBlocks {
      * @return {Promise} - A Promise that resolves the result of classification.
      *  The result will be empty when another classification was under going.
      */
-    classifyVideoImage() {
+    classifyVideoImage () {
         if (this._isImageClassifying) return Promise.resolve([]);
         return this.classifyImage(this.video);
     }
@@ -994,7 +996,7 @@ class Scratch3TM2ScratchBlocks {
      * Return menu for video showing state.
      * @return {Array} - Menu items.
      */
-    getVideoMenu() {
+    getVideoMenu () {
         return [
             {
                 text: Message.off[this.locale],
@@ -1015,7 +1017,7 @@ class Scratch3TM2ScratchBlocks {
      * Return menu for classification interval setting.
      * @return {object} - Menu.
      */
-    getClassificationIntervalMenu() {
+    getClassificationIntervalMenu () {
         return {
             acceptReporters: true,
             items: [
@@ -1043,7 +1045,7 @@ class Scratch3TM2ScratchBlocks {
      * Return menu for continuous classification state.
      * @return {Array} - Menu items.
      */
-    getClassificationMenu() {
+    getClassificationMenu () {
         return [
             {
                 text: Message.off[this.locale],
@@ -1060,7 +1062,7 @@ class Scratch3TM2ScratchBlocks {
      * Get locale for message text.
      * @return {string} - Locale of this editor.
      */
-    setLocale() {
+    setLocale () {
         const locale = formatMessage.setup().locale;
         if (AvailableLocales.includes(locale)) {
             return locale;
@@ -1068,12 +1070,12 @@ class Scratch3TM2ScratchBlocks {
         return 'en';
 
     }
-    switchCamera(args) {
+    switchCamera (args) {
         if (args.DEVICE !== '') {
             if (this.runtime.ioDevices.video.provider._track !== null) {
                 this.runtime.ioDevices.video.provider._track.stop();
                 const deviceId = args.DEVICE;
-                navigator.mediaDevices.getUserMedia({ audio: false, video: { deviceId } }).then(
+                navigator.mediaDevices.getUserMedia({audio: false, video: {deviceId}}).then(
                     stream => {
                         try {
                             this.runtime.ioDevices.video.provider._video.srcObject = stream;
@@ -1089,7 +1091,7 @@ class Scratch3TM2ScratchBlocks {
         }
     }
 
-    getDevices() {
+    getDevices () {
         return this.devices;
     }
 

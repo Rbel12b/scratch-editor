@@ -19,7 +19,7 @@
     "clean": "npm run --workspaces clean",
     "version": "cross-env-shell ./scripts/npm-version.sh",
     "setup-dev": "npm run -w scratch-samlabs setup-dev && npm run -w scratch-babysambot setup-dev && npm run -w scratch-huskylens setup-dev",
-    "test": "npm run -w @scratch/scratch-gui test",
+    "test": "npm run -workspaces test",
     "watch": "npm run -w @scratch/scratch-gui watch",
     "start": "npm run -w @scratch/scratch-gui start"
   },
@@ -36,6 +36,7 @@
     "packages/scratch-gui"
   ],
   "devDependencies": {
+    "@babel/eslint-parser": "^7.28.0",
     "@commitlint/cli": "17.8.1",
     "@commitlint/config-conventional": "17.8.1",
     "cross-env": "7.0.3",
@@ -44,6 +45,6 @@
     "npm": "10.9.3",
     "ts-loader": "^9.5.2",
     "ts-node": "10.9.2",
-    "typescript": "^5.5.4"
+    "typescript": "5.5.4"
   }
 }

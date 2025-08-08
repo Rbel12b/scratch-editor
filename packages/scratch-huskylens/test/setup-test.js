@@ -1,4 +1,3 @@
-require.extensions[".png"] = function () {
+require.extensions['.png'] = function () {
     return null;
-  };
-  
+};

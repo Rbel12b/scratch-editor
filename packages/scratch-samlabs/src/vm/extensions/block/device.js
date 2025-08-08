@@ -38,26 +38,26 @@ const DeviceTypes = [
 ];
 
 class SAMDevice {
-    id = '';
+    id;
     /**
      * @type {BluetoothDevice | Object}
      */
     device;
-    typeId = 0;
-    deviceType = DeviceTypes[0];
-    displayName = `${DeviceTypes[0].name} 1`;
-    sameDevices = 1;
+    typeId;
+    deviceType;
+    displayName;
+    sameDevices;
     /**
      * @brief brightness for leds, 0...1
      * @type {Number}
      */
-    brightness = 1;
-    statusLedBrightness = 1;
-    lastActorValue = [0, 0, 0];
-    lastStatusLEDValue = [0, 0, 0];
-    SensorAvailable = false;
-    ActorAvailable = false;
-    SAMBotAvailable = false;
+    brightness;
+    statusLedBrightness;
+    lastActorValue;
+    lastStatusLEDValue;
+    SensorAvailable;
+    ActorAvailable;
+    SAMBotAvailable;
     /**
      * @type {BluetoothRemoteGATTCharacteristic}
      */
@@ -78,28 +78,28 @@ class SAMDevice {
      * @type {BluetoothRemoteGATTCharacteristic}
      */
     SAMStatusLEDCharacteristic;
-    value = 0;
-    battery = 0;
+    value;
+    battery;
 
     /**
      * @type {BLE}
      */
-    _ble = null;
+    _ble;
 
     /**
      * @type {Runtime}
      */
-    _runtime = null;
+    _runtime;
 
     /**
      * @type {number}
      */
-    menuId = 0;
+    menuId;
 
     /**
      * @type {string}
      */
-    menuName = '';
+    menuName;
 
     /**
      * constructor
@@ -107,6 +107,31 @@ class SAMDevice {
      * @param {string} id extension id
      */
     constructor (runtime, id) {
+        this.id = '';
+        this.device = null;
+        this.typeId = 0;
+        this.deviceType = DeviceTypes[0];
+        this.displayName = `${DeviceTypes[0].name} 1`;
+        this.sameDevices = 1;
+        this.brightness = 1;
+        this.statusLedBrightness = 1;
+        this.lastActorValue = [0, 0, 0];
+        this.lastStatusLEDValue = [0, 0, 0];
+        this.SensorAvailable = false;
+        this.ActorAvailable = false;
+        this.SAMBotAvailable = false;
+        this.batteryLevelCharacteristic = null;
+        this.SAMSensorCharacteristic = null;
+        this.SAMActorCharacteristic = null;
+        this.SAMBotCharacteristic = null;
+        this.SAMStatusLEDCharacteristic = null;
+        this.value = 0;
+        this.battery = 0;
+        this._ble = null;
+        this._runtime = null;
+        this.menuId = 0;
+        this.menuName = '';
+
         this._rateLimiter = new RateLimiter(SamLabsBLE.sendRateMax);
         this._runtime = runtime;
         this.extID = id;
@@ -174,7 +199,7 @@ class SAMDevice {
         // Connect to the GATT server
         const server = await this.device.gatt.connect();
         console.log('Connected to GATT Server:', server);
-        return await this.getCharacteristics(server);
+        return this.getCharacteristics(server);
     }
 
     async getCharacteristics (server) {
@@ -263,7 +288,8 @@ class SAMDevice {
             console.log('Failed to subscribe to battery events:', error);
         }
 
-        console.log(`Connected to ${this.device.name || 'Unknown Device'}, id ${this.device.id}, sambot ${this.SAMBotAvailable}`);
+        console.log(`Connected to ${this.device.name || 'Unknown Device'},
+            id ${this.device.id}, sambot ${this.SAMBotAvailable}`);
         this.waitingForReconnect = false;
         return true;
     }
@@ -531,7 +557,8 @@ class SAMDevice {
         if (this.webBLE) {
             if (!this.SAMStatusLEDCharacteristic.service.device.gatt.connected) {
                 this.waitingForReconnect = true;
-                this.SAMStatusLEDCharacteristic.service.device.gatt.connect().then(server => this.getCharacteristics(server));
+                this.SAMStatusLEDCharacteristic.service.device.gatt.connect()
+                    .then(server => this.getCharacteristics(server));
                 return Promise.resolve(); // no status LED characteristic available
             } else if (this.waitingForReconnect) {
                 return Promise.resolve(); // waiting for reconnect, do not send message
@@ -559,7 +586,8 @@ class SAMDevice {
         if (this.webBLE) {
             if (!this.SAMActorCharacteristic.service.device.gatt.connected) {
                 this.waitingForReconnect = true;
-                this.SAMActorCharacteristic.service.device.gatt.connect().then(server => this.getCharacteristics(server));
+                this.SAMActorCharacteristic.service.device.gatt.connect()
+                    .then(server => this.getCharacteristics(server));
                 return Promise.resolve(); // no status LED characteristic available
             } else if (this.waitingForReconnect) {
                 return Promise.resolve(); // waiting for reconnect, do not send message

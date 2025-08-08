@@ -8,9 +8,17 @@ import fs from 'fs-extra';
 const vmSrcDev = path.resolve(process.cwd(), './src/vm');
 const vmSrcOrg = path.resolve(process.cwd(), '../scratch-vm/src');
 const vmRefs = [
+    'blocks',
+    'dispatch',
+    'engine',
     'extension-support',
-    'util',
+    'import',
     'io',
+    'playground',
+    'serialization',
+    'sprites',
+    'util',
+
 ];
 
 // Make symbolic link

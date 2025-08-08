@@ -1,10 +1,9 @@
+/* eslint-disable import/no-commonjs */
 /**
- * This is an extension for Xcratch.
+ * This is an extension for SAM Scratch.
  */
-
-import iconURL from './samlabs.png';
-import insetIconURL from './samlabs-small.svg';
-import translations from './translations.json';
+const iconURL = require('./sambot.png');
+const translations = require('./translations.json');
 
 /**
  * Formatter to translate the messages in this extension.
@@ -17,19 +16,18 @@ let formatMessage = messageData => messageData.defaultMessage;
 const entry = {
     get name () {
         return formatMessage({
-            id: 'samlabs.entry.name',
-            defaultMessage: 'SAM Labs',
-            description: 'Name for the \'SAM Labs\' extension'
+            id: 'sambot.entry.name',
+            defaultMessage: 'Baby SAM Bot',
+            description: 'Name for the \'Baby SAM Bot\' extension'
         });
     },
-    extensionId: 'samlabs',
+    extensionId: 'sambot',
     iconURL: iconURL,
-    insetIconURL: insetIconURL,
     get description () {
         return formatMessage({
-            id: 'samlabs.entry.description',
-            defaultMessage: 'SAM Labs',
-            description: 'Description for the \'SAM Labs\' extension'
+            defaultMessage: 'Baby SAM Bot',
+            description: 'Description for the \'Baby SAM Bot\' extension',
+            id: 'sambot.entry.description'
         });
     },
     tags: [],
@@ -44,5 +42,6 @@ const entry = {
     translationMap: translations
 };
 
-export {entry}; // loadable-extension needs this line.
-export default entry;
+// export {entry}; // loadable-extension needs this line.
+// export default entry;
+module.exports = entry;

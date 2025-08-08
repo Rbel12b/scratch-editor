@@ -1,16 +1,14 @@
-import { describe, it } from "mocha";
-import { expect } from "chai";
-import { blockClass } from "../../src/vm/extensions/block/index.js";
+import { blockClass } from "../../src/vm/extensions/block/huskylens.js";
 
-describe("blockClass", () => {
-    const runtime = {
-        formatMessage: function (msg) {
-            return msg.default;
-        }
-    };
+import Runtime from "../../src/vm/engine/runtime.js";
+import { MbitMore } from "../../src/vm/extensions/block/protocol.ts"
 
-    it("should create an instance of blockClass", () => {
+describe("blockClass", function() {
+    const runtime = new Runtime();
+    runtime.peripheralExtensions.microbitMore = new MbitMore();
+
+    it("should create an instance of blockClass", function() {
         const block = new blockClass(runtime);
-        expect(block).to.be.an.instanceOf(blockClass);
+        expect(block).toBeInstanceOf(blockClass);
     });
 });

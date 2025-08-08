@@ -1,22 +1,11 @@
-import { describe, it } from "mocha";
-import { expect } from "chai";
-import { blockClass } from "../../src/vm/extensions/block/index.js";
+const { blockClass } = require("../../src/vm/extensions/block/samlabs.js");
+const Runtime = require("../../src/vm/engine/runtime.js");
 
-describe("blockClass", () => {
-    const runtime = {
-        formatMessage: function (msg) {
-            return msg.default;
-        }
-    };
+describe("blockClass", function() {
+    const runtime = new Runtime();
 
-    it("should create an instance of blockClass", () => {
+    it("should create an instance of blockClass", function() {
         const block = new blockClass(runtime);
-        expect(block).to.be.an.instanceOf(blockClass);
-    });
-
-    it("doIt('3 + 4') should return 7", () => {
-        const block = new blockClass(runtime);
-        const result = block.doIt({SCRIPT: "3 + 4"});
-        expect(result).to.equal(7);
+        expect(block).toBeInstanceOf(blockClass);
     });
 });
