@@ -1,6 +1,6 @@
 {
   "name": "scratch-babysambot",
-  "version": "0.0.0",
+  "version": "1.0.0-sam-scratch",
   "description": "extension for SAM Scratch",
   "scripts": {
     "setup-dev": "node ./scripts/setup-dev.mjs",
@@ -11,7 +11,7 @@
     "test:unit": "cross-env jest test/unit"
   },
   "dependencies": {
-    "scratch-samlabs": "0.0.0"
+    "scratch-samlabs": "1.0.0-sam-scratch"
   },
   "devDependencies": {
     "@babel/core": "^7.26.9",

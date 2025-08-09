@@ -1,6 +1,6 @@
 {
   "name": "scratch-samlabs",
-  "version": "0.0.0",
+  "version": "1.0.0-sam-scratch",
   "description": "extension for SAM Scratch",
   "scripts": {
     "setup-dev": "node ./scripts/setup-dev.mjs",
