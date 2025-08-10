@@ -27,7 +27,6 @@ const entry = {
         });
     },
     extensionId: 'huskylens',
-    // collaborator: 'Rbel12b',
     iconURL: iconURL,
     // insetIconURL: insetIconURL,
     get description () {
@@ -47,7 +46,6 @@ const entry = {
     },
     launchPeripheralConnectionFlow: true,
     useAutoScan: false,
-    helpLink: 'https://github.com/Rbel12b/scratch-huskylens/blob/main/README.md',
     translationMap: translations
 };
 

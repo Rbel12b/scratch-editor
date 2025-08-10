@@ -37,7 +37,6 @@ const entry = {
     disabled: false,
     bluetoothRequired: true,
     internetConnectionRequired: false,
-    helpLink: 'https://Rbel12b.github.io/scratch-samlabs/',
     setFormatMessage: formatter => {
         formatMessage = formatter;
     },

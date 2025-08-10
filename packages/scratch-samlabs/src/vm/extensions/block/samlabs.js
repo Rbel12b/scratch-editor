@@ -41,7 +41,7 @@ const EXTENSION_ID = 'samlabs';
  * When it was loaded as a module, 'extensionURL' will be replaced a URL which is retrieved from.
  * @type {string}
  */
-let extensionURL = 'https://Rbel12b.github.io/Scratch/dist/samlabs.mjs';
+let extensionURL = '';
 
 /**
  * Scratch 3.0 blocks for example of Xcratch.

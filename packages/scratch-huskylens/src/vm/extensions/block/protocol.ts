@@ -24,7 +24,6 @@
  * Modifications by: Rbel12b
  * Modification date: 2025-08
  *
- * Copyright (c) 2025 Rbel12b
  * Based on code by DFRobot (http://www.dfrobot.com)
  *
  * @license MIT Lesser General Public License (see original repository for full license text)
