@@ -1,7 +1,7 @@
 import BlockType from '../../extension-support/block-type';
 import ArgumentType from '../../extension-support/argument-type';
 import translations from './translations.json';
-import {SamLabsBLE, DeviceTypes, BabyBotIndex, SAMDevice} from 'scratch-samlabs/src/vm/extensions/block/device';
+import {SamLabsBLE, SAMDevice} from 'scratch-samlabs/src/vm/extensions/block/device';
 
 /**
  * Formatter which is used for translation.
@@ -293,15 +293,11 @@ class ExtensionBlocks {
         const device = new SAMDevice(this.runtime, this.extensionId);
         const connected = await device.connectToDevice(this.deviceMap, {
             filters: [{
-                namePrefix: DeviceTypes[BabyBotIndex].advName
+                namePrefix: 'SAM'
             }],
             optionalServices: [SamLabsBLE.battServ, SamLabsBLE.SAMServ]
         });
         if (connected) {
-            if (device.device.name !== DeviceTypes[BabyBotIndex].advName) {
-                device._ble.disconnect();
-                return;
-            }
             device.displayName = String(device.sameDevices);
             this.deviceMap.set(device.id, device);
             this.updateDeviceMenu();

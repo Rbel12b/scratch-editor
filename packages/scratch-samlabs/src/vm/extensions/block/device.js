@@ -24,7 +24,7 @@ const servoIndex = 11;
 
 const DeviceTypes = [
     {name: 'undefined', advName: ''},
-    {name: 'Baby SAM Bot', advName: 'SAM BabyBot'},
+    {name: 'Baby SAM Bot', advName: 'SAM'},
     {name: 'slider', advName: 'SAM Potentiometer'},
     {name: 'light sensor', advName: 'SAM LDR'},
     {name: 'proximity', advName: 'SAM IR Sensor'},
@@ -232,7 +232,7 @@ class SAMDevice {
             this.ActorAvailable = false;
         }
         this.SAMBotCharacteristic = null;
-        this.SAMBotAvailable = (this.device.name === 'SAM BabyBot');
+        this.SAMBotAvailable = (this.device.name.slice(0, 11) === 'SAM BabyBot');
 
         if (this.SAMBotAvailable) {
             try {
@@ -542,7 +542,7 @@ class SAMDevice {
 
     onDisconnected () {
         this.waitingForReconnect = true;
-        this.SAMStatusLEDCharacteristic.service.device.gatt.connect().then(server => this.getCharacteristics(server));
+        this.device.gatt.connect().then(server => this.getCharacteristics(server));
     }
 
     /**
@@ -555,9 +555,9 @@ class SAMDevice {
             if (!this._rateLimiter.okayToSend()) return Promise.resolve();
         }
         if (this.webBLE) {
-            if (!this.SAMStatusLEDCharacteristic.service.device.gatt.connected) {
+            if (!this.device.gatt.connected) {
                 this.waitingForReconnect = true;
-                this.SAMStatusLEDCharacteristic.service.device.gatt.connect()
+                this.device.gatt.connect()
                     .then(server => this.getCharacteristics(server));
                 return Promise.resolve(); // no status LED characteristic available
             } else if (this.waitingForReconnect) {
@@ -584,9 +584,9 @@ class SAMDevice {
             if (!this._rateLimiter.okayToSend()) return Promise.resolve();
         }
         if (this.webBLE) {
-            if (!this.SAMActorCharacteristic.service.device.gatt.connected) {
+            if (!this.device.gatt.connected) {
                 this.waitingForReconnect = true;
-                this.SAMActorCharacteristic.service.device.gatt.connect()
+                this.device.gatt.connect()
                     .then(server => this.getCharacteristics(server));
                 return Promise.resolve(); // no status LED characteristic available
             } else if (this.waitingForReconnect) {
@@ -613,6 +613,14 @@ class SAMDevice {
             if (!this._rateLimiter.okayToSend()) return Promise.resolve();
         }
         if (this.webBLE) {
+            if (!this.device.gatt.connected) {
+                this.waitingForReconnect = true;
+                this.device.gatt.connect()
+                    .then(server => this.getCharacteristics(server));
+                return Promise.resolve(); // no status LED characteristic available
+            } else if (this.waitingForReconnect) {
+                return Promise.resolve(); // waiting for reconnect, do not send message
+            }
             await this.SAMBotCharacteristic.writeValue(msg);
         } else {
             await this.sendScratchLink(SamLabsBLE.SAMBotCommandCharacteristic, msg);
