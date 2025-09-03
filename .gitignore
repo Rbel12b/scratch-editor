@@ -135,3 +135,4 @@ dist
 .pnp.*
 
 packages/scratch-gui/tm2scratch
+.npmrc
