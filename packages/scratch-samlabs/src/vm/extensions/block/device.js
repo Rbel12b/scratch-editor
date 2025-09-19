@@ -421,7 +421,7 @@ class SAMDevice {
             this.deviceType = DeviceTypes[this.typeId];
             this.sameDevices = sameDevices;
             this.device = device;
-            this.SAMBotAvailable = (this.device.name === 'SAM BabyBot');
+            this.SAMBotAvailable = (this.device.name.slice(0, 11) === 'SAM BabyBot');
             this.ActorAvailable = true;
             this.SensorAvailable = true;
 
