@@ -136,3 +136,4 @@ dist
 
 packages/scratch-gui/tm2scratch
 .npmrc
+.vscode/launch.json

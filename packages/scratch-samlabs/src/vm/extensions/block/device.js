@@ -246,12 +246,6 @@ class SAMDevice {
         this.SAMStatusLEDCharacteristic = await SAMServ.getCharacteristic(SamLabsBLE.StatusLedCharacteristic);
         console.log('Found statusled characteristic');
 
-        let sameDevices = 1;
-        this.deviceMap.forEach(value => {
-            if (value.device.name === this.device.name) {
-                sameDevices++;
-            }
-        });
         this.typeId = 0;
         for (this.typeId = 0; this.typeId < DeviceTypes.length; this.typeId++) {
             if (DeviceTypes[this.typeId].advName === this.device.name) {
@@ -261,6 +255,19 @@ class SAMDevice {
         if (this.typeId === DeviceTypes.length) {
             this.typeId = 0;
         }
+
+        this.SAMBotAvailable = (this.device.name.slice(0, 11) === 'SAM BabyBot');
+        if (this.SAMBotAvailable) {
+            this.typeId = BabyBotIndex;
+        }
+
+        let sameDevices = 1;
+        this.deviceMap.forEach(value => {
+            if (value.typeId === this.typeId) {
+                sameDevices++;
+            }
+        });
+
         this.displayName = `${DeviceTypes[this.typeId].name} ${sameDevices}`;
         this.id = this.device.id;
         this.deviceType = DeviceTypes[this.typeId];
@@ -401,12 +408,6 @@ class SAMDevice {
             const device = this.device;
             console.log(device);
 
-            let sameDevices = 1;
-            this.deviceMap.forEach(value => {
-                if (value.device.name === device.name) {
-                    sameDevices++;
-                }
-            });
             this.typeId = 0;
             for (this.typeId = 0; this.typeId < DeviceTypes.length; this.typeId++) {
                 if (DeviceTypes[this.typeId].advName === device.name) {
@@ -416,12 +417,24 @@ class SAMDevice {
             if (this.typeId === DeviceTypes.length) {
                 this.typeId = 0;
             }
+
+            this.SAMBotAvailable = (this.device.name.slice(0, 11) === 'SAM BabyBot');
+            if (this.SAMBotAvailable) {
+                this.typeId = BabyBotIndex;
+            }
+
+            let sameDevices = 1;
+            this.deviceMap.forEach(value => {
+                if (value.typeId === this.typeId) {
+                    sameDevices++;
+                }
+            });
+
             this.displayName = `${DeviceTypes[this.typeId].name} ${sameDevices}`;
             this.id = String(device.peripheralId);
             this.deviceType = DeviceTypes[this.typeId];
             this.sameDevices = sameDevices;
             this.device = device;
-            this.SAMBotAvailable = (this.device.name.slice(0, 11) === 'SAM BabyBot');
             this.ActorAvailable = true;
             this.SensorAvailable = true;
 
