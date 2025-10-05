@@ -154,7 +154,7 @@ class PASCOBLEDevice {
     // ---------- Connecting ----------
 
     /**
-     * @returns {[BluetoothRemoteGATTCharacteristic]} array of BluetoothRemoteGATTCharacteristic, that are notifiable
+     * @returns {Array<BluetoothRemoteGATTCharacteristic>} array of chars, that are notifiable
      */
     async _get_notify_uuids () {
 
