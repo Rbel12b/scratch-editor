@@ -1,13 +1,13 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-// import pascoIconURL from './pasco.png';
+import pascoIconURL from './pasco.png';
 // import pascoInsetIconURL from './pasco-small.svg';
 
 const entry = {
     name: 'PASCO BLE Devices',
     extensionId: 'pasco',
-    // iconURL: pascoIconURL,
+    iconURL: pascoIconURL,
     // insetIconURL: pascoInsetIconURL,
     description: (
         <FormattedMessage
