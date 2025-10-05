@@ -1248,7 +1248,8 @@ class Runtime extends EventEmitter {
             'MAKE_A_PROCEDURE',
             'MAKE_A_VARIABLE',
             'CONNECT_SAMLABS',
-            'CONNECT_SAMBOT'
+            'CONNECT_SAMBOT',
+            'CONNECT_PASCO'
         ];
         if (supportedCallbackKeys.indexOf(buttonInfo.func) < 0) {
             log.error(`Custom button callbacks not supported yet: ${buttonInfo.func}`);

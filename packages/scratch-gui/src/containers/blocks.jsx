@@ -125,11 +125,17 @@ class Blocks extends React.Component {
             this.props.vm.runtime.peripheralExtensions.sambot.connectToDevice();
         };
 
+        const pascoConnect = () => {
+            this.props.vm.runtime.peripheralExtensions.pasco.connectToDevice();
+        };
+
         toolboxWorkspace.registerButtonCallback('MAKE_A_VARIABLE', varListButtonCallback(''));
         toolboxWorkspace.registerButtonCallback('MAKE_A_LIST', varListButtonCallback('list'));
         toolboxWorkspace.registerButtonCallback('MAKE_A_PROCEDURE', procButtonCallback);
+        
         toolboxWorkspace.registerButtonCallback('CONNECT_SAMLABS', samlabsConnect);
         toolboxWorkspace.registerButtonCallback('CONNECT_SAMBOT', sambotConnect);
+        toolboxWorkspace.registerButtonCallback('CONNECT_PASCO', pascoConnect);
 
         // Store the xml of the toolbox that is actually rendered.
         // This is used in componentDidUpdate instead of prevProps, because

@@ -16,6 +16,8 @@ import rootMenuImage from './root/root-small.svg';
 
 import huskylens from 'scratch-huskylens/src/gui/lib/libraries/extensions/entry/huskylens';
 
+import pasco from './pasco';
+
 import controlplus from './controlplus';
 import duplotrain from './duplotrain';
 import legoble from './legoble';
@@ -178,6 +180,7 @@ const extensions = [
 
     },
     huskylens,
+    pasco,
     controlplus,
     duplotrain,
     legoble,
