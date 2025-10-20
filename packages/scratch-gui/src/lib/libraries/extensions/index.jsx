@@ -77,6 +77,9 @@ import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 import tm2scratchIconURL from './tm2scratch/tm2scratch.png';
 import tm2scratchInsetIconURL from './tm2scratch/tm2scratch-small.png';
 
+import tmpose2scratchIconURL from './tmpose2scratch/tmpose2scratch.png';
+import tmpose2scratchInsetIconURL from './tmpose2scratch/tmpose2scratch-small.png';
+
 const extensions = [
     samlabs,
     sambot,
@@ -108,6 +111,38 @@ const extensions = [
             },
             'ko': {
                 'gui.extension.tm2scratchblocks.description': '나의 이미지와 소리를 인식해볼까요'
+            }
+        }
+    },
+    {
+        name: 'TMPose2Scratch',
+        extensionId: 'tmpose2scratch',
+        collaborator: 'Tsukurusha, YengawaLab and Google',
+        iconURL: tmpose2scratchIconURL,
+        insetIconURL: tmpose2scratchInsetIconURL,
+        description: (
+            <FormattedMessage
+                defaultMessage="Recognize your own poses."
+                description="Recognize your own poses."
+                id="gui.extension.tmpose2scratchblocks.description"
+            />
+        ),
+        featured: true,
+        disabled: false,
+        internetConnectionRequired: true,
+        bluetoothRequired: false,
+        translationMap: {
+            'ja': {
+                'gui.extension.tmpose2scratchblocks.description': 'ポーズを学習させよう。'
+            },
+            'ja-Hira': {
+                'gui.extension.tmpose2scratchblocks.description': 'ポーズをがくしゅうさせよう。'
+            },
+            'en': {
+                'gui.extension.tmpose2scratchblocks.description': 'Recognize your own poses.'
+            },
+            'ko': {
+                'gui.extension.tmpose2scratchblocks.description': '나의 몸동작 포즈를 인식해볼까요'
             }
         }
     },

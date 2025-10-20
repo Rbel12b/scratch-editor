@@ -135,5 +135,6 @@ dist
 .pnp.*
 
 packages/scratch-gui/tm2scratch
+packages/scratch-gui/tmpose2scratch
 .npmrc
 .vscode/launch.json

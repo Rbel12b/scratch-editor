@@ -27,6 +27,7 @@ const builtinExtensions = {
     gdxfor: () => require('../extensions/scratch3_gdx_for'),
     root: () => require('../extensions/root'),
     tm2scratch: () => require('../extensions/scratch3_tm2scratch'),
+    tmpose2scratch: () => require('../extensions/scratch3_tmpose2scratch'),
     pasco: () => require('../extensions/pasco')
 };
 
