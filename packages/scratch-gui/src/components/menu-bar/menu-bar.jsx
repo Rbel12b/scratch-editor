@@ -383,6 +383,9 @@ class MenuBar extends React.Component {
             this.props.onRequestCloseAbout();
         };
     }
+    handleOpenTMsite () {
+        window.open('https://teachablemachine.withgoogle.com/', '_blank');
+    }
     render () {
         const saveNowMessage = (
             <FormattedMessage
@@ -886,6 +889,10 @@ class MenuBar extends React.Component {
                 </div>
 
                 {aboutButton}
+
+                <Button onClick={this.handleOpenTMsite}>
+                    {'Teachable Machine'}
+                </Button>
             </Box>
         );
     }
