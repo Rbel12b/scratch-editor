@@ -258,6 +258,7 @@ class LibraryComponent extends React.Component {
             extensionId={data.extensionId}
             extensionURL={data.extensionURL}
             featured={data.featured}
+            helpLink={data.helpLink}
             hidden={data.hidden}
             icons={icons}
             id={key}

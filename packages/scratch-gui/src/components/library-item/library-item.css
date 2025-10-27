@@ -185,6 +185,16 @@
     margin-right: 0.25rem;
 }
 
+.featured-extension-help {
+    padding-right: 1.25rem;
+    font-size: 12px;
+}
+
+.featured-extension-url {
+    padding-right: 1.25rem;
+    font-size: 9px;
+}
+
 .coming-soon-text {
     position: absolute;
     background-color: $data-primary;

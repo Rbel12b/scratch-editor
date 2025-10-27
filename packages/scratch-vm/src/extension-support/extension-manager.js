@@ -28,7 +28,15 @@ const builtinExtensions = {
     root: () => require('../extensions/root'),
     tm2scratch: () => require('../extensions/scratch3_tm2scratch'),
     tmpose2scratch: () => require('../extensions/scratch3_tmpose2scratch'),
-    pasco: () => require('../extensions/pasco')
+    pasco: () => require('../extensions/pasco'),
+    onegpioArduino: () => require('../extensions/scratch3_onegpioArduino'),
+    onegpioRpi: () => require('../extensions/scratch3_onegpioRpi'),
+    onegpioEsp: () => require('../extensions/scratch3_onegpioEsp'),
+    onegpioPicoboard: () => require('../extensions/scratch3_onegpioPicoboard'),
+    onegpioCpx: () => require('../extensions/scratch3_onegpioCpx'),
+    onegpioRoboHAT: () => require('../extensions/scratch3_onegpioRoboHAT'),
+    onegpioRpiPico: () => require('../extensions/scratch3_onegpioRpiPico'),
+    onegpioEsp32: () => require('../extensions/scratch3_onegpioEsp32')
 };
 
 const customExtensions = {

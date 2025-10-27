@@ -96,6 +96,16 @@ class LibraryItemComponent extends React.PureComponent {
                                 rel="noreferrer"
                             >{this.props.extensionURL}</a></span>
                     ) : null}
+                    {this.props.helpLink ? (
+                        <div>
+                            <span className={styles.featuredExtensionHelp}>
+                                <a
+                                    href={this.props.helpLink}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >{'Help Link'}</a></span>
+                        </div>
+                    ) : null}
                 </div>
                 {this.props.bluetoothRequired || this.props.internetConnectionRequired || this.props.collaborator ? (
                     <div className={styles.featuredExtensionMetadata}>
@@ -195,6 +205,7 @@ LibraryItemComponent.propTypes = {
     extensionId: PropTypes.string,
     extensionURL: PropTypes.string,
     featured: PropTypes.bool,
+    helpLink: PropTypes.string,
     hidden: PropTypes.bool,
     iconSource: ScratchImage.ImageSourcePropType,
     insetIconURL: PropTypes.string,

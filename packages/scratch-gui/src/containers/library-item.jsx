@@ -119,6 +119,7 @@ class LibraryItem extends React.PureComponent {
                 extensionId={this.props.extensionId}
                 extensionURL={this.props.extensionURL}
                 featured={this.props.featured}
+                helpLink={this.props.helpLink}
                 hidden={this.props.hidden}
                 iconSource={iconSource}
                 id={this.props.id}
@@ -156,6 +157,7 @@ LibraryItem.propTypes = {
     extensionId: PropTypes.string,
     extensionURL: PropTypes.string,
     featured: PropTypes.bool,
+    helpLink: PropTypes.string,
     hidden: PropTypes.bool,
     icons: PropTypes.oneOfType([
         LibraryItemComponent.propTypes.iconSource, // single icon
