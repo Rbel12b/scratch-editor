@@ -173,6 +173,18 @@ class ExtensionBlocks {
                     }
                 },
                 {
+                    opcode: 'turnOffLED',
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'samlabs.turnOffLED',
+                        default: 'turn off [num] status LED'
+                    }),
+                    terminal: false,
+                    arguments: {
+                        num: {menu: 'deviceMenu', type: ArgumentType.NUMBER}
+                    }
+                },
+                {
                     opcode: 'setLEDRGBColor',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
@@ -198,6 +210,18 @@ class ExtensionBlocks {
                     arguments: {
                         num: {menu: 'rgbMenu', type: ArgumentType.NUMBER},
                         brightness: {defaultValue: 100, type: ArgumentType.NUMBER}
+                    }
+                },
+                {
+                    opcode: 'turnOffLEDRGB',
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'samlabs.turnOffLEDRGB',
+                        default: 'turn off RGB LED [num]'
+                    }),
+                    terminal: false,
+                    arguments: {
+                        num: {menu: 'rgbMenu', type: ArgumentType.NUMBER}
                     }
                 },
                 {
@@ -390,10 +414,31 @@ class ExtensionBlocks {
             });
     }
 
+    async setLEDBrightness (args) {
+        const block = this.getDeviceFromId(args.num);
+        if (!block) {
+            return;
+        }
+        block.statusLedBrightness = Number(args.brightness) / 100;
+        if (block.statusLedBrightness > 1) {
+            block.statusLedBrightness = 1;
+        }
+        const message = new Uint8Array([
+            block.lastStatusLEDValue[0] * block.statusLedBrightness * 2.55,
+            block.lastStatusLEDValue[1] * block.statusLedBrightness * 2.55,
+            block.lastStatusLEDValue[2] * block.statusLedBrightness * 2.55
+        ]);
+        await block.writeStatusLed(message);
+    }
+
+    turnOffLED (args) {
+        return this.setLEDColor({num: args.num, red: 0, green: 0, blue: 0});
+    }
+
     /**
-     * set a blocks status led color
-     * @param {SAMDevice} block the device
-     * @param {Uint8Array} color color in RGB format
+     * Set a block's status LED color.
+     * @param {SAMDevice} block - the device
+     * @param {{r:number,g:number,b:number}} color - color
      */
     async setBlockLedColor (block, color) {
         const message = new Uint8Array([
@@ -427,23 +472,6 @@ class ExtensionBlocks {
         await block.writeActor(message);
     }
 
-    async setLEDBrightness (args) {
-        const block = this.getDeviceFromId(args.num);
-        if (!block) {
-            return;
-        }
-        block.statusLedBrightness = Number(args.brightness) / 100;
-        if (block.statusLedBrightness > 1) {
-            block.statusLedBrightness = 1;
-        }
-        const message = new Uint8Array([
-            block.lastStatusLEDValue[0] * block.statusLedBrightness * 2.55,
-            block.lastStatusLEDValue[1] * block.statusLedBrightness * 2.55,
-            block.lastStatusLEDValue[2] * block.statusLedBrightness * 2.55
-        ]);
-        await block.writeStatusLed(message);
-    }
-
     async setLEDRGBBrightness (args) {
         const block = this.getDeviceFromId(args.num);
         if (!block) {
@@ -459,6 +487,10 @@ class ExtensionBlocks {
             block.lastActorValue[2] * 2.55 * block.brightness
         ]);
         await block.writeActor(message);
+    }
+
+    turnOffLEDRGB (args) {
+        this.setLEDRGBColor({num: args.num, red: 0, green: 0, blue: 0});
     }
 
     async setBlockMotorSpeed (args) {
