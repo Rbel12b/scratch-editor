@@ -184,6 +184,7 @@ class ExtensionBlocks {
                         num: {menu: 'deviceMenu', type: ArgumentType.NUMBER}
                     }
                 },
+                '---',
                 {
                     opcode: 'setLEDRGBColor',
                     blockType: BlockType.COMMAND,
@@ -224,6 +225,7 @@ class ExtensionBlocks {
                         num: {menu: 'rgbMenu', type: ArgumentType.NUMBER}
                     }
                 },
+                '---',
                 {
                     opcode: 'setBlockMotorSpeed',
                     blockType: BlockType.COMMAND,
@@ -250,6 +252,7 @@ class ExtensionBlocks {
                         val: {defaultValue: 180, type: ArgumentType.NUMBER}
                     }
                 },
+                '---',
                 {
                     opcode: 'getSensorValue',
                     blockType: BlockType.REPORTER,
@@ -274,6 +277,7 @@ class ExtensionBlocks {
                         num: {menu: 'buttonMenu', type: ArgumentType.NUMBER}
                     }
                 },
+                '---',
                 {
                     opcode: 'getBattery',
                     blockType: BlockType.REPORTER,
