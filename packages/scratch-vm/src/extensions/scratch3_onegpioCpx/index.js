@@ -1,3 +1,7 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-negated-condition */
+/* eslint-disable camelcase */
+/* eslint-disable no-unused-vars */
 /*
 This is the Scratch 3 extension to remotely control a
 Circuit Playground Express
@@ -41,21 +45,21 @@ let connected = false;
 let connect_attempt = false;
 
 // an array to buffer operations until socket is opened
-let wait_open = [];
+const wait_open = [];
 
 let the_locale = null;
 
 // menus
 const MENU_LIGHT_TEMPERATURE = {
     'en': ['light', 'temperature'],
-    'zh-tw':['光線', '溫度'],
-    'zh-cn':['光线', '温度'],
+    'zh-tw': ['光線', '溫度'],
+    'zh-cn': ['光线', '温度'],
     'pt': ['luminosidade', 'temperatura'],
     'pt-br': ['luminosidade', 'temperatura'],
     'fr': ['lumière', 'température'],
     'pl': ['światło', 'temperatura'],
     'ja': ['光量', '温度'],
-    'nl': ['licht', 'temperatuur'],
+    'nl': ['licht', 'temperatuur']
 };
 
 const MENU_PUSH_BUTTONS = {
@@ -67,7 +71,7 @@ const MENU_PUSH_BUTTONS = {
     'fr': ['A', 'B'],
     'pl': ['A', 'B'],
     'ja': ['A', 'B'],
-    'nl': ['A', 'B'],
+    'nl': ['A', 'B']
 };
 
 const MENU_PUSH_BUTTON_STATE = {
@@ -77,9 +81,9 @@ const MENU_PUSH_BUTTON_STATE = {
     'pt': ['pressionado', 'liberado'],
     'pt-br': ['pressionado', 'liberado'],
     'fr': ['appuyé', 'relaché'],
-    'pl': ["wciśnięty", "zwolniony"],
-    'ja': ["押下", "解放"],
-    'nl': ['ingedrukt', 'losgelaten'],
+    'pl': ['wciśnięty', 'zwolniony'],
+    'ja': ['押下', '解放'],
+    'nl': ['ingedrukt', 'losgelaten']
 };
 
 const MENU_SLIDE_SWITCH_POSITION = {
@@ -91,7 +95,7 @@ const MENU_SLIDE_SWITCH_POSITION = {
     'fr': ['gauche', 'droite'],
     'pl': ['lewo', 'prawo'],
     'ja': ['左へ', '右へ'],
-    'nl': ['links', 'rechts'],
+    'nl': ['links', 'rechts']
 };
 
 const MENU_TOUCH_PAD_STATES = {
@@ -101,9 +105,9 @@ const MENU_TOUCH_PAD_STATES = {
     'pt': ['tocado', 'liberado'],
     'pt-br': ['tocado', 'liberado'],
     'fr': ['touché', 'relaché'],
-    'pl': ["dotknięty", "zwolniony"],
-    'ja': ["接触", "解放"],
-    'nl': ['aangeraakt', 'losgelaten'],
+    'pl': ['dotknięty', 'zwolniony'],
+    'ja': ['接触', '解放'],
+    'nl': ['aangeraakt', 'losgelaten']
 };
 
 const MENU_TILT_POSITION = {
@@ -115,7 +119,7 @@ const MENU_TILT_POSITION = {
     'fr': ['horizontale', 'en haut', 'en bas', 'à gauche', 'à droite'],
     'pl': ['płasko', 'w górę', 'w dół', 'w lewo', 'w prawo'],
     'ja': ['水平', '上向', '下向', '左向', '右向'],
-    'nl': ['plat', 'boven', 'beneden', 'links', 'rechts'],
+    'nl': ['plat', 'boven', 'beneden', 'links', 'rechts']
 };
 
 const MENU_BOARD_LED = {
@@ -127,7 +131,7 @@ const MENU_BOARD_LED = {
     'fr': ['allumée', 'éteinte'],
     'pl': ['włącz', 'wyłącz'],
     'ja': ['点灯', '滅灯'],
-    'nl': ['aan', 'uit'],
+    'nl': ['aan', 'uit']
 };
 
 // HAT BLOCK DESCRIPTORS
@@ -140,7 +144,7 @@ const HAT_BUTTONS = {
     'fr': 'si [BUTTON] est [PRESSED_RELEASED]',
     'pl': 'Kiedy [BUTTON] jest [PRESSED_RELEASED]',
     'ja': '[BUTTON] が [PRESSED_RELEASED] のとき',
-    'nl': 'Als [BUTTON] wordt [PRESSED_RELEASED]',
+    'nl': 'Als [BUTTON] wordt [PRESSED_RELEASED]'
 };
 
 const HAT_SLIDE_SWITCH = {
@@ -150,9 +154,9 @@ const HAT_SLIDE_SWITCH = {
     'pt': 'Quando o botão switch mover para [LEFT_RIGHT]',
     'pt-br': 'Quando o botão switch mover para [LEFT_RIGHT]',
     'fr': "Si l'interrupteur à glissière est déplacé à [LEFT_RIGHT]",
-    'pl': "kiedy suwak jest przesunięty w [LEFT_RIGHT]",
-    'ja': "つまみスイッチが [LEFT_RIGHT] 動かされたとき",
-    'nl': 'Als schuif naar [LEFT_RIGHT] is bewogen',
+    'pl': 'kiedy suwak jest przesunięty w [LEFT_RIGHT]',
+    'ja': 'つまみスイッチが [LEFT_RIGHT] 動かされたとき',
+    'nl': 'Als schuif naar [LEFT_RIGHT] is bewogen'
 };
 
 const HAT_LIGHT_TEMPERATURE = {
@@ -164,7 +168,7 @@ const HAT_LIGHT_TEMPERATURE = {
     'fr': 'si [SENSOR] [COMPARISON] [VALUE]',
     'pl': 'Kiedy [SENSOR] [COMPARISON] [VALUE]',
     'ja': '[SENSOR] が [COMPARISON] [VALUE] のとき',
-    'nl': 'Als [SENSOR] [COMPARISON] [VALUE]',
+    'nl': 'Als [SENSOR] [COMPARISON] [VALUE]'
 };
 
 const HAT_TILTED = {
@@ -176,7 +180,7 @@ const HAT_TILTED = {
     'fr': 'Si la carte CPX est [TILT_POSITION]',
     'pl': 'Kiedy pozycja CPX jest [TILT_POSITION]',
     'ja': 'CPX の姿勢が [TILT_POSITION] のとき',
-    'nl': 'Als CPX positie [TILT_POSITION] is',
+    'nl': 'Als CPX positie [TILT_POSITION] is'
 };
 
 const HAT_LOUD_SOUND = {
@@ -188,7 +192,7 @@ const HAT_LOUD_SOUND = {
     'fr': 'Si un son fort est détecté',
     'pl': 'Kiedy wykryto głośny dźwięk',
     'ja': '大音量が検出されたとき',
-    'nl': 'Als een hard geluid wordt gedetecteerd',
+    'nl': 'Als een hard geluid wordt gedetecteerd'
 };
 
 const HAT_TOUCHPAD = {
@@ -200,7 +204,7 @@ const HAT_TOUCHPAD = {
     'fr': 'Si le touchpad [TOUCHPAD] est [TOUCH_STATE]',
     'pl': 'Kiedy panel dotykowy [TOUCHPAD] jest [TOUCH_STATE]',
     'ja': 'タッチパッド [TOUCHPAD] が [TOUCH_STATE] のとき',
-    'nl': 'Als touchpad [TOUCHPAD] wordt [TOUCH_STATE]',
+    'nl': 'Als touchpad [TOUCHPAD] wordt [TOUCH_STATE]'
 };
 
 // boolean blocks
@@ -213,7 +217,7 @@ const BOOL_AB_SWITCH = {
     'fr': '[BUTTON] [PRESSED_RELEASED]',
     'pl': '[BUTTON] [PRESSED_RELEASED]',
     'ja': '[BUTTON] が [PRESSED_RELEASED]',
-    'nl': '[BUTTON] [PRESSED_RELEASED]',
+    'nl': '[BUTTON] [PRESSED_RELEASED]'
 };
 
 const BOOL_SLIDE_SWITCH = {
@@ -225,7 +229,7 @@ const BOOL_SLIDE_SWITCH = {
     'fr': 'interrupteur à glissière à [LEFT_RIGHT]',
     'pl': 'suwak na [LEFT_RIGHT]',
     'ja': '[LEFT_RIGHT] のつまみスイッチ',
-    'nl': 'schuif staat naar [LEFT_RIGHT]',
+    'nl': 'schuif staat naar [LEFT_RIGHT]'
 
 };
 
@@ -238,7 +242,7 @@ const BOOL_LIGHT_TEMP = {
     'fr': '[SENSOR] est [COMPARISON] [VALUE]',
     'pl': '[SENSOR] jest [COMPARISON] [VALUE]',
     'ja': '[SENSOR] が [COMPARISON] [VALUE]',
-    'nl': '[SENSOR] is [COMPARISON] [VALUE]',
+    'nl': '[SENSOR] is [COMPARISON] [VALUE]'
 };
 
 const BOOL_TILTED = {
@@ -250,7 +254,7 @@ const BOOL_TILTED = {
     'fr': 'La carte CPX est [TILT_POSITION]',
     'pl': 'pozycja CPX jest [TILT_POSITION]',
     'ja': 'CPX の姿勢が [TILT_POSITION]',
-    'nl': 'CPX positie staat naar [TILT_POSITION]',
+    'nl': 'CPX positie staat naar [TILT_POSITION]'
 };
 
 const BOOL_TOUCH_PAD = {
@@ -262,7 +266,7 @@ const BOOL_TOUCH_PAD = {
     'fr': 'le touchpad [TOUCHPAD] est [TOUCH_STATE]',
     'pl': 'panel dotykowy [TOUCHPAD] jest [TOUCH_STATE]',
     'ja': 'タッチパッド [TOUCHPAD] が [TOUCH_STATE]',
-    'nl': 'touchpad [TOUCHPAD] wordt [TOUCH_STATE]',
+    'nl': 'touchpad [TOUCHPAD] wordt [TOUCH_STATE]'
 };
 
 const REPORTER_AB_SWITCH = {
@@ -274,7 +278,7 @@ const REPORTER_AB_SWITCH = {
     'fr': 'Bouton [BUTTON]',
     'pl': 'Przycisk [BUTTON]',
     'ja': 'ボタン [BUTTON]',
-    'nl': 'Knop [BUTTON]',
+    'nl': 'Knop [BUTTON]'
 };
 
 const REPORTER_SLIDE_SWITCH = {
@@ -286,7 +290,7 @@ const REPORTER_SLIDE_SWITCH = {
     'fr': 'Interrupteur à glissière',
     'pl': 'Suwak',
     'ja': 'つまみスイッチ',
-    'nl': 'Schuif',
+    'nl': 'Schuif'
 
 };
 
@@ -299,7 +303,7 @@ const REPORTER_LIGHT_TEMP = {
     'fr': '[SENSOR]',
     'pl': '[SENSOR]',
     'ja': '[SENSOR]',
-    'nl': '[SENSOR]',
+    'nl': '[SENSOR]'
 };
 
 const REPORTER_TILT = {
@@ -311,7 +315,7 @@ const REPORTER_TILT = {
     'fr': 'La carte CPX est [TILT_POSITION]',
     'pl': 'pozycja CPX jest [TILT_POSITION]',
     'ja': 'CPX の姿勢が [TILT_POSITION]',
-    'nl': 'CPX positie staat naar [TILT_POSITION]',
+    'nl': 'CPX positie staat naar [TILT_POSITION]'
 };
 
 const REPORTER_TOUCHPAD = {
@@ -323,7 +327,7 @@ const REPORTER_TOUCHPAD = {
     'fr': 'le touchpad [TOUCHPAD]',
     'pl': 'płytka dotykowa [TOUCHPAD]',
     'ja': 'タッチパッド [TOUCHPAD]',
-    'nl': 'touchpad [TOUCHPAD]',
+    'nl': 'touchpad [TOUCHPAD]'
 
 };
 
@@ -337,7 +341,7 @@ const COMMAND_SET_PIXEL = {
     'fr': 'Pixel [NEOPIXEL] R [RED] V [GREEN] B [BLUE]',
     'pl': 'Pixel [NEOPIXEL] R [RED] G [GREEN] B [BLUE]',
     'ja': 'カラー LED [NEOPIXEL] を R [RED] G [GREEN] B [BLUE] に',
-    'nl': 'Pixel [NEOPIXEL] R [RED] G [GREEN] B [BLUE]',
+    'nl': 'Pixel [NEOPIXEL] R [RED] G [GREEN] B [BLUE]'
 };
 
 const COMMAND_TONE = {
@@ -349,7 +353,7 @@ const COMMAND_TONE = {
     'fr': 'Son [FREQ] Hz [DURATION] ms',
     'pl': 'Dźwięk [FREQ] Hz [DURATION] ms',
     'ja': '音調を [FREQ] Hz [DURATION] ms に',
-    'nl': 'Toon [FREQ] Hz [DURATION] ms',
+    'nl': 'Toon [FREQ] Hz [DURATION] ms'
 
 };
 
@@ -362,35 +366,45 @@ const COMMAND_BOARD_LED = {
     'fr': 'LED D13 [LED_STATE]',
     'pl': 'Dioda LED płytki [LED_STATE]',
     'ja': 'ボード LED を [LED_STATE] に',
-    'nl': 'LED D13 [LED_STATE]',
+    'nl': 'LED D13 [LED_STATE]'
 };
 
 const FormWSClosed = {
-    'en': "WebSocket Connection Is Closed.",
-    'zh-tw': "硬體連線中斷",
-    'zh-cn': "硬件连接中断",
-    'pt': "A Conexão do WebSocket está fechada.",
-    'pt-br': "A Conexão do WebSocket está fechada.",
-    'fr': "La connexion au WebSocket est fermée.",
-    'pl': "Połączenie WebSocket jest zamknięte.",
-    'ja': "ウェブソケット接続が切断されています",
-    'nl': "WebSocket connectie is afgesloten.",
+    'en': 'WebSocket Connection Is Closed.',
+    'zh-tw': '硬體連線中斷',
+    'zh-cn': '硬件连接中断',
+    'pt': 'A Conexão do WebSocket está fechada.',
+    'pt-br': 'A Conexão do WebSocket está fechada.',
+    'fr': 'La connexion au WebSocket est fermée.',
+    'pl': 'Połączenie WebSocket jest zamknięte.',
+    'ja': 'ウェブソケット接続が切断されています',
+    'nl': 'WebSocket connectie is afgesloten.'
 };
 
-let data_store = {
-    'a': 0, 'b': 0, 'light': 0, 'temp': 0.0,
-    'slide': 1, 'sound': 0, 'tilted': [0, 0],
-    'touch1': 0, 'touch2': 0, 'touch3': 0, 'touch4': 0,
-    'touch5': 0, 'touch6': 0, 'touch7': 0
+const data_store = {
+    a: 0,
+    b: 0,
+    light: 0,
+    temp: 0.0,
+    slide: 1,
+    sound: 0,
+    tilted: [0, 0],
+    touch1: 0,
+    touch2: 0,
+    touch3: 0,
+    touch4: 0,
+    touch5: 0,
+    touch6: 0,
+    touch7: 0
 };
 
 class Scratch3CpxOneGPIO {
-    constructor(runtime) {
+    constructor (runtime) {
         the_locale = this._setLocale();
         this.runtime = runtime;
     }
 
-    getInfo() {
+    getInfo () {
         the_locale = this._setLocale();
         // connect to the websocket server
         this.connect();
@@ -400,6 +414,7 @@ class Scratch3CpxOneGPIO {
             color1: '#0C5986',
             color2: '#34B0F7',
             name: 'OneGpio Playground Express',
+            // eslint-disable-next-line max-len
             blockIconURI: 'data:image/png;base64,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',
             blocks: [
                 {
@@ -416,7 +431,7 @@ class Scratch3CpxOneGPIO {
                             type: ArgumentType.STRING,
                             defaultValue: MENU_PUSH_BUTTON_STATE[the_locale][0],
                             menu: 'pushButtonStates'
-                        },
+                        }
                     }
                 },
                 {
@@ -428,7 +443,7 @@ class Scratch3CpxOneGPIO {
                             type: ArgumentType.STRING,
                             defaultValue: MENU_SLIDE_SWITCH_POSITION[the_locale][0],
                             menu: 'slidePositions'
-                        },
+                        }
                     }
                 },
                 {
@@ -446,7 +461,7 @@ class Scratch3CpxOneGPIO {
                 {
                     opcode: 'hat_loud_sound',
                     blockType: BlockType.HAT,
-                    text: HAT_LOUD_SOUND[the_locale],
+                    text: HAT_LOUD_SOUND[the_locale]
                 },
                 {
                     opcode: 'hat_touchpad',
@@ -462,7 +477,7 @@ class Scratch3CpxOneGPIO {
                             type: ArgumentType.STRING,
                             defaultValue: MENU_TOUCH_PAD_STATES[the_locale][0],
                             menu: 'touchPadStates'
-                        },
+                        }
                     }
                 },
                 '---',
@@ -480,7 +495,7 @@ class Scratch3CpxOneGPIO {
                             type: ArgumentType.STRING,
                             defaultValue: MENU_PUSH_BUTTON_STATE[the_locale][0],
                             menu: 'pushButtonStates'
-                        },
+                        }
                     }
                 },
                 {
@@ -500,7 +515,7 @@ class Scratch3CpxOneGPIO {
                         },
                         VALUE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 0,
+                            defaultValue: 0
                         }
                     }
                 },
@@ -530,7 +545,7 @@ class Scratch3CpxOneGPIO {
                             type: ArgumentType.STRING,
                             defaultValue: MENU_TOUCH_PAD_STATES[the_locale][0],
                             menu: 'touchPadStates'
-                        },
+                        }
                     }
                 },
                 '---',
@@ -558,20 +573,20 @@ class Scratch3CpxOneGPIO {
                         NEOPIXEL: {
                             type: ArgumentType.NUMBER,
                             defaultValue: '1',
-                            menu: "neopixels"
+                            menu: 'neopixels'
                         },
                         RED: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: '128',
+                            defaultValue: '128'
                         },
                         GREEN: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: '128',
+                            defaultValue: '128'
                         },
                         BLUE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: '128',
-                        },
+                            defaultValue: '128'
+                        }
                     }
                 },
                 {
@@ -582,20 +597,20 @@ class Scratch3CpxOneGPIO {
                     arguments: {
                         FREQ: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: '1000',
+                            defaultValue: '1000'
                         },
                         DURATION: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: '500',
+                            defaultValue: '500'
                         },
                         GREEN: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: '128',
+                            defaultValue: '128'
                         },
                         BLUE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: '128',
-                        },
+                            defaultValue: '128'
+                        }
                     }
                 },
                 {
@@ -610,7 +625,7 @@ class Scratch3CpxOneGPIO {
                             menu: 'boardLedStates'
                         }
                     }
-                },
+                }
 
 
             ],
@@ -625,44 +640,44 @@ class Scratch3CpxOneGPIO {
                 boardLedStates: 'getAllBoardLedStates',
                 neopixels:
                     {
-                        items: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                        items: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
                     },
                 touchpads: {
-                    items: ['1', '2', '3', '4', '5', '6', '7',]
+                    items: ['1', '2', '3', '4', '5', '6', '7']
                 },
                 compare: {
                     items: ['>', '<']
-                },
+                }
             }
         };
     }
 
-    getAllPushButtons() {
+    getAllPushButtons () {
         return MENU_PUSH_BUTTONS[the_locale];
     }
 
-    getAllLightTemperature() {
+    getAllLightTemperature () {
         return MENU_LIGHT_TEMPERATURE[the_locale];
     }
 
-    getAllPushButtonStates() {
+    getAllPushButtonStates () {
         return MENU_PUSH_BUTTON_STATE[the_locale];
     }
 
-    getAllSlidePositions() {
+    getAllSlidePositions () {
         return MENU_SLIDE_SWITCH_POSITION[the_locale];
     }
 
-    getAllTouchPadStates() {
+    getAllTouchPadStates () {
         return MENU_TOUCH_PAD_STATES[the_locale];
     }
 
-    getAllTiltPostions() {
+    getAllTiltPostions () {
         return MENU_TILT_POSITION[the_locale];
     }
 
-    getAllBoardLedStates() {
+    getAllBoardLedStates () {
         return MENU_BOARD_LED[the_locale];
     }
 
@@ -670,7 +685,7 @@ class Scratch3CpxOneGPIO {
 
     // command blocks
 
-    hat_button_pressed(args) {
+    hat_button_pressed (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -680,32 +695,28 @@ class Scratch3CpxOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.hat_button_pressed.bind(this), args];
+            const callbackEntry = [this.hat_button_pressed.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            if (args['BUTTON'] === this.getAllPushButtons()[0]) {
-                if (args['PRESSED_RELEASED'] === this.getAllPushButtonStates()[0]) {
-                    return data_store['a'] === 1;
-                } else {
-                    if (args['PRESSED_RELEASED'] === this.getAllPushButtonStates()[1]) {
-                        return data_store['a'] === 0;
-                    }
+            if (args.BUTTON === this.getAllPushButtons()[0]) {
+                if (args.PRESSED_RELEASED === this.getAllPushButtonStates()[0]) {
+                    return data_store.a === 1;
+                } else if (args.PRESSED_RELEASED === this.getAllPushButtonStates()[1]) {
+                    return data_store.a === 0;
                 }
             }
             // for button b
-            if (args['BUTTON'] === this.getAllPushButtons()[1]) {
-                if (args['PRESSED_RELEASED'] === this.getAllPushButtonStates()[0]) {
-                    return data_store['b'] === 1;
-                } else {
-                    if (args['PRESSED_RELEASED'] === this.getAllPushButtonStates()[1]) {
-                        return data_store['b'] === 0;
-                    }
+            if (args.BUTTON === this.getAllPushButtons()[1]) {
+                if (args.PRESSED_RELEASED === this.getAllPushButtonStates()[0]) {
+                    return data_store.b === 1;
+                } else if (args.PRESSED_RELEASED === this.getAllPushButtonStates()[1]) {
+                    return data_store.b === 0;
                 }
             }
         }
     }
 
-    hat_slide_moved(args) {
+    hat_slide_moved (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -715,22 +726,22 @@ class Scratch3CpxOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.hat_slide_moved.bind(this), args];
+            const callbackEntry = [this.hat_slide_moved.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let item_index = this.getAllSlidePositions().indexOf(args['LEFT_RIGHT']);
+            let item_index = this.getAllSlidePositions().indexOf(args.LEFT_RIGHT);
             item_index = parseInt(item_index, 10);
 
             // testing for pressed
             if (item_index === 0) {
-                return data_store['slide'] === 1;
-            } else {
-                return data_store['slide'] === 0;
+                return data_store.slide === 1;
             }
+            return data_store.slide === 0;
+
         }
     }
 
-    hat_tilted(args) {
+    hat_tilted (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -738,29 +749,29 @@ class Scratch3CpxOneGPIO {
             }
         }
         if (!connected) {
-            let callbackEntry = [this.hat_tilted.bind(this), args];
+            const callbackEntry = [this.hat_tilted.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let current_position = data_store['tilted'];
-            let sensor_text = args['TILT_POSITION'];
+            const current_position = data_store.tilted;
+            const sensor_text = args.TILT_POSITION;
             // get its index in the list of menu items
             let item_index = this.getAllTiltPostions().indexOf(sensor_text);
             item_index = parseInt(item_index, 10);
             // get index for the block position
             // ['flat', 'up', 'down', 'left', 'right',],
-            if (item_index === 0 && data_store['tilted'][0] === 0) { // flat
+            if (item_index === 0 && data_store.tilted[0] === 0) { // flat
                 return true;
-            } else if (item_index === 1 && data_store['tilted'][0] === 1) { // up
+            } else if (item_index === 1 && data_store.tilted[0] === 1) { // up
                 return true;
-            } else if (item_index === 2 && data_store['tilted'][0] === 2) { // down
+            } else if (item_index === 2 && data_store.tilted[0] === 2) { // down
                 return true;
-            } else if (item_index === 3 && data_store['tilted'][1] === 3) { // down
+            } else if (item_index === 3 && data_store.tilted[1] === 3) { // down
                 return true;
-            } else if (item_index === 4 && data_store['tilted'][1] === 4) { // down
+            } else if (item_index === 4 && data_store.tilted[1] === 4) { // down
                 return true;
-            } else {
-                return false;
             }
+            return false;
+
         }
     }
 
@@ -774,14 +785,14 @@ class Scratch3CpxOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.hat_loud_sound.bind(this), args];
+            const callbackEntry = [this.hat_loud_sound.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            return data_store['sound'] > 540;
+            return data_store.sound > 540;
         }
     }
 
-    hat_touchpad(args) {
+    hat_touchpad (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -790,50 +801,50 @@ class Scratch3CpxOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.hat_touchpad.bind(this), args];
+            const callbackEntry = [this.hat_touchpad.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let touchpad = parseInt(args['TOUCHPAD'], 10);
-            let state = args['TOUCH_STATE'];
-            let index = this.getAllTouchPadStates().indexOf(state);
+            const touchpad = parseInt(args.TOUCHPAD, 10);
+            const state = args.TOUCH_STATE;
+            const index = this.getAllTouchPadStates().indexOf(state);
             let current_state = 0;
             switch (touchpad) {
-                case 1:
-                    current_state = data_store['touch1'];
-                    break;
-                case 2:
-                    current_state = data_store['touch2'];
-                    break;
-                case 3:
-                    current_state = data_store['touch3'];
-                    break;
-                case 4:
-                    current_state = data_store['touch4'];
-                    break;
-                case 5:
-                    current_state = data_store['touch5'];
-                    break;
-                case 6:
-                    current_state = data_store['touch6'];
-                    break;
-                case 7:
-                    current_state = data_store['touch7'];
-                    break;
-                default:
-                    break;
+            case 1:
+                current_state = data_store.touch1;
+                break;
+            case 2:
+                current_state = data_store.touch2;
+                break;
+            case 3:
+                current_state = data_store.touch3;
+                break;
+            case 4:
+                current_state = data_store.touch4;
+                break;
+            case 5:
+                current_state = data_store.touch5;
+                break;
+            case 6:
+                current_state = data_store.touch6;
+                break;
+            case 7:
+                current_state = data_store.touch7;
+                break;
+            default:
+                break;
             }
-            if (index === 0 && current_state) { //touched and touched selected
+            if (index === 0 && current_state) { // touched and touched selected
                 return true;
-            } else if (index === 1 && !current_state) { //released and released selected
+            } else if (index === 1 && !current_state) { // released and released selected
                 return true;
-            } else {
-                return false;
             }
+            return false;
+
         }
     }
 
 
-    bool_button_pressed(args) {
+    bool_button_pressed (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -842,33 +853,29 @@ class Scratch3CpxOneGPIO {
 
         }
         if (!connected) {
-            let callbackEntry = [this.bool_button_pressed.bind(this), args];
+            const callbackEntry = [this.bool_button_pressed.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
             // for button a
-            if (args['BUTTON'] === this.getAllPushButtons()[0]) {
-                if (args['PRESSED_RELEASED'] === this.getAllPushButtonStates()[0]) {
-                    return data_store['a'] === 1;
-                } else {
-                    if (args['PRESSED_RELEASED'] === this.getAllPushButtonStates()[1]) {
-                        return data_store['a'] === 0;
-                    }
+            if (args.BUTTON === this.getAllPushButtons()[0]) {
+                if (args.PRESSED_RELEASED === this.getAllPushButtonStates()[0]) {
+                    return data_store.a === 1;
+                } else if (args.PRESSED_RELEASED === this.getAllPushButtonStates()[1]) {
+                    return data_store.a === 0;
                 }
             }
             // for button b
-            if (args['BUTTON'] === this.getAllPushButtons()[1]) {
-                if (args['PRESSED_RELEASED'] === this.getAllPushButtonStates()[0]) {
-                    return data_store['b'] === 1;
-                } else {
-                    if (args['PRESSED_RELEASED'] === this.getAllPushButtonStates()[1]) {
-                        return data_store['b'] === 0;
-                    }
+            if (args.BUTTON === this.getAllPushButtons()[1]) {
+                if (args.PRESSED_RELEASED === this.getAllPushButtonStates()[0]) {
+                    return data_store.b === 1;
+                } else if (args.PRESSED_RELEASED === this.getAllPushButtonStates()[1]) {
+                    return data_store.b === 0;
                 }
             }
         }
     }
 
-    bool_light_temp_comparison(args) {
+    bool_light_temp_comparison (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -878,26 +885,26 @@ class Scratch3CpxOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.bool_light_temp_comparison.bind(this), args];
+            const callbackEntry = [this.bool_light_temp_comparison.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
             let current_value = 0;
-            let comp_type = args['COMPARISON'];
-            let comp_value = args['VALUE'];
-            if (args['SENSOR'] === this.getAllLightTemperature()[0]) {
-                current_value = data_store['light'];
+            const comp_type = args.COMPARISON;
+            const comp_value = args.VALUE;
+            if (args.SENSOR === this.getAllLightTemperature()[0]) {
+                current_value = data_store.light;
             } else {
-                current_value = data_store['temp']
+                current_value = data_store.temp;
             }
             if (comp_type === '>') {
                 return current_value > comp_value;
-            } else {
-                return current_value < comp_value;
             }
+            return current_value < comp_value;
+
         }
     }
 
-    bool_tilted(args) {
+    bool_tilted (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -907,35 +914,35 @@ class Scratch3CpxOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.bool_tilted.bind(this), args];
+            const callbackEntry = [this.bool_tilted.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
             // get the current position
-            let current_position = data_store['tilted'];
-            let sensor_text = args['TILT_POSITION'];
+            const current_position = data_store.tilted;
+            const sensor_text = args.TILT_POSITION;
             // get its index in the list of menu items
             let item_index = this.getAllTiltPostions().indexOf(sensor_text);
             item_index = parseInt(item_index, 10);
             // get index for the block position
             // ['flat', 'up', 'down', 'left', 'right',],
             if (item_index === 0) { // flat
-                return data_store['tilted'][0] === 0 &&
-                    data_store['tilted'][1] === 0;
-            } else if (item_index === 1) { //up
-                return data_store['tilted'][0] === 1;
-            } else if (item_index === 2) { //down
-                return data_store['tilted'][0] === 2;
+                return data_store.tilted[0] === 0 &&
+                    data_store.tilted[1] === 0;
+            } else if (item_index === 1) { // up
+                return data_store.tilted[0] === 1;
+            } else if (item_index === 2) { // down
+                return data_store.tilted[0] === 2;
 
-            } else if (item_index === 3) { //left
-                return data_store['tilted'][1] === 3;
-            } else if (item_index === 4) { //left
-                return data_store['tilted'][1] === 4;
+            } else if (item_index === 3) { // left
+                return data_store.tilted[1] === 3;
+            } else if (item_index === 4) { // left
+                return data_store.tilted[1] === 4;
 
             }
         }
     }
 
-    bool_touch_pad(args) {
+    bool_touch_pad (args) {
 
         if (!connected) {
             if (!connection_pending) {
@@ -946,48 +953,48 @@ class Scratch3CpxOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.bool_touchpad.bind(this), args];
+            const callbackEntry = [this.bool_touchpad.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let touchpad = parseInt(args['TOUCHPAD'], 10);
+            const touchpad = parseInt(args.TOUCHPAD, 10);
             let value = false;
 
             switch (touchpad) {
-                case 1:
-                    value = data_store['touch1'];
-                    break;
-                case 2:
-                    value = data_store['touch2'];
-                    break;
-                case 3:
-                    value = data_store['touch3'];
-                    break;
-                case 4:
-                    value = data_store['touch4'];
-                    break;
-                case 5:
-                    value = data_store['touch5'];
-                    break;
-                case 6:
-                    value = data_store['touch6'];
-                    break;
-                case 7:
-                    value = data_store['touch7'];
-                    break;
-                default:
-                    console.log('bool_touch_pad unexpected pad value', touchpad);
-                    break;
+            case 1:
+                value = data_store.touch1;
+                break;
+            case 2:
+                value = data_store.touch2;
+                break;
+            case 3:
+                value = data_store.touch3;
+                break;
+            case 4:
+                value = data_store.touch4;
+                break;
+            case 5:
+                value = data_store.touch5;
+                break;
+            case 6:
+                value = data_store.touch6;
+                break;
+            case 7:
+                value = data_store.touch7;
+                break;
+            default:
+                console.log('bool_touch_pad unexpected pad value', touchpad);
+                break;
             }
-            if (args['TOUCH_STATE'] === this.getAllTouchPadStates()[0]) {
+            if (args.TOUCH_STATE === this.getAllTouchPadStates()[0]) {
                 return Boolean(value);
-            } else {
-                return Boolean(value ^ 1);
             }
+            return Boolean(value ^ 1);
+
         }
     }
 
 
-    reporter_light_temp(args) {
+    reporter_light_temp (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -997,19 +1004,19 @@ class Scratch3CpxOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.reporter_light_temp.bind(this), args];
+            const callbackEntry = [this.reporter_light_temp.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
             // test for light
-            if (args['SENSOR'] === this.getAllLightTemperature()[0]) {
-                return data_store['light'];
-            } else {
-                return data_store['temp']
+            if (args.SENSOR === this.getAllLightTemperature()[0]) {
+                return data_store.light;
             }
+            return data_store.temp;
+
         }
     }
 
-    command_pixel_write(args) {
+    command_pixel_write (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -1019,29 +1026,29 @@ class Scratch3CpxOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.command_pixel_write.bind(this), args];
+            const callbackEntry = [this.command_pixel_write.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let pixel = args['NEOPIXEL'];
+            let pixel = args.NEOPIXEL;
             pixel = parseInt(pixel, 10);
             pixel -= 1;
 
-            let red = args['RED'];
+            let red = args.RED;
             red = parseInt(red, 10);
 
-            let green = args['GREEN'];
+            let green = args.GREEN;
             green = parseInt(green, 10);
 
-            let blue = args['BLUE'];
+            let blue = args.BLUE;
             blue = parseInt(blue, 10);
 
-            msg = {"command": 'pixel', 'pixel': pixel, 'red': red, 'green': green, 'blue': blue};
+            msg = {command: 'pixel', pixel: pixel, red: red, green: green, blue: blue};
             msg = JSON.stringify(msg);
             window.socketx.send(msg);
         }
     }
 
-    command_tone(args) {
+    command_tone (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -1050,26 +1057,26 @@ class Scratch3CpxOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.tone_on.bind(this), args];
+            const callbackEntry = [this.tone_on.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let freq = args['FREQ'];
+            let freq = args.FREQ;
             freq = parseInt(freq, 10);
-            let duration = args['DURATION'];
+            let duration = args.DURATION;
             duration = parseInt(duration, 10);
             // make sure duration maximum is 5 seconds
             if (duration > 5000) {
                 duration = 5000;
             }
 
-            msg = {"command": 'play_tone', 'pin': 99, 'freq': freq, 'duration': duration};
+            msg = {command: 'play_tone', pin: 99, freq: freq, duration: duration};
             msg = JSON.stringify(msg);
             window.socketx.send(msg);
 
         }
     }
 
-    command_board_led(args) {
+    command_board_led (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -1078,20 +1085,22 @@ class Scratch3CpxOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.command_board_led.bind(this), args];
+            const callbackEntry = [this.command_board_led.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
 
-            let state = args['LED_STATE'];
+            const state = args.LED_STATE;
             let item_index = this.getAllBoardLedStates().indexOf(state);
             item_index = parseInt(item_index, 10);
+
+            let value = 0;
 
             if (item_index === 0) {
                 value = 1;
             } else {
                 value = 0;
             }
-            msg = {"command": 'digital_write', 'pin': 13, 'value': value};
+            msg = {command: 'digital_write', pin: 13, value: value};
             msg = JSON.stringify(msg);
             window.socketx.send(msg);
 
@@ -1100,51 +1109,50 @@ class Scratch3CpxOneGPIO {
 
     // end of block handlers
 
-    _setLocale() {
+    _setLocale () {
         let now_locale = '';
         switch (formatMessage.setup().locale) {
-            case 'en':
-                now_locale = 'en';
-                break;
-            case 'zh-tw':
-                now_locale= 'zh-tw';
-                break;
-            case 'zh-cn':
-                now_locale= 'zh-cn';
-                break;
-            case 'pt-br':
-            case 'pt':
-                now_locale='pt-br';
-                break;
-            case 'fr':
-                now_locale='fr';
-                break;
-            case 'pl':
-                now_locale='pl';
-                break;
-            case 'ja':
-                now_locale='ja';
-                break;
-            case 'nl':
-                now_locale='nl';
-                break;
-            default:
-                now_locale = 'en';
-                break;
+        case 'en':
+            now_locale = 'en';
+            break;
+        case 'zh-tw':
+            now_locale = 'zh-tw';
+            break;
+        case 'zh-cn':
+            now_locale = 'zh-cn';
+            break;
+        case 'pt-br':
+        case 'pt':
+            now_locale = 'pt-br';
+            break;
+        case 'fr':
+            now_locale = 'fr';
+            break;
+        case 'pl':
+            now_locale = 'pl';
+            break;
+        case 'ja':
+            now_locale = 'ja';
+            break;
+        case 'nl':
+            now_locale = 'nl';
+            break;
+        default:
+            now_locale = 'en';
+            break;
         }
         return now_locale;
     }
 
     // helpers
-    connect() {
+    connect () {
         if (connected) {
             // ignore additional connection attempts
             return;
-        } else {
-            connect_attempt = true;
-            window.socketx = new WebSocket("ws://127.0.0.1:9003");
-            msg = JSON.stringify({"id": "to_cpx_gateway"});
         }
+        connect_attempt = true;
+        window.socketx = new WebSocket('ws://127.0.0.1:9003');
+        msg = JSON.stringify({id: 'to_cpx_gateway'});
 
 
         // websocket event handlers
@@ -1154,14 +1162,14 @@ class Scratch3CpxOneGPIO {
             connect_attempt = true;
             // the message is built above
             try {
-                //ws.send(msg);
+                // ws.send(msg);
                 window.socketx.send(msg);
 
             } catch (err) {
                 // ignore this exception
             }
             for (let index = 0; index < wait_open.length; index++) {
-                let data = wait_open[index];
+                const data = wait_open[index];
                 data[0](data[1]);
             }
         };
@@ -1178,10 +1186,10 @@ class Scratch3CpxOneGPIO {
         // reporter messages from the board
         window.socketx.onmessage = function (message) {
             msg = JSON.parse(message.data);
-            let report_type = msg['report'];
+            const report_type = msg.report;
 
             // set the incoming value in the data store
-            data_store[report_type] = msg['value'];
+            data_store[report_type] = msg.value;
         };
     }
 }

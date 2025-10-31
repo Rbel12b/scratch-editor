@@ -108,7 +108,7 @@ const Message = {
         'ja': 'ビデオを[VIDEO_STATE]にする',
         'ja-Hira': 'ビデオを[VIDEO_STATE]にする',
         'en': 'turn video [VIDEO_STATE]',
-        'ko':'비디오 화면 [VIDEO_STATE]',
+        'ko': '비디오 화면 [VIDEO_STATE]',
         'zh-cn': '[VIDEO_STATE]摄像头'
     },
     on: {
@@ -160,7 +160,7 @@ class Scratch3TMPose2ScratchBlocks {
 
         // To avoid the problem of the library not loading the first time,
         // we load scripts synchronously.
-        const loadScriptSynchronously = (url) => {
+        const loadScriptSynchronously = url => {
             const request = new XMLHttpRequest();
             request.open('GET', url, false);
             request.send(null);

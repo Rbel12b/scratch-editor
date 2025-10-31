@@ -1,3 +1,6 @@
+/* eslint-disable no-negated-condition */
+/* eslint-disable no-unused-vars */
+/* eslint-disable camelcase */
 /*
 This is the Scratch 3 extension to remotely control an
 Arduino Uno, ESP-8666, or Raspberry Pi
@@ -41,7 +44,7 @@ require('sweetalert');
 // this is common to all board types since it contains enough
 // entries for all the boards.
 // Modes are listed above - initialize to invalid mode of -1
-let pin_modes = new Array(30).fill(-1);
+const pin_modes = new Array(30).fill(-1);
 
 // has an websocket message already been received
 let alerted = false;
@@ -59,15 +62,15 @@ let sonar_report_pin = -1;
 let connected = false;
 
 // arrays to hold input values
-let digital_inputs = new Array(32);
-let analog_inputs = new Array(8);
+const digital_inputs = new Array(32);
+const analog_inputs = new Array(8);
 
 // flag to indicate if a websocket connect was
 // ever attempted.
 let connect_attempt = false;
 
 // an array to buffer operations until socket is opened
-let wait_open = [];
+const wait_open = [];
 
 let the_locale = null;
 
@@ -82,7 +85,7 @@ const FormDigitalWrite = {
     'pl': 'Ustaw cyfrowy Pin [PIN] na [ON_OFF]',
     'de': 'Setze digitalen Pin [PIN] [ON_OFF]',
     'ja': 'デジタル・ピン [PIN] に [ON_OFF] を出力',
-    'nl': 'Schrijf Digitale Pin [PIN] [ON_OFF]',
+    'nl': 'Schrijf Digitale Pin [PIN] [ON_OFF]'
 };
 
 const FormPwmWrite = {
@@ -95,7 +98,7 @@ const FormPwmWrite = {
     'pl': 'Ustaw PWM Pin [PIN] na [VALUE]%',
     'de': 'Setze PWM-Pin [PIN] [VALUE]%',
     'ja': 'PWM ピン [PIN] に [VALUE]% を出力',
-    'nl': 'Schrijf PWM Pin [PIN] [VALUE]%',
+    'nl': 'Schrijf PWM Pin [PIN] [VALUE]%'
 };
 
 const FormTone = {
@@ -108,7 +111,7 @@ const FormTone = {
     'pl': 'Ustaw brzęczyk na Pinie [PIN] na [FREQ] Hz i [DURATION] ms%',
     'de': 'Spiele Ton am Pin [PIN] [FREQ] Hz [DURATION] ms',
     'ja': '音調ピン [PIN] を [FREQ] Hz [DURATION] ms に',
-    'nl': 'Zet toon van pin [PIN] op [FREQ] Hz voor [DURATION] ms',
+    'nl': 'Zet toon van pin [PIN] op [FREQ] Hz voor [DURATION] ms'
 };
 
 const FormServo = {
@@ -121,7 +124,7 @@ const FormServo = {
     'pl': 'Ustaw silnik servo na Pinie [PIN] na [ANGLE]°',
     'de': 'Setze Servo-Pin [PIN] [ANGLE]°',
     'ja': 'サーボ・ピン [PIN] に [ANGLE] 度を出力',
-    'nl': 'Schrijf Servo Pin [PIN] [ANGLE]° graden',
+    'nl': 'Schrijf Servo Pin [PIN] [ANGLE]° graden'
 };
 
 const FormAnalogRead = {
@@ -134,7 +137,7 @@ const FormAnalogRead = {
     'pl': 'Odczytaj analogowy Pin [PIN]',
     'de': 'Lies analogen Pin [PIN]',
     'ja': 'アナログ・ピン [PIN] から入力',
-    'nl': 'Lees Analoge Pin [PIN]',
+    'nl': 'Lees Analoge Pin [PIN]'
 };
 
 const FormDigitalRead = {
@@ -147,7 +150,7 @@ const FormDigitalRead = {
     'pl': 'Odczytaj cyfrowy Pin [PIN]',
     'de': 'Lies digitalen Pin [PIN]',
     'ja': 'デジタル・ピン [PIN] から入力',
-    'nl': 'Lees Digitale Pin [PIN]',
+    'nl': 'Lees Digitale Pin [PIN]'
 };
 
 const FormSonarRead = {
@@ -160,7 +163,7 @@ const FormSonarRead = {
     'pl': 'Odczytaj odległość: Sonar T [TRIGGER_PIN]  E [ECHO_PIN]',
     'de': 'Lies Sonar T [TRIGGER_PIN]  E [ECHO_PIN]',
     'ja': '超音波測距器からトリガ [TRIGGER_PIN] とエコー [ECHO_PIN] で入力',
-    'nl': 'Lees SONAR T [TRIGGER_PIN] E [ECHO_IPN]',
+    'nl': 'Lees SONAR T [TRIGGER_PIN] E [ECHO_IPN]'
 };
 
 // ESP-8266 specific
@@ -175,7 +178,7 @@ const FormIPBlockE = {
     'pl': 'Adres IP ESP-8266 [IP_ADDR]',
     'de': 'ESP-8266 IP-Adresse [IP_ADDR]',
     'ja': 'ESP-8266 の IP アドレスを [IP_ADDR] に',
-    'nl': 'ESP-8266 IP Adres [IP_ADDR]',
+    'nl': 'ESP-8266 IP Adres [IP_ADDR]'
 };
 
 // Raspbery Pi Specific
@@ -189,83 +192,83 @@ const FormIPBlockR = {
     'pl': 'Adres IP Rasberry Pi [IP_ADDR]',
     'de': 'IP-Adresse des RPi [IP_ADDR]',
     'ja': 'ラズパイの IP アドレスを [IP_ADDR] に',
-    'nl': 'Adres IP Rasberry Pi [IP_ADDR]',
+    'nl': 'Adres IP Rasberry Pi [IP_ADDR]'
 };
 
 // General Alert
 const FormWSClosed = {
-    'pt-br': "A Conexão do WebSocket está Fechada",
-    'pt': "A Conexão do WebSocket está Fechada",
-    'en': "WebSocket Connection Is Closed.",
-    'fr': "La connexion WebSocket est fermée.",
-    'zh-tw': "網路連線中斷",
-    'zh-cn': "网络连接中断",
-    'pl': "Połączenie WebSocket jest zamknięte.",
-    'de': "WebSocket-Verbindung geschlossen.",
-    'ja': "ウェブソケット接続が切断されています",
-    'nl': 'WebSocket Connectie is gesloten.',
+    'pt-br': 'A Conexão do WebSocket está Fechada',
+    'pt': 'A Conexão do WebSocket está Fechada',
+    'en': 'WebSocket Connection Is Closed.',
+    'fr': 'La connexion WebSocket est fermée.',
+    'zh-tw': '網路連線中斷',
+    'zh-cn': '网络连接中断',
+    'pl': 'Połączenie WebSocket jest zamknięte.',
+    'de': 'WebSocket-Verbindung geschlossen.',
+    'ja': 'ウェブソケット接続が切断されています',
+    'nl': 'WebSocket Connectie is gesloten.'
 };
 
 // ESP-8266 Alert
 const FormAlrt = {
     'pt-br': {
-        title: "Atenção",
-        text: "Informe o endereço IP da placa ESP-8266 no bloco apropriado",
-        icon: "info",
+        title: 'Atenção',
+        text: 'Informe o endereço IP da placa ESP-8266 no bloco apropriado',
+        icon: 'info'
     },
     'pt': {
-        title: "Atenção",
-        text: "Informe o endereço IP da placa ESP-8266 no bloco apropriado",
-        icon: "info",
+        title: 'Atenção',
+        text: 'Informe o endereço IP da placa ESP-8266 no bloco apropriado',
+        icon: 'info'
     },
     'en': {
-        title: "Reminder",
-        text: "Enter the IP Address of the ESP-8266 Into The IP Address Block",
-        icon: "info",
+        title: 'Reminder',
+        text: 'Enter the IP Address of the ESP-8266 Into The IP Address Block',
+        icon: 'info'
     },
     'fr': {
-        title: "Attention",
+        title: 'Attention',
         text: "Entrez l'adresse IP de l'ESP-8266 dans le bloc approprié.",
-        icon: "info",
+        icon: 'info'
     },
     'zh-tw': {
-        title: "提醒",
-        text: "請於 IP 位址積木中輸入 ESP-8266 的 IP 位址",
-        icon: "info",
+        title: '提醒',
+        text: '請於 IP 位址積木中輸入 ESP-8266 的 IP 位址',
+        icon: 'info'
     },
     'zh-cn': {
-        title: "提醒",
-        text: "请于 IP地址积木中输入 ESP-8266 的 IP 地址",
-        icon: "info",
+        title: '提醒',
+        text: '请于 IP地址积木中输入 ESP-8266 的 IP 地址',
+        icon: 'info'
     },
     'pl': {
-        title: "Przypomnienie",
-        text: "Wprowadź adres IP ESP-8266 do bloku adresu IP",
-        icon: "info",
+        title: 'Przypomnienie',
+        text: 'Wprowadź adres IP ESP-8266 do bloku adresu IP',
+        icon: 'info'
     },
     'de': {
-        title: "Wichtig",
-        text: "Trage die IP-Adresse des ESP-8266 im Blcok IP-Adresse ein",
-        icon: "info",
+        title: 'Wichtig',
+        text: 'Trage die IP-Adresse des ESP-8266 im Blcok IP-Adresse ein',
+        icon: 'info'
     },
     'ja': {
-        title: "注意",
-        text: "ESP-8266 の IP アドレスを IP アドレス・ブロックに記入して下さい",
-        icon: "info",
+        title: '注意',
+        text: 'ESP-8266 の IP アドレスを IP アドレス・ブロックに記入して下さい',
+        icon: 'info'
     },
     'nl': {
-        title: "Attentie",
-        text: "Geef het IP adres van de ESP-8266 in het IP Adres Blok",
-        icon: "info",
-    },
+        title: 'Attentie',
+        text: 'Geef het IP adres van de ESP-8266 in het IP Adres Blok',
+        icon: 'info'
+    }
 };
 class Scratch3RpiPicoOneGPIO {
-    constructor(runtime) {
+    constructor (runtime) {
         the_locale = this._setLocale();
         this.runtime = runtime;
     }
 
-    getInfo() {
+    getInfo () {
         the_locale = this._setLocale();
         this.connect();
 
@@ -274,24 +277,25 @@ class Scratch3RpiPicoOneGPIO {
             color1: '#0C5986',
             color2: '#34B0F7',
             name: 'OneGpio Raspberry Pi Pico',
-            blockIconURI:  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH0AAABmCAIAAABp8wkqAAAAA3NCSVQICAjb4U/gAAAAGXRFWHRTb2Z0d2FyZQBnbm9tZS1zY3JlZW5zaG907wO/PgAABgxJREFUeNrt2/tPU2cYB3D/ChEUIyNjyxaXZW7J5rxsZolsyYwbBSridJpJvDANZBLUqbHlorACApXiBXDgBazVoOIEFW1EAxqkCqggrNwLLaU9pXCu7LwFkQHWTgFD922+P9jT856cfs7xeZ/zNswYwOttvGZ8+ksuMvUh7jP3ByBTmaW/noE73OGOwB3uCNzhjsAd7gjc4Y7AHe5wR+AOdwTucEfgDncE7nBH4A53uMMC7nBH4A53BO5wR+AOdwTucIc73OEOdwTucJ/GmZ171SAMDLDlmw+4ibvEV5X2Z5uNFwZYQ8EyucsD5TuSu7hx/4BcEHiatujbderbqh9SpC4OFASBYagWQ01heXZoeqiHO7vL1q8ovtvACoPf/LXcBZ7rs/T3joyVZlhh6Jg83ZiVH+bpykCaZp6PEtiOC4XbvEeM8ojfuFgVuUy1yU82zd3nHIo/9LdZBKLN9088bmVf051vurtr9phPveLDlp89c6WbESEFunavMsiVgbNi1y/JO5rXbuPFUVxzelaI+9X3oK9KG1mhv776mH9C0MKSOmZC3Yf0UzNL+0V5vqV8z2yXB3okxJ+2EHlLjcLP7dwDl169lVsY6ev49yS5z9y/Jqy2T4RnWk58LnN9YPDKCrIH13NxhfwV9d0z4bct2ltaQ1c3zdAs1dLx4OT1g1/GS0bfAX9EhYu7dXR1MxzHM5StvbKuOKZgu+/U1xkP2fDJTZ57cOB9M0+OnP+13PWBgYtvNIjnI9ivh8Q4c/dWKgt7OFLKOEpvaNB1mSievOs1XFmteEE/LzPrmnVwt54nzQ9K6nWV3bbBCvisSrFA/tb6yMlz3xD5TPyCAt2QMf8/DAwOuGcSrxZnOv+tk/s9NiqpQ5yJ+Y66nO8SB+cPiY8yVd0tEgvGmqQPB3eL+z3DSLaYm9SBScPTTMhCTWk92WzXFm2Z5WbuPsfUD8l3YyqKwz1dr++JB/KtpL53Vsb6vLSPlPidvW0Wj91XvlUxsqpI3i3QmsTt3MOoZHG75IPz5VbxLVuzO21U8QmV3ifnwRo1y+Xu4S4L9k2KkF7+614vT9RNRYEHJS4NlId+ln04q5Ui6swTWUbQy/v3VaFV4sUR+uvS3h91kNgNXxwOX6BYO5fMKKt/ftQrjqMbj3w8pgH1zivpFD/j6uTKwGnn7vwlUJ03tqZLx238OYbqtJlHxEpxQw08399wPD/My8lzkyxc1kount5ZlRN32x7Xxo1uqIbb1tTscnIi1OlT0mnnLnBsb7fdOiI2u2Ny6zNoY85FfxTj8gUTnyRoa4vhkaYs88eUVa9YJ5BHpzmmgOqbEV7OTnJXBpnXuZqbkV7jNKxpJeREmCJNqBvUGek3pfVi88j36XamB73uhBzgovu4oK66J6a7k7tYYXcktNFiZbfqsxfJJ8ddFr6f1BmhrWKf0zqzLYbUGaG1Yu/Y3TzTcu6RDy15J4PdpJ+Ze7RAx5Juo+JaxJzJcB+aVwdo/fEFoyZM+aaV51I2axL9SZ8T8pOOIvOq/tgnY+bVeadLTWRefbwnVeI2feQqf20jueeZugOZ0klwl/ipy0gfyT6VKf9VzeaeuNwkNjpc7W6iObzb433po5qWtet0Yg0SmLZTS2Tu1L/HRad0kIem/vaz/nET7i5Ws+gUA/k/ZWu7tC41xLFuLHlHmZzbSS63sTZ5/vPHq2THafQ0qwMUw1dozbJLd5pJl2vWqNd7TN1zU1xCge3FGizFOh6jeYYaXpW1P43PDHrD56Z5xzW1juemmtu7fCbcXby1VUdLBhcAeHu7UV9jNPcOrRMUjVwn8D6sumIh58Gzpmp9ZXH9o6oeO3kvUBXaPe9N6fpMnOIi67Tz5puTjwS98TrB6u/LmsjtxzWrcp7/lDFx7mTBS7EzoqzsrtFMcTzL2loNVadujLMu5pkYtZUsnxl7WJ7nGYu1+U71hR05G+fgdz78vorAHe4I3OEOdwTucEfgDncE7nBH4A53BO5whzvc4Q53BO5wR+AOdwTucEfgDncE7nCHOwJ3uCNwhzsCd7gjcIc7Ane4/6/d/wEiMOKO5Q55bQAAAABJRU5ErkJggg==',
+            // eslint-disable-next-line max-len
+            blockIconURI: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH0AAABmCAIAAABp8wkqAAAAA3NCSVQICAjb4U/gAAAAGXRFWHRTb2Z0d2FyZQBnbm9tZS1zY3JlZW5zaG907wO/PgAABgxJREFUeNrt2/tPU2cYB3D/ChEUIyNjyxaXZW7J5rxsZolsyYwbBSridJpJvDANZBLUqbHlorACApXiBXDgBazVoOIEFW1EAxqkCqggrNwLLaU9pXCu7LwFkQHWTgFD922+P9jT856cfs7xeZ/zNswYwOttvGZ8+ksuMvUh7jP3ByBTmaW/noE73OGOwB3uCNzhjsAd7gjc4Y7AHe5wR+AOdwTucEfgDncE7nBH4A53uMMC7nBH4A53BO5wR+AOdwTucIc73OEOdwTucJ/GmZ171SAMDLDlmw+4ibvEV5X2Z5uNFwZYQ8EyucsD5TuSu7hx/4BcEHiatujbderbqh9SpC4OFASBYagWQ01heXZoeqiHO7vL1q8ovtvACoPf/LXcBZ7rs/T3joyVZlhh6Jg83ZiVH+bpykCaZp6PEtiOC4XbvEeM8ojfuFgVuUy1yU82zd3nHIo/9LdZBKLN9088bmVf051vurtr9phPveLDlp89c6WbESEFunavMsiVgbNi1y/JO5rXbuPFUVxzelaI+9X3oK9KG1mhv776mH9C0MKSOmZC3Yf0UzNL+0V5vqV8z2yXB3okxJ+2EHlLjcLP7dwDl169lVsY6ev49yS5z9y/Jqy2T4RnWk58LnN9YPDKCrIH13NxhfwV9d0z4bct2ltaQ1c3zdAs1dLx4OT1g1/GS0bfAX9EhYu7dXR1MxzHM5StvbKuOKZgu+/U1xkP2fDJTZ57cOB9M0+OnP+13PWBgYtvNIjnI9ivh8Q4c/dWKgt7OFLKOEpvaNB1mSievOs1XFmteEE/LzPrmnVwt54nzQ9K6nWV3bbBCvisSrFA/tb6yMlz3xD5TPyCAt2QMf8/DAwOuGcSrxZnOv+tk/s9NiqpQ5yJ+Y66nO8SB+cPiY8yVd0tEgvGmqQPB3eL+z3DSLaYm9SBScPTTMhCTWk92WzXFm2Z5WbuPsfUD8l3YyqKwz1dr++JB/KtpL53Vsb6vLSPlPidvW0Wj91XvlUxsqpI3i3QmsTt3MOoZHG75IPz5VbxLVuzO21U8QmV3ifnwRo1y+Xu4S4L9k2KkF7+614vT9RNRYEHJS4NlId+ln04q5Ui6swTWUbQy/v3VaFV4sUR+uvS3h91kNgNXxwOX6BYO5fMKKt/ftQrjqMbj3w8pgH1zivpFD/j6uTKwGnn7vwlUJ03tqZLx238OYbqtJlHxEpxQw08399wPD/My8lzkyxc1kount5ZlRN32x7Xxo1uqIbb1tTscnIi1OlT0mnnLnBsb7fdOiI2u2Ny6zNoY85FfxTj8gUTnyRoa4vhkaYs88eUVa9YJ5BHpzmmgOqbEV7OTnJXBpnXuZqbkV7jNKxpJeREmCJNqBvUGek3pfVi88j36XamB73uhBzgovu4oK66J6a7k7tYYXcktNFiZbfqsxfJJ8ddFr6f1BmhrWKf0zqzLYbUGaG1Yu/Y3TzTcu6RDy15J4PdpJ+Ze7RAx5Juo+JaxJzJcB+aVwdo/fEFoyZM+aaV51I2axL9SZ8T8pOOIvOq/tgnY+bVeadLTWRefbwnVeI2feQqf20jueeZugOZ0klwl/ipy0gfyT6VKf9VzeaeuNwkNjpc7W6iObzb433po5qWtet0Yg0SmLZTS2Tu1L/HRad0kIem/vaz/nET7i5Ws+gUA/k/ZWu7tC41xLFuLHlHmZzbSS63sTZ5/vPHq2THafQ0qwMUw1dozbJLd5pJl2vWqNd7TN1zU1xCge3FGizFOh6jeYYaXpW1P43PDHrD56Z5xzW1juemmtu7fCbcXby1VUdLBhcAeHu7UV9jNPcOrRMUjVwn8D6sumIh58Gzpmp9ZXH9o6oeO3kvUBXaPe9N6fpMnOIi67Tz5puTjwS98TrB6u/LmsjtxzWrcp7/lDFx7mTBS7EzoqzsrtFMcTzL2loNVadujLMu5pkYtZUsnxl7WJ7nGYu1+U71hR05G+fgdz78vorAHe4I3OEOdwTucEfgDncE7nBH4A53BO5whzvc4Q53BO5wR+AOdwTucEfgDncE7nCHOwJ3uCNwhzsCd7gjcIc7Ane4/6/d/wEiMOKO5Q55bQAAAABJRU5ErkJggg==',
             blocks: [
                 {
                     opcode: 'digital_write',
                     blockType: BlockType.COMMAND,
-                    //text: 'Write Digital Pin [PIN] [ON_OFF]',
+                    // text: 'Write Digital Pin [PIN] [ON_OFF]',
                     text: FormDigitalWrite[the_locale],
 
                     arguments: {
                         PIN: {
                             type: ArgumentType.NUMBER,
                             defaultValue: '2',
-                            menu: "digital_pins"
+                            menu: 'digital_pins'
                         },
                         ON_OFF: {
                             type: ArgumentType.NUMBER,
                             defaultValue: '0',
-                            menu: "on_off"
+                            menu: 'on_off'
                         }
                     }
                 },
@@ -307,7 +311,7 @@ class Scratch3RpiPicoOneGPIO {
                         },
                         VALUE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: '50',
+                            defaultValue: '50'
                         }
                     }
                 },
@@ -325,8 +329,8 @@ class Scratch3RpiPicoOneGPIO {
                         },
                         ANGLE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 90,
-                        },
+                            defaultValue: 90
+                        }
 
                     }
                 },
@@ -340,7 +344,7 @@ class Scratch3RpiPicoOneGPIO {
                             type: ArgumentType.NUMBER,
                             defaultValue: '0',
                             menu: 'analog_pins'
-                        },
+                        }
                     }
                 },
                 '---',
@@ -354,11 +358,11 @@ class Scratch3RpiPicoOneGPIO {
                             defaultValue: '2',
                             menu: 'digital_pins'
                         },
-                        PULL:{
+                        PULL: {
                             type: ArgumentType.STRING,
                             defaultValue: '^',
                             menu: 'pull'
-                        },
+                        }
                     }
                 },
                 '---',
@@ -367,7 +371,7 @@ class Scratch3RpiPicoOneGPIO {
                     blockType: BlockType.REPORTER,
                     text: FormSonarRead[the_locale],
 
-            arguments: {
+                    arguments: {
                         TRIGGER_PIN: {
                             type: ArgumentType.NUMBER,
                             defaultValue: '7',
@@ -379,14 +383,14 @@ class Scratch3RpiPicoOneGPIO {
                             menu: 'digital_pins'
                         }
                     }
-                },
+                }
             ],
             menus: {
                 digital_pins: {
                     acceptReporters: true,
                     items: ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
                         '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '25',
-                    '26', '27', '28']
+                        '26', '27', '28']
                 },
                 pwm_pins: {
                     acceptReporters: true,
@@ -396,12 +400,12 @@ class Scratch3RpiPicoOneGPIO {
                 },
                 analog_pins: {
                     acceptReporters: true,
-                    items: ['0', '1', '2', '3',]
+                    items: ['0', '1', '2', '3']
                 },
 
                 mode: {
                     acceptReporters: true,
-                    items: [{text: "Input", value: '1'}, {text: "Output", value: '2'}]
+                    items: [{text: 'Input', value: '1'}, {text: 'Output', value: '2'}]
                 },
                 on_off: {
                     acceptReporters: true,
@@ -409,7 +413,7 @@ class Scratch3RpiPicoOneGPIO {
                 },
                 pull: {
                     acceptReporters: true,
-                    items:['^', '-']
+                    items: ['^', '-']
                 }
             }
         };
@@ -419,7 +423,7 @@ class Scratch3RpiPicoOneGPIO {
 
     // command blocks
 
-    digital_write(args) {
+    digital_write (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -429,28 +433,28 @@ class Scratch3RpiPicoOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.digital_write.bind(this), args];
+            const callbackEntry = [this.digital_write.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let pin = args['PIN'];
+            let pin = args.PIN;
             pin = parseInt(pin, 10);
 
             if (pin_modes[pin] !== DIGITAL_OUTPUT) {
                 pin_modes[pin] = DIGITAL_OUTPUT;
-                msg = {"command": "set_mode_digital_output", "pin": pin};
+                msg = {command: 'set_mode_digital_output', pin: pin};
                 msg = JSON.stringify(msg);
                 window.socket.send(msg);
             }
-            let value = args['ON_OFF'];
+            let value = args.ON_OFF;
             value = parseInt(value, 10);
-            msg = {"command": "digital_write", "pin": pin, "value": value};
+            msg = {command: 'digital_write', pin: pin, value: value};
             msg = JSON.stringify(msg);
             window.socket.send(msg);
         }
     }
 
-    //pwm
-    pwm_write(args) {
+    // pwm
+    pwm_write (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -459,15 +463,15 @@ class Scratch3RpiPicoOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.pwm_write.bind(this), args];
+            const callbackEntry = [this.pwm_write.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let pin = args['PIN'];
+            let pin = args.PIN;
             // maximum value for RPi and Arduino
-            let the_max = 255;
+            const the_max = 255;
             pin = parseInt(pin, 10);
 
-            let value = args['VALUE'];
+            let value = args.VALUE;
             // value = parseInt(value, 10);
 
             // calculate the value based on percentage
@@ -475,15 +479,15 @@ class Scratch3RpiPicoOneGPIO {
             // value = Math.round(value);
             if (pin_modes[pin] !== PWM) {
                 pin_modes[pin] = PWM;
-                msg = {"command": "set_mode_pwm", "pin": pin};
+                msg = {command: 'set_mode_pwm', pin: pin};
                 msg = JSON.stringify(msg);
                 window.socket.send(msg);
             }
             value = parseInt(value, 10);
-            if(value >= 100){
+            if (value >= 100){
                 value = 99;
             }
-            msg = {"command": "pwm_write", "pin": pin, "value": value};
+            msg = {command: 'pwm_write', pin: pin, value: value};
             msg = JSON.stringify(msg);
             window.socket.send(msg);
 
@@ -491,7 +495,7 @@ class Scratch3RpiPicoOneGPIO {
     }
 
     // move servo
-    servo(args) {
+    servo (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -499,24 +503,25 @@ class Scratch3RpiPicoOneGPIO {
             }
         }
         if (!connected) {
-            let callbackEntry = [this.servo.bind(this), args];
+            const callbackEntry = [this.servo.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let pin = args['PIN'];
+            let pin = args.PIN;
             pin = parseInt(pin, 10);
-            let angle = args['ANGLE'];
+            let angle = args.ANGLE;
             angle = parseInt(angle, 10);
 
 
             if (pin_modes[pin] !== SERVO) {
                 pin_modes[pin] = SERVO;
-                msg = {"command": "set_mode_servo", "pin": pin};
+                msg = {command: 'set_mode_servo', pin: pin};
                 msg = JSON.stringify(msg);
                 window.socket.send(msg);
             }
             msg = {
-                'command': 'servo_position', "pin": pin,
-                'position': angle
+                command: 'servo_position',
+                pin: pin,
+                position: angle
             };
             msg = JSON.stringify(msg);
             window.socket.send(msg);
@@ -525,7 +530,7 @@ class Scratch3RpiPicoOneGPIO {
     }
 
     // reporter blocks
-    analog_read(args) {
+    analog_read (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -533,15 +538,15 @@ class Scratch3RpiPicoOneGPIO {
             }
         }
         if (!connected) {
-            let callbackEntry = [this.analog_read.bind(this), args];
+            const callbackEntry = [this.analog_read.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let pin = args['PIN'];
+            let pin = args.PIN;
             pin = parseInt(pin, 10);
 
             if (pin_modes[pin] !== ANALOG_INPUT) {
                 pin_modes[pin] = ANALOG_INPUT;
-                msg = {"command": "set_mode_analog_input", "pin": pin};
+                msg = {command: 'set_mode_analog_input', pin: pin};
                 msg = JSON.stringify(msg);
                 window.socket.send(msg);
             }
@@ -550,7 +555,7 @@ class Scratch3RpiPicoOneGPIO {
         }
     }
 
-    digital_read(args) {
+    digital_read (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -558,16 +563,16 @@ class Scratch3RpiPicoOneGPIO {
             }
         }
         if (!connected) {
-            let callbackEntry = [this.digital_read.bind(this), args];
+            const callbackEntry = [this.digital_read.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let pin = args['PIN'];
-            let pull = args['PULL'];
+            let pin = args.PIN;
+            const pull = args.PULL;
             pin = parseInt(pin, 10);
 
             if (pin_modes[pin] !== DIGITAL_INPUT) {
                 pin_modes[pin] = DIGITAL_INPUT;
-                msg = {"command": "set_mode_digital_input", "pin": pin, "pull": pull};
+                msg = {command: 'set_mode_digital_input', pin: pin, pull: pull};
                 msg = JSON.stringify(msg);
                 window.socket.send(msg);
             }
@@ -576,7 +581,7 @@ class Scratch3RpiPicoOneGPIO {
         }
     }
 
-    sonar_read(args) {
+    sonar_read (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -584,19 +589,19 @@ class Scratch3RpiPicoOneGPIO {
             }
         }
         if (!connected) {
-            let callbackEntry = [this.sonar_read.bind(this), args];
+            const callbackEntry = [this.sonar_read.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let trigger_pin = args['TRIGGER_PIN'];
+            let trigger_pin = args.TRIGGER_PIN;
             trigger_pin = parseInt(trigger_pin, 10);
             sonar_report_pin = trigger_pin;
-            let echo_pin = args['ECHO_PIN'];
+            let echo_pin = args.ECHO_PIN;
             echo_pin = parseInt(echo_pin, 10);
 
 
             if (pin_modes[trigger_pin] !== SONAR) {
                 pin_modes[trigger_pin] = SONAR;
-                msg = {"command": "set_mode_sonar", "trigger_pin": trigger_pin, "echo_pin": echo_pin};
+                msg = {command: 'set_mode_sonar', trigger_pin: trigger_pin, echo_pin: echo_pin};
                 msg = JSON.stringify(msg);
                 window.socket.send(msg);
             }
@@ -610,51 +615,50 @@ class Scratch3RpiPicoOneGPIO {
     _setLocale () {
         let now_locale = '';
         switch (formatMessage.setup().locale){
-            case 'pt-br':
-            case 'pt':
-                now_locale='pt-br';
-                break;
-            case 'en':
-                now_locale='en';
-                break;
-            case 'fr':
-                now_locale='fr';
-                break;
-            case 'zh-tw':
-                now_locale= 'zh-tw';
-                break;
-            case 'zh-cn':
-                now_locale= 'zh-cn';
-                break;
-            case 'pl':
-                now_locale= 'pl';
-                break;
-            case 'ja':
-                now_locale= 'ja';
-                break;
-            case 'de':
-                now_locale= 'de';
-                break;
-            case 'nl':
-                now_locale= 'nl';
-                break;
-            default:
-                now_locale='en';
-                break;
+        case 'pt-br':
+        case 'pt':
+            now_locale = 'pt-br';
+            break;
+        case 'en':
+            now_locale = 'en';
+            break;
+        case 'fr':
+            now_locale = 'fr';
+            break;
+        case 'zh-tw':
+            now_locale = 'zh-tw';
+            break;
+        case 'zh-cn':
+            now_locale = 'zh-cn';
+            break;
+        case 'pl':
+            now_locale = 'pl';
+            break;
+        case 'ja':
+            now_locale = 'ja';
+            break;
+        case 'de':
+            now_locale = 'de';
+            break;
+        case 'nl':
+            now_locale = 'nl';
+            break;
+        default:
+            now_locale = 'en';
+            break;
         }
         return now_locale;
     }
 
     // helpers
-    connect() {
+    connect () {
         if (connected) {
             // ignore additional connection attempts
             return;
-        } else {
-            connect_attempt = true;
-            window.socket = new WebSocket("ws://127.0.0.1:9006");
-            msg = JSON.stringify({"id": "to_rpi_pico_gateway"});
         }
+        connect_attempt = true;
+        window.socket = new WebSocket('ws://127.0.0.1:9006');
+        msg = JSON.stringify({id: 'to_rpi_pico_gateway'});
 
 
         // websocket event handlers
@@ -668,14 +672,14 @@ class Scratch3RpiPicoOneGPIO {
             connect_attempt = true;
             // the message is built above
             try {
-                //ws.send(msg);
+                // ws.send(msg);
                 window.socket.send(msg);
 
             } catch (err) {
                 // ignore this exception
             }
             for (let index = 0; index < wait_open.length; index++) {
-                let data = wait_open[index];
+                const data = wait_open[index];
                 data[0](data[1]);
             }
         };
@@ -686,30 +690,32 @@ class Scratch3RpiPicoOneGPIO {
             pin_modes.fill(-1);
             if (alerted === false) {
                 alerted = true;
-                alert(FormWSClosed[the_locale]);}
+                // eslint-disable-next-line no-alert
+                alert(FormWSClosed[the_locale]);
+            }
             connected = false;
         };
 
         // reporter messages from the board
         window.socket.onmessage = function (message) {
             msg = JSON.parse(message.data);
-            let report_type = msg["report"];
+            const report_type = msg.report;
             let pin = null;
             let value = null;
 
             // types - digital, analog, sonar
             if (report_type === 'digital_input') {
-                pin = msg['pin'];
+                pin = msg.pin;
                 pin = parseInt(pin, 10);
-                value = msg['value'];
+                value = msg.value;
                 digital_inputs[pin] = value;
             } else if (report_type === 'analog_input') {
-                pin = msg['pin'];
+                pin = msg.pin;
                 pin = parseInt(pin, 10);
-                value = msg['value'];
+                value = msg.value;
                 analog_inputs[pin] = value;
             } else if (report_type === 'sonar_data') {
-                value = msg['value'];
+                value = msg.value;
                 digital_inputs[sonar_report_pin] = value;
             }
         };

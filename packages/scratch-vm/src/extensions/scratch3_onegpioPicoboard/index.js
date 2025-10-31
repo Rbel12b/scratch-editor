@@ -1,3 +1,7 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-negated-condition */
+/* eslint-disable camelcase */
+/* eslint-disable no-unused-vars */
 /*
 This is the Scratch 3 extension to remotely control an
 Arduino Uno, ESP-8666, or Raspberry Pi
@@ -41,7 +45,7 @@ let connected = false;
 let connect_attempt = false;
 
 // an array to buffer operations until socket is opened
-let wait_open = [];
+const wait_open = [];
 
 let the_locale = null;
 
@@ -58,7 +62,7 @@ data value 5 = Light  analog inverted logic
 data value 6 = sound  analog
 data value 7 = slider analog
 */
-let theAllSensorMap =
+const theAllSensorMap =
 
     {0: 7, 1: 5, 2: 6, 3: 3, 4: 4, 5: 2, 6: 1, 7: 0};
 
@@ -75,7 +79,7 @@ data value 6 = sound  analog
 data value 7 = slider analog
 */
 
-let theNonButtonSensorMap =
+const theNonButtonSensorMap =
     //
     {0: 7, 1: 5, 2: 6, 3: 4, 4: 2, 5: 1, 6: 0};
 
@@ -84,36 +88,36 @@ let alerted = false;
 
 // General Alert
 const FormWSClosed = {
-    'en': "WebSocket Connection Is Closed.",
-    'zh-tw': "硬體連線中斷",
-    'zh-cn': "硬件连接中断",
-    'pt-br': "A Conexão do WebSocket está Fechada",
-    'pt': "A Conexão do WebSocket está Fechada",
-    'fr': "Connexion WebSocket Fermée.",
-    'pl': "Połączenie WebSocket jest zamknięte.",
-    'ja': "ウェブソケット接続が切断されています",
+    'en': 'WebSocket Connection Is Closed.',
+    'zh-tw': '硬體連線中斷',
+    'zh-cn': '硬件连接中断',
+    'pt-br': 'A Conexão do WebSocket está Fechada',
+    'pt': 'A Conexão do WebSocket está Fechada',
+    'fr': 'Connexion WebSocket Fermée.',
+    'pl': 'Połączenie WebSocket jest zamknięte.',
+    'ja': 'ウェブソケット接続が切断されています'
 };
 
 const MENU_NON_BUTTON_SENSORS = {
-    'en': ["Slider", "Light", "Sound", "A", "B", "C", "D"],
-    'zh-tw': ["滑桿", "光線", "聲音", "A", "B", "C", "D"],
-    'zh-cn': ["滑杆", "光线", "声音", "A", "B", "C", "D"],
-    'pt-br': ["Controle deslizante", "Luz", "Som", "A", "B", "C", "D"],
-    'pt': ["Controle deslizante", "Luz", "Som", "A", "B", "C", "D"],
-    'fr': ["Glissière", "Lumière", "Son", "A", "B", "C", "D"],
-    'pl': ["Suwak", "Światło", "Dźwięk", "A", "B", "C", "D"],
-    'ja': ["つまみ位置", "光量", "音量", "A", "B", "C", "D"],
+    'en': ['Slider', 'Light', 'Sound', 'A', 'B', 'C', 'D'],
+    'zh-tw': ['滑桿', '光線', '聲音', 'A', 'B', 'C', 'D'],
+    'zh-cn': ['滑杆', '光线', '声音', 'A', 'B', 'C', 'D'],
+    'pt-br': ['Controle deslizante', 'Luz', 'Som', 'A', 'B', 'C', 'D'],
+    'pt': ['Controle deslizante', 'Luz', 'Som', 'A', 'B', 'C', 'D'],
+    'fr': ['Glissière', 'Lumière', 'Son', 'A', 'B', 'C', 'D'],
+    'pl': ['Suwak', 'Światło', 'Dźwięk', 'A', 'B', 'C', 'D'],
+    'ja': ['つまみ位置', '光量', '音量', 'A', 'B', 'C', 'D']
 };
 
 const MENU_ALL_SENSORS = {
-    'en': ["Slider", "Light", "Sound", "Button", "A", "B", "C", "D"],
-    'zh-tw': ["滑桿", "光線", "聲音", "按鈕", "A", "B", "C", "D"],
-    'zh-cn': ["滑杆", "光线", "声音", "按钮", "A", "B", "C", "D"],
-    'pt-br': ["Controle deslizante", "Luz", "Som", "Botão", "A", "B", "C", "D"],
-    'pt': ["Controle deslizante", "Luz", "Som", "Botão", "A", "B", "C", "D"],
-    'fr': ["Glissière", "Lumière", "Son", "Bouton", "A", "B", "C", "D"],
-    'pl': ["Suwak", "Światło", "Dźwięk", "Przycisk", "A", "B", "C", "D"],
-    'ja': ["つまみ位置", "光量", "音量", "ボタン状態", "A", "B", "C", "D"],
+    'en': ['Slider', 'Light', 'Sound', 'Button', 'A', 'B', 'C', 'D'],
+    'zh-tw': ['滑桿', '光線', '聲音', '按鈕', 'A', 'B', 'C', 'D'],
+    'zh-cn': ['滑杆', '光线', '声音', '按钮', 'A', 'B', 'C', 'D'],
+    'pt-br': ['Controle deslizante', 'Luz', 'Som', 'Botão', 'A', 'B', 'C', 'D'],
+    'pt': ['Controle deslizante', 'Luz', 'Som', 'Botão', 'A', 'B', 'C', 'D'],
+    'fr': ['Glissière', 'Lumière', 'Son', 'Bouton', 'A', 'B', 'C', 'D'],
+    'pl': ['Suwak', 'Światło', 'Dźwięk', 'Przycisk', 'A', 'B', 'C', 'D'],
+    'ja': ['つまみ位置', '光量', '音量', 'ボタン状態', 'A', 'B', 'C', 'D']
 };
 
 const MENU_COMPARISONS = {
@@ -124,18 +128,18 @@ const MENU_COMPARISONS = {
     'pt': ['>', '<'],
     'fr': ['>', '<'],
     'pl': ['>', '<'],
-    'ja': ['>', '<'],
+    'ja': ['>', '<']
 };
 
 const MENU_BUTTON_STATES = {
-    'en': ["pressed", "released"],
-    'zh-tw': ["被按下", "被放開"],
-    'zh-cn': ["被按下", "被放开"],
-    'pt-br': ["pressionado", "liberado"],
-    'pt': ["pressionado", "liberado"],
-    'fr': ["appuyé", "relaché"],
-    'pl': ["wciśnięty", "zwolniony"],
-    'ja': ["押下", "解放"],
+    'en': ['pressed', 'released'],
+    'zh-tw': ['被按下', '被放開'],
+    'zh-cn': ['被按下', '被放开'],
+    'pt-br': ['pressionado', 'liberado'],
+    'pt': ['pressionado', 'liberado'],
+    'fr': ['appuyé', 'relaché'],
+    'pl': ['wciśnięty', 'zwolniony'],
+    'ja': ['押下', '解放']
 };
 
 const FormBetween = {
@@ -146,7 +150,7 @@ const FormBetween = {
     'pt': 'Quando [SENSOR] estiver entre [LOW] e [HIGH]',
     'fr': 'Si la valeur de [SENSOR] est entre [LOW] et [HIGH]',
     'pl': 'Kiedy wartość [SENSOR] jest pomiędzy [LOW] i [HIGH]',
-    'ja': '[SENSOR] が [LOW] と [HIGH] の間のとき',
+    'ja': '[SENSOR] が [LOW] と [HIGH] の間のとき'
 };
 
 const FormComparison = {
@@ -157,7 +161,7 @@ const FormComparison = {
     'pt': 'Quando [SENSOR] for [COMP] que [VALUE]',
     'fr': 'si [SENSOR] [COMP] [VALUE].',
     'pl': 'Kiedy [SENSOR] [COMP] [VALUE].',
-    'ja': '[SENSOR] が [COMP] [VALUE] のとき',
+    'ja': '[SENSOR] が [COMP] [VALUE] のとき'
 };
 
 const FormButton = {
@@ -168,7 +172,7 @@ const FormButton = {
     'pt': 'Quando o botão estiver [STATE].',
     'fr': 'Si Bouton [STATE].',
     'pl': 'Kiedy przycisk jest [STATE].',
-    'ja': 'ボタン状態が [STATE] のとき',
+    'ja': 'ボタン状態が [STATE] のとき'
 };
 
 const FormIsButtonPressed = {
@@ -179,7 +183,7 @@ const FormIsButtonPressed = {
     'pt': 'O botão está pressionado?',
     'fr': 'Bouton appuyé ?',
     'pl': 'Czy przycisk jest wciśnięty?',
-    'ja': 'ボタン状態が押下か?',
+    'ja': 'ボタン状態が押下か?'
 };
 
 const FormIsSensorComparison = {
@@ -190,7 +194,7 @@ const FormIsSensorComparison = {
     'pt': '[SENSOR] está [COMP] [VALUE] ?',
     'fr': 'Est-ce que [SENSOR] [COMP] [VALUE] ?',
     'pl': 'Czy [SENSOR] [COMP] [VALUE] ?',
-    'ja': '[SENSOR] が [COMP] [VALUE] か?',
+    'ja': '[SENSOR] が [COMP] [VALUE] か?'
 };
 
 const FormCurrentSensorValue = {
@@ -201,7 +205,7 @@ const FormCurrentSensorValue = {
     'pt-br': 'Ler valor atual: [SENSOR]',
     'fr': 'valeur actuelle de [SENSOR].',
     'pl': 'Aktualna wartość [SENSOR].',
-    'ja': '[SENSOR] の現在値',
+    'ja': '[SENSOR] の現在値'
 };
 
 const FormRangeConverter = {
@@ -212,16 +216,16 @@ const FormRangeConverter = {
     'pt': 'Converte valor: [SENSOR] para que fique entre [RANGE1] e [RANGE2]',
     'fr': 'Convertir la valeur de [SENSOR] dans la plage [RANGE1] à [RANGE2]',
     'pl': 'Przelicz wartość [SENSOR] do zakresu od [RANGE1] do [RANGE2]',
-    'ja': '[SENSOR] の値を [RANGE1] から [RANGE2] までの範囲に変更',
+    'ja': '[SENSOR] の値を [RANGE1] から [RANGE2] までの範囲に変更'
 };
 
 class Scratch3PicoboardOneGPIO {
-    constructor(runtime) {
+    constructor (runtime) {
         the_locale = this._setLocale();
         this.runtime = runtime;
     }
 
-    getInfo() {
+    getInfo () {
         the_locale = this._setLocale();
         // connect to the websocket server
         this.connect();
@@ -231,6 +235,7 @@ class Scratch3PicoboardOneGPIO {
             color1: '#0C5986',
             color2: '#34B0F7',
             name: 'OneGpio Picoboard',
+            // eslint-disable-next-line max-len
             blockIconURI: 'data:image/png;base64,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',
             blocks: [
                 {
@@ -250,7 +255,7 @@ class Scratch3PicoboardOneGPIO {
                         },
                         VALUE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 50,
+                            defaultValue: 50
                         }
                     }
                 },
@@ -278,18 +283,18 @@ class Scratch3PicoboardOneGPIO {
                         },
                         LOW: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 25,
+                            defaultValue: 25
                         },
                         HIGH: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 75,
+                            defaultValue: 75
                         }
                     }
                 },
                 {
                     opcode: 'is_button_pressed',
                     blockType: BlockType.BOOLEAN,
-                    text: FormIsButtonPressed[the_locale],
+                    text: FormIsButtonPressed[the_locale]
                 },
                 {
                     opcode: 'is_sensor',
@@ -308,7 +313,7 @@ class Scratch3PicoboardOneGPIO {
                         },
                         VALUE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 50,
+                            defaultValue: 50
                         }
                     }
                 },
@@ -336,43 +341,43 @@ class Scratch3PicoboardOneGPIO {
                         },
                         RANGE1: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: -240,
+                            defaultValue: -240
                         },
                         RANGE2: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 240,
+                            defaultValue: 240
                         }
                     }
-                },
+                }
             ],
             menus: {
                 all_sensors: 'getAllSensorMenuItems',
-                //non_button_sensors: MENU_NON_BUTTON_SENSORS[the_locale],
+                // non_button_sensors: MENU_NON_BUTTON_SENSORS[the_locale],
                 non_button_sensors: 'getAllNonButtonMenuItems',
-                //button_states: MENU_BUTTON_STATES[the_locale],
+                // button_states: MENU_BUTTON_STATES[the_locale],
                 button_states: 'get_button_states',
 
-                //all_sensors: MENU_ALL_SENSORS[the_locale],
+                // all_sensors: MENU_ALL_SENSORS[the_locale],
 
-                comparisons: MENU_COMPARISONS[the_locale],
+                comparisons: MENU_COMPARISONS[the_locale]
             }
         };
     }
 
-    getAllSensorMenuItems() {
+    getAllSensorMenuItems () {
         return MENU_ALL_SENSORS[the_locale];
     }
 
-    getAllNonButtonMenuItems() {
+    getAllNonButtonMenuItems () {
         return MENU_NON_BUTTON_SENSORS[the_locale];
     }
 
-    get_button_states() {
+    get_button_states () {
         return MENU_BUTTON_STATES[the_locale];
     }
 
-    mapAllSensors(device) {
-        //["Slider", "Light", "Sound", "Button", "A", "B", "C", "D"]
+    mapAllSensors (device) {
+        // ["Slider", "Light", "Sound", "Button", "A", "B", "C", "D"]
         /*
         data value 0 = D  analog inverted logic
         data value 1 = C  analog inverted logic
@@ -383,19 +388,19 @@ class Scratch3PicoboardOneGPIO {
         data value 6 = sound  analog
         data value 7 = slider analog
          */
-        //let theAllSensorMap = {0: 7, 1: 5, 2: 6, 3: 3, 4: 4, 5: 2, 6: 1, 7:0 }
+        // let theAllSensorMap = {0: 7, 1: 5, 2: 6, 3: 3, 4: 4, 5: 2, 6: 1, 7:0 }
         return theAllSensorMap[device];
     }
 
-    mapNonButtonSensors(device) {
-        //["Slider", "Light", "Sound", "A", "B", "C", "D"]
+    mapNonButtonSensors (device) {
+        // ["Slider", "Light", "Sound", "A", "B", "C", "D"]
         return theNonButtonSensorMap[device];
 
     }
 
     // The block handlers
 
-    sensor_between(args) {
+    sensor_between (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -404,24 +409,24 @@ class Scratch3PicoboardOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.sensor_between.bind(this), args];
+            const callbackEntry = [this.sensor_between.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let sensor_text = args['SENSOR'];
+            const sensor_text = args.SENSOR;
             // get its index in the list of menu items
-            let item_index = this.getAllNonButtonMenuItems().indexOf(sensor_text);
+            const item_index = this.getAllNonButtonMenuItems().indexOf(sensor_text);
             // using the item_index, lookup the index into the
             // last data values to retrieve current data value for the sensor
-            let map_key = this.mapNonButtonSensors(item_index);
+            const map_key = this.mapNonButtonSensors(item_index);
             // get current value of sensor
-            let value = lastDataSample[map_key];
-            let low = parseInt(args['LOW'], 10);
-            let high = parseInt(args['HIGH'], 10);
+            const value = lastDataSample[map_key];
+            const low = parseInt(args.LOW, 10);
+            const high = parseInt(args.HIGH, 10);
             return value >= low && value <= high;
         }
     }
 
-    sensor_comparison(args) {
+    sensor_comparison (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -430,29 +435,29 @@ class Scratch3PicoboardOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.sensor_comparison.bind(this), args];
+            const callbackEntry = [this.sensor_comparison.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let sensor_text = args['SENSOR'];
+            const sensor_text = args.SENSOR;
             // get its index in the list of menu items
-            let item_index = this.getAllNonButtonMenuItems().indexOf(sensor_text);
+            const item_index = this.getAllNonButtonMenuItems().indexOf(sensor_text);
             // using the item_index, lookup the index into the
             // last data values to retrieve current data value for the sensor
-            let map_key = this.mapNonButtonSensors(item_index);
+            const map_key = this.mapNonButtonSensors(item_index);
             // get current value of sensor
-            let value = lastDataSample[map_key];
-            let comp_type = args['COMP'];
-            let comp_value = parseInt(args['VALUE'], 10);
+            const value = lastDataSample[map_key];
+            const comp_type = args.COMP;
+            const comp_value = parseInt(args.VALUE, 10);
             if (comp_type === '<') {
                 return value < comp_value;
-            } else {
-                return value > comp_value;
             }
+            return value > comp_value;
+
         }
 
     }
 
-    button_change(args) {
+    button_change (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -461,21 +466,21 @@ class Scratch3PicoboardOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.button_change.bind(this), args];
+            const callbackEntry = [this.button_change.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
 
-            let item_index = this.get_button_states().indexOf(args['STATE']);
+            const item_index = this.get_button_states().indexOf(args.STATE);
             // testing for pressed
             if (item_index === 0) {
                 return lastDataSample[3] === 1;
-            } else {
-                return lastDataSample[3] === 0;
             }
+            return lastDataSample[3] === 0;
+
         }
     }
 
-    is_button_pressed(args) {
+    is_button_pressed (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -484,7 +489,7 @@ class Scratch3PicoboardOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.is_button_pressed.bind(this), args];
+            const callbackEntry = [this.is_button_pressed.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
             // get current button value
@@ -494,7 +499,7 @@ class Scratch3PicoboardOneGPIO {
 
     }
 
-    is_sensor(args) {
+    is_sensor (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -503,29 +508,29 @@ class Scratch3PicoboardOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.is_sensor.bind(this), args];
+            const callbackEntry = [this.is_sensor.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
-            let sensor_text = args['SENSOR'];
+            const sensor_text = args.SENSOR;
             // get its index in the list of menu items
-            let item_index = this.getAllNonButtonMenuItems().indexOf(sensor_text);
+            const item_index = this.getAllNonButtonMenuItems().indexOf(sensor_text);
             // using the item_index, lookup the index into the
             // last data values to retrieve current data value for the sensor
-            let map_key = this.mapNonButtonSensors(item_index);
+            const map_key = this.mapNonButtonSensors(item_index);
             // get current value of sensor
-            let value = lastDataSample[map_key];
-            let comp_type = args['COMP'];
-            let comp_value = parseInt(args['VALUE'], 10);
+            const value = lastDataSample[map_key];
+            const comp_type = args.COMP;
+            const comp_value = parseInt(args.VALUE, 10);
             if (comp_type === '<') {
                 return value < comp_value;
-            } else {
-                return value > comp_value;
             }
+            return value > comp_value;
+
         }
 
     }
 
-    current_sensor_value(args) {
+    current_sensor_value (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -534,23 +539,23 @@ class Scratch3PicoboardOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.current_sensor_value.bind(this), args];
+            const callbackEntry = [this.current_sensor_value.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
             // get the text of the menu item
-            let sensor_text = args['SENSOR'];
+            const sensor_text = args.SENSOR;
             // get its index in the list of menu items
-            let item_index = this.getAllSensorMenuItems().indexOf(sensor_text);
+            const item_index = this.getAllSensorMenuItems().indexOf(sensor_text);
             // using the item_index, lookup the index into the
             // last data values to retrieve current data value for the sensor
-            let map_key = this.mapAllSensors(item_index);
+            const map_key = this.mapAllSensors(item_index);
             // retrieve the data from the last data sample
             return lastDataSample[map_key];
         }
 
     }
 
-    range_convert(args) {
+    range_convert (args) {
         if (!connected) {
             if (!connection_pending) {
                 this.connect();
@@ -559,21 +564,21 @@ class Scratch3PicoboardOneGPIO {
         }
 
         if (!connected) {
-            let callbackEntry = [this.range_convert.bind(this), args];
+            const callbackEntry = [this.range_convert.bind(this), args];
             wait_open.push(callbackEntry);
         } else {
             // get the text of the menu item
-            let sensor_text = args['SENSOR'];
+            const sensor_text = args.SENSOR;
             // get its index in the list of menu items
-            let item_index = this.getAllNonButtonMenuItems().indexOf(sensor_text);
+            const item_index = this.getAllNonButtonMenuItems().indexOf(sensor_text);
             // using the item_index, lookup the index into the
             // last data values to retrieve current data value for the sensor
-            let map_key = this.mapNonButtonSensors(item_index);
+            const map_key = this.mapNonButtonSensors(item_index);
             // get current value of sensor
-            let value = lastDataSample[map_key];
+            const value = lastDataSample[map_key];
 
-            let high = parseInt(args['RANGE2'], 10);
-            let low = parseInt(args['RANGE1'], 10);
+            const high = parseInt(args.RANGE2, 10);
+            const low = parseInt(args.RANGE1, 10);
             return Math.round(((value) * ((high - low) / 100)) +
                 low);
         }
@@ -582,50 +587,49 @@ class Scratch3PicoboardOneGPIO {
 
     // end of block handlers
 
-    _setLocale() {
+    _setLocale () {
         let now_locale = '';
         switch (formatMessage.setup().locale) {
-            case 'zh-tw':
-                now_locale = 'zh-tw';
-                break;
-            case 'zh-cn':
-                now_locale = 'zh-cn';
-                break;
-            case 'en':
-                now_locale = 'en';
-                break;
-            case 'pt-br':
-                now_locale = 'pt-br';
-                break;
-            case 'pt':
-                now_locale = 'pt';
-                break;
-            case 'fr':
-                now_locale = 'fr';
-                break;
-            case 'pl':
-                now_locale = 'pl';
-                break;
-            case 'ja':
-                now_locale = 'ja';
-                break;
-            default:
-                now_locale = 'en';
-                break;
+        case 'zh-tw':
+            now_locale = 'zh-tw';
+            break;
+        case 'zh-cn':
+            now_locale = 'zh-cn';
+            break;
+        case 'en':
+            now_locale = 'en';
+            break;
+        case 'pt-br':
+            now_locale = 'pt-br';
+            break;
+        case 'pt':
+            now_locale = 'pt';
+            break;
+        case 'fr':
+            now_locale = 'fr';
+            break;
+        case 'pl':
+            now_locale = 'pl';
+            break;
+        case 'ja':
+            now_locale = 'ja';
+            break;
+        default:
+            now_locale = 'en';
+            break;
         }
         return now_locale;
     }
 
     // helpers
-    connect() {
+    connect () {
         if (connected) {
             // ignore additional connection attempts
             return;
-        } else {
-            connect_attempt = true;
-            window.socket = new WebSocket("ws://127.0.0.1:9004");
-            msg = JSON.stringify({"id": "to_picoboard_gateway"});
         }
+        connect_attempt = true;
+        window.socket = new WebSocket('ws://127.0.0.1:9004');
+        msg = JSON.stringify({id: 'to_picoboard_gateway'});
 
 
         // websocket event handlers
@@ -635,14 +639,14 @@ class Scratch3PicoboardOneGPIO {
             connect_attempt = true;
             // the message is built above
             try {
-                //ws.send(msg);
+                // ws.send(msg);
                 window.socket.send(msg);
 
             } catch (err) {
                 // ignore this exception
             }
             for (let index = 0; index < wait_open.length; index++) {
-                let data = wait_open[index];
+                const data = wait_open[index];
                 data[0](data[1]);
             }
         };
@@ -650,7 +654,8 @@ class Scratch3PicoboardOneGPIO {
         window.socket.onclose = function () {
             if (alerted === false) {
                 alerted = true;
-                alert(FormWSClosed[the_locale]);}
+                alert(FormWSClosed[the_locale]);
+            }
             connected = false;
         };
 
@@ -659,7 +664,7 @@ class Scratch3PicoboardOneGPIO {
             // store the latest incoming data
             msg = JSON.parse(message.data);
             // let report_type = msg["report"];
-            lastDataSample = msg['report'];
+            lastDataSample = msg.report;
         };
     }
 }
