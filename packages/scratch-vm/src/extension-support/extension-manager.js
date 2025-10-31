@@ -36,7 +36,8 @@ const builtinExtensions = {
     onegpioCpx: () => require('../extensions/scratch3_onegpioCpx'),
     onegpioRoboHAT: () => require('../extensions/scratch3_onegpioRoboHAT'),
     onegpioRpiPico: () => require('../extensions/scratch3_onegpioRpiPico'),
-    onegpioEsp32: () => require('../extensions/scratch3_onegpioEsp32')
+    onegpioEsp32: () => require('../extensions/scratch3_onegpioEsp32'),
+    spikeprime: () => require('../extensions/scratch3_spikeprime')
 };
 
 const customExtensions = {
@@ -53,7 +54,6 @@ const customExtensions = {
     legoremote: () => ({url: 'https://bricklife.com/scratch-gui/xcratch/legoremote.mjs'}),
     poweredup: () => ({url: 'https://bricklife.com/scratch-gui/xcratch/poweredup.mjs'}),
     spikeessential: () => ({url: 'https://bricklife.com/scratch-gui/xcratch/spikeessential.mjs'})
-    // spikeprime: () => ({url: 'https://bricklife.com/scratch-gui/xcratch/spikeprime.mjs'})
 };
 
 /**

@@ -27,7 +27,7 @@ import legopeach from './legopeach';
 import legoremote from './legoremote';
 import poweredup from './poweredup';
 import spikeessential from './spikeessential';
-// import spikeprime from './spikeprime';
+import spikeprime from './spikeprime';
 
 import musicIconURL from './music/music.png';
 import musicInsetIconURL from './music/music-small.svg';
@@ -249,7 +249,7 @@ const extensions = [
     legoremote,
     poweredup,
     spikeessential,
-    // spikeprime,
+    spikeprime,
     {
         name: (
             <FormattedMessage
