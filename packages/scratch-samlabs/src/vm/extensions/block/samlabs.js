@@ -111,16 +111,21 @@ class ExtensionBlocks {
         this._stopAll = this.stopAll.bind(this);
         this.runtime.on('PROJECT_STOP_ALL', this._stopAll);
         this.runtime.on('PROJECT_RUN_STOP', this._stopAll);
+        this.runtime.on('PROJECT_LOADED', this.projectLoad.bind(this));
         this.deviceMenu = [];
         this.buttonMenu = [];
         this.motorMenu = [];
         this.servoMenu = [];
         this.rgbMenu = [];
         this.sensorMenu = [];
-        this.DeviceMapping = new Map();
 
         this.runtime.registerPeripheralExtension(this.extensionId, this);
         this.connectToDevice = this.connectToDevice.bind(this);
+    }
+
+    projectLoad () {
+        this.deviceMap = new Map();
+        this.updateDeviceMenu();
     }
 
     /**
@@ -312,24 +317,24 @@ class ExtensionBlocks {
         this.deviceMap.forEach(device => {
             switch (device.menuId) {
             case 0:
-                this.buttonMenu.push({text: device.menuName, value: device.id});
+                this.buttonMenu.push({text: device.menuName, value: device.displayName});
                 break;
             case 1:
-                this.motorMenu.push({text: device.menuName, value: device.id});
+                this.motorMenu.push({text: device.menuName, value: device.displayName});
                 break;
             case 2:
-                this.servoMenu.push({text: device.menuName, value: device.id});
+                this.servoMenu.push({text: device.menuName, value: device.displayName});
                 break;
             case 3:
-                this.rgbMenu.push({text: device.menuName, value: device.id});
+                this.rgbMenu.push({text: device.menuName, value: device.displayName});
                 break;
             case 4:
-                this.sensorMenu.push({text: device.menuName, value: device.id});
+                this.sensorMenu.push({text: device.menuName, value: device.displayName});
                 break;
             default:
                 break;
             }
-            this.deviceMenu.push({text: device.displayName, value: device.id});
+            this.deviceMenu.push({text: device.displayName, value: device.displayName});
         });
         // this.runtime.requestBlocksUpdate(); - messes up the create variable button
     }
@@ -364,9 +369,6 @@ class ExtensionBlocks {
      * @returns {SAMDevice} the device
      */
     getDeviceFromId (id) {
-        if (this.DeviceMapping.get(id)) {
-            return this.deviceMap.get(this.DeviceMapping.get(id));
-        }
         return this.deviceMap.get(id);
     }
 
@@ -392,7 +394,7 @@ class ExtensionBlocks {
             optionalServices: [SamLabsBLE.battServ, SamLabsBLE.SAMServ]
         });
         if (connected) {
-            this.deviceMap.set(device.id, device);
+            this.deviceMap.set(device.displayName, device);
             this.updateDeviceMenu();
         }
     }
