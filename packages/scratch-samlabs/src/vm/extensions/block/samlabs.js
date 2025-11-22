@@ -2,6 +2,8 @@ const BlockType = require('../../extension-support/block-type');
 const ArgumentType = require('../../extension-support/argument-type');
 const translations = require('./translations.json');
 const {SamLabsBLE, SAMDevice} = require('./device');
+// eslint-disable-next-line no-unused-vars
+const Runtime = require('../../engine/runtime');
 
 // eslint-disable-next-line no-unused-vars
 class LEDArg {
@@ -111,7 +113,7 @@ class ExtensionBlocks {
         this._stopAll = this.stopAll.bind(this);
         this.runtime.on('PROJECT_STOP_ALL', this._stopAll);
         this.runtime.on('PROJECT_RUN_STOP', this._stopAll);
-        this.runtime.on('PROJECT_LOADED', this.projectLoad.bind(this));
+        this.runtime.on('PROJECT_LOADED', this.projectLoaded.bind(this));
         this.deviceMenu = [];
         this.buttonMenu = [];
         this.motorMenu = [];
@@ -119,13 +121,28 @@ class ExtensionBlocks {
         this.rgbMenu = [];
         this.sensorMenu = [];
 
+        this.deviveData = {};
+
         this.runtime.registerPeripheralExtension(this.extensionId, this);
         this.connectToDevice = this.connectToDevice.bind(this);
     }
 
-    projectLoad () {
+    /**
+     * Persist an object into the project (.sb3) so it will travel with the project file.
+     * @param {object} obj - object to persist
+     * @returns {void}
+     */
+    saveDeviceData () {
+        this.runtime.samlabs_DeviceData = this.deviveData;
+    }
+
+    projectLoaded () {
         this.deviceMap = new Map();
         this.updateDeviceMenu();
+        if (!this.runtime.samlabs_DeviceData) {
+            return;
+        }
+        this.deviveData = this.runtime.samlabs_DeviceData;
     }
 
     /**
@@ -539,6 +556,7 @@ class ExtensionBlocks {
     }
 
     getButton (args) {
+        this.saveDeviceData({hello: 'hi'});
         const block = this.getDeviceFromId(args.num);
         if (!block) {
             return 0;

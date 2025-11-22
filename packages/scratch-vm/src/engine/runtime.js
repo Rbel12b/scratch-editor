@@ -181,6 +181,11 @@ class Runtime extends EventEmitter {
         super();
 
         /**
+         *
+         */
+        this.samlabs_DeviceData = {};
+
+        /**
          * Target management and storage.
          * @type {Array.<!Target>}
          */

@@ -600,6 +600,11 @@ const serialize = function (runtime, targetId) {
 
     // Assemble payload and return
     obj.meta = meta;
+
+    if (runtime.samlabs_DeviceData) {
+        obj.samlabs = runtime.samlabs_DeviceData;
+    }
+
     return obj;
 };
 
@@ -1274,6 +1279,10 @@ const deserialize = function (json, runtime, zip, isSingleSprite) {
         runtime.origin = json.meta.origin;
     } else {
         runtime.origin = null;
+    }
+
+    if (json.samlabs) {
+        runtime.samlabs_DeviceData = json.samlabs;
     }
 
     // First keep track of the current target order in the json,
