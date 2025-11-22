@@ -12,6 +12,7 @@ import {setProjectChanged, setProjectUnchanged} from '../reducers/project-change
 import {setRunningState, setTurboState, setStartedState} from '../reducers/vm-status';
 import {showExtensionAlert} from '../reducers/alerts';
 import {updateMicIndicator} from '../reducers/mic-indicator';
+import {openDeviceSelector, closeDeviceSelector} from '../reducers/device-selector';
 
 /*
  * Higher Order Component to manage events emitted by the VM
@@ -46,7 +47,10 @@ const vmListenerHOC = function (WrappedComponent) {
             this.props.vm.on('PROJECT_START', this.props.onGreenFlag);
             this.props.vm.on('PERIPHERAL_CONNECTION_LOST_ERROR', this.props.onShowExtensionAlert);
             this.props.vm.on('MIC_LISTENING', this.props.onMicListeningUpdate);
-
+            this.props.vm.on('OPEN_DEVICE_SELECTOR', payload => {
+                this.props.onShowDeviceSelector(payload);
+            });
+            this.props.vm.on('CLOSE_DEVICE_SELECTOR', this.props.onCloseDeviceSelector);
         }
         componentDidMount () {
             if (this.props.attachKeyboardEvents) {
@@ -121,6 +125,7 @@ const vmListenerHOC = function (WrappedComponent) {
                 shouldUpdateTargets,
                 shouldUpdateProjectChanged,
                 onBlockDragUpdate,
+                onCloseDeviceSelector,
                 onGreenFlag,
                 onKeyDown,
                 onKeyUp,
@@ -132,6 +137,7 @@ const vmListenerHOC = function (WrappedComponent) {
                 onProjectRunStop,
                 onProjectSaved,
                 onRuntimeStarted,
+                onShowDeviceSelector,
                 onTurboModeOff,
                 onTurboModeOn,
                 onShowExtensionAlert,
@@ -144,6 +150,7 @@ const vmListenerHOC = function (WrappedComponent) {
     VMListener.propTypes = {
         attachKeyboardEvents: PropTypes.bool,
         onBlockDragUpdate: PropTypes.func.isRequired,
+        onCloseDeviceSelector: PropTypes.func.isRequired,
         onGreenFlag: PropTypes.func,
         onKeyDown: PropTypes.func,
         onKeyUp: PropTypes.func,
@@ -154,6 +161,7 @@ const vmListenerHOC = function (WrappedComponent) {
         onProjectRunStop: PropTypes.func.isRequired,
         onProjectSaved: PropTypes.func.isRequired,
         onRuntimeStarted: PropTypes.func.isRequired,
+        onShowDeviceSelector: PropTypes.func.isRequired,
         onShowExtensionAlert: PropTypes.func.isRequired,
         onTargetsUpdate: PropTypes.func.isRequired,
         onTurboModeOff: PropTypes.func.isRequired,
@@ -184,6 +192,7 @@ const vmListenerHOC = function (WrappedComponent) {
         )
     });
     const mapDispatchToProps = dispatch => ({
+        onCloseDeviceSelector: () => dispatch(closeDeviceSelector()),
         onTargetsUpdate: data => {
             dispatch(updateTargets(data.targetList, data.editingTarget));
         },
@@ -198,6 +207,9 @@ const vmListenerHOC = function (WrappedComponent) {
         onProjectChanged: () => dispatch(setProjectChanged()),
         onProjectSaved: () => dispatch(setProjectUnchanged()),
         onRuntimeStarted: () => dispatch(setStartedState(true)),
+        onShowDeviceSelector: payload => {
+            dispatch(openDeviceSelector(payload));
+        },
         onTurboModeOn: () => dispatch(setTurboState(true)),
         onTurboModeOff: () => dispatch(setTurboState(false)),
         onShowExtensionAlert: data => {

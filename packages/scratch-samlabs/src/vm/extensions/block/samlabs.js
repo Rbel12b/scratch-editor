@@ -120,29 +120,60 @@ class ExtensionBlocks {
         this.servoMenu = [];
         this.rgbMenu = [];
         this.sensorMenu = [];
+        this.destroyingProject = false;
 
-        this.deviveData = {};
+        /**
+         * Device data persisted with the project.
+         * @type {{
+         *  devices: Map<string, {
+         *      name: string,
+         *      id: string,
+         *      menuId: number,
+         *      menuName: string,
+         *      displayName: string,
+         *      typeId: number
+         *  }>
+         * }}
+         */
+        this.deviceData = {devices: new Map()};
 
         this.runtime.registerPeripheralExtension(this.extensionId, this);
         this.connectToDevice = this.connectToDevice.bind(this);
+
+        runtime.on('DEVICE_SELECTOR_RESULT', data => {
+            console.log('User chose:', data.value);
+            this.selectedDevice = data.value;
+        });
     }
 
     /**
      * Persist an object into the project (.sb3) so it will travel with the project file.
-     * @param {object} obj - object to persist
-     * @returns {void}
      */
     saveDeviceData () {
-        this.runtime.samlabs_DeviceData = this.deviveData;
+        this.runtime.samlabs_DeviceData = {devices: {}};
+        this.deviceData.devices.forEach((device, key) => {
+            this.runtime.samlabs_DeviceData.devices[key] = device;
+        });
     }
 
-    projectLoaded () {
+    async projectLoaded () {
+        this.destroyingProject = true;
+        for (const device of this.deviceMap.values()) {
+            await this.disconnectDevice(device);
+        }
         this.deviceMap = new Map();
         this.updateDeviceMenu();
         if (!this.runtime.samlabs_DeviceData) {
             return;
         }
-        this.deviveData = this.runtime.samlabs_DeviceData;
+        this.deviceData.devices = new Map();
+        const savedDevices = this.runtime.samlabs_DeviceData.devices;
+        if (savedDevices) {
+            for (const [key, device] of Object.entries(savedDevices)) {
+                this.deviceData.devices.set(key, device);
+            }
+        }
+        this.destroyingProject = false;
     }
 
     /**
@@ -163,7 +194,7 @@ class ExtensionBlocks {
                     blockType: BlockType.BUTTON,
                     text: formatMessage({
                         id: 'samlabs.connectToDevice',
-                        default: 'Connect a device'
+                        default: 'Devices'
                     })
                 },
                 {
@@ -394,15 +425,39 @@ class ExtensionBlocks {
         this.runtime._refreshExtensions(); // Force a refresh of the extension
     }
 
-    stopAll () {
-        this.deviceMap.forEach(this.stopDevice.bind(this));
+    async stopAll () {
+        try {
+            for (const device of this.deviceMap.values()) {
+                if (this.destroyingProject) {
+                    return;
+                }
+                await this.stopDevice(device);
+            }
+        } catch (error) {
+            if (this.destroyingProject) {
+                return;
+            }
+            console.warn('Error stopping devices:', error);
+        }
     }
 
-    stopDevice (device) {
-        device.writeActor(new Uint8Array([0, 0, 0]), false);
+    /**
+     *
+     * @param {SAMDevice} device - device to stop
+     */
+    async stopDevice (device) {
+        await device.writeActor(new Uint8Array([0, 0, 0]), false);
     }
 
     async connectToDevice () {
+        await this.connect();
+        this.runtime.emit('OPEN_DEVICE_SELECTOR', {
+            projectDeviceData: this.deviceData,
+            connectedDevices: this.deviceMap
+        });
+    }
+
+    async connect () {
         const device = new SAMDevice(this.runtime, this.extensionId);
         const connected = await device.connectToDevice(this.deviceMap, {
             filters: [{
@@ -413,7 +468,36 @@ class ExtensionBlocks {
         if (connected) {
             this.deviceMap.set(device.displayName, device);
             this.updateDeviceMenu();
+            this.addDeviceData(device);
         }
+    }
+
+    /**
+     *
+     * @param {SAMDevice} device - device to disconnect
+     */
+    async disconnectDevice (device) {
+        await device.disconnect();
+    }
+
+    /**
+     * Add device data to be persisted.
+     * @param {SAMDevice} device - device to add
+     */
+    addDeviceData (device) {
+        const savedDevice = {
+            name: device.name,
+            id: device.id,
+            menuId: device.menuId,
+            menuName: device.menuName,
+            displayName: device.displayName,
+            typeId: device.typeId
+        };
+        if (!this.deviceData.devices) {
+            this.deviceData.devices = new Map();
+        }
+        this.deviceData.devices.set(device.displayName, savedDevice);
+        this.saveDeviceData();
     }
 
     /**
@@ -556,7 +640,6 @@ class ExtensionBlocks {
     }
 
     getButton (args) {
-        this.saveDeviceData({hello: 'hi'});
         const block = this.getDeviceFromId(args.num);
         if (!block) {
             return 0;

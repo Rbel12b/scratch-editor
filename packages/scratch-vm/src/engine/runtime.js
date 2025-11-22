@@ -715,6 +715,30 @@ class Runtime extends EventEmitter {
     }
 
     /**
+     * Event name for opening the device selector.
+     * @const {string}
+     */
+    static get OPEN_DEVICE_SELECTOR () {
+        return 'OPEN_DEVICE_SELECTOR';
+    }
+
+    /**
+     * Event name for closing the device selector.
+     * @const {string}
+     */
+    static get CLOSE_DEVICE_SELECTOR () {
+        return 'CLOSE_DEVICE_SELECTOR';
+    }
+
+    /**
+     *
+     * @const {string}
+     */
+    static get DEVICE_SELECTOR_RESULT () {
+        return 'DEVICE_SELECTOR_RESULT';
+    }
+
+    /**
      * How rapidly we try to step threads by default, in ms.
      */
     static get THREAD_STEP_INTERVAL () {

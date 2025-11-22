@@ -10,8 +10,8 @@ const SamLabsBLE = {
     ActorCharacteristic: '84fc1520-980c-11e4-8bed-0002a5d5c51b',
     StatusLedCharacteristic: '5baab0a0-980c-11e4-b5e9-0002a5d5c51b',
     SAMBotCommandCharacteristic: 'abcd1234-1234-1234-1234-0002a5d5c51b',
-    sendInterval: 50,
-    sendRateMax: 20
+    sendInterval: 100,
+    sendRateMax: 10
 };
 
 const BabyBotIndex = 1;
@@ -186,6 +186,19 @@ class SAMDevice {
         }
     }
 
+    async disconnect () {
+        if (this.webBLE) {
+            if (this.device && this.device.gatt.connected) {
+                await this.device.gatt.disconnect();
+                console.log(`Disconnected from ${this.device.name}`);
+                this.device = null;
+            }
+        } else if (this._ble && this._ble.isConnected()) {
+            this._ble.disconnect();
+            console.log(`Disconnected from ${this.device.name}`);
+        }
+    }
+
     async connectWebBLE (options) {
         // Request a Bluetooth device with the specified filter
         const device = await navigator.bluetooth.requestDevice(options);
@@ -203,6 +216,9 @@ class SAMDevice {
     }
 
     async getCharacteristics (server) {
+        if (!server || !this.device) {
+            return false;
+        }
         // Get the Battery Service
         const battServ = await server.getPrimaryService(SamLabsBLE.battServ);
 
@@ -245,6 +261,8 @@ class SAMDevice {
 
         this.SAMStatusLEDCharacteristic = await SAMServ.getCharacteristic(SamLabsBLE.StatusLedCharacteristic);
         console.log('Found statusled characteristic');
+
+        this.name = this.device.name;
 
         this.typeId = 0;
         for (this.typeId = 0; this.typeId < DeviceTypes.length; this.typeId++) {
@@ -408,6 +426,8 @@ class SAMDevice {
             const device = this.device;
             console.log(device);
 
+            this.name = device.name;
+
             this.typeId = 0;
             for (this.typeId = 0; this.typeId < DeviceTypes.length; this.typeId++) {
                 if (DeviceTypes[this.typeId].advName === device.name) {
@@ -555,6 +575,9 @@ class SAMDevice {
 
     onDisconnected () {
         this.waitingForReconnect = true;
+        if (!this.device) {
+            return;
+        }
         this.device.gatt.connect().then(server => this.getCharacteristics(server));
     }
 
@@ -568,6 +591,9 @@ class SAMDevice {
             if (!this._rateLimiter.okayToSend()) return Promise.resolve();
         }
         if (this.webBLE) {
+            if (!this.device) {
+                return Promise.resolve(); // no device available
+            }
             if (!this.device.gatt.connected) {
                 this.waitingForReconnect = true;
                 this.device.gatt.connect()
@@ -597,6 +623,9 @@ class SAMDevice {
             if (!this._rateLimiter.okayToSend()) return Promise.resolve();
         }
         if (this.webBLE) {
+            if (!this.device) {
+                return Promise.resolve(); // no device available
+            }
             if (!this.device.gatt.connected) {
                 this.waitingForReconnect = true;
                 this.device.gatt.connect()
@@ -626,6 +655,9 @@ class SAMDevice {
             if (!this._rateLimiter.okayToSend()) return Promise.resolve();
         }
         if (this.webBLE) {
+            if (!this.device) {
+                return Promise.resolve(); // no device available
+            }
             if (!this.device.gatt.connected) {
                 this.waitingForReconnect = true;
                 this.device.gatt.connect()

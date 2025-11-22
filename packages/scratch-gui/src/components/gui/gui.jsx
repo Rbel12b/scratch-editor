@@ -23,6 +23,7 @@ import BackdropLibrary from '../../containers/backdrop-library.jsx';
 import Watermark from '../../containers/watermark.jsx';
 
 import Backpack from '../../containers/backpack.jsx';
+import DeviceSelector from '../../containers/device-selector.jsx';
 import WebGlModal from '../../containers/webgl-modal.jsx';
 import TipsLibrary from '../../containers/tips-library.jsx';
 import Cards from '../../containers/cards.jsx';
@@ -255,6 +256,9 @@ const GUIComponent = props => {
                         onRequestClose={onRequestCloseBackdropLibrary}
                     />
                 ) : null}
+                {
+                    <DeviceSelector vm={vm} />
+                }
                 <MenuBar
                     accountNavOpen={accountNavOpen}
                     authorId={authorId}

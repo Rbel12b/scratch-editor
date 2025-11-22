@@ -1,0 +1,136 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+@import "../../css/typography.css";
+@import "../../css/z-index.css";
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: $z-index-modal;
+    background-color: $ui-modal-overlay;
+}
+
+.modal-content {
+    margin: 100px auto;
+    outline: none;
+    border: .25rem solid $ui-white-transparent;
+    padding: 0;
+    border-radius: $space;
+    user-select: none;
+    width: 500px;
+
+    color: $text-primary;
+    overflow: hidden;
+}
+
+.body {
+    background: $ui-white;
+    padding: 1.5rem 2.25rem;
+    text-align: center;
+}
+
+.button {
+    margin: 1.5rem 0;
+    font-weight: bolder;
+    text-align: right;
+    display: flex;
+    justify-content: center;
+}
+
+.button-row button {
+    border: 1px solid $looks-secondary;
+    border-radius: 0.25rem;
+    padding: 0.5rem 2rem;
+    background: $looks-secondary;
+    color: white;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
+
+/* Grid layout */
+.deviceGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+/* Device box */
+.deviceBox {
+    background: $ui-white;
+    border: 1px solid $looks-secondary;
+    border-radius: $space;
+    padding: 1rem;
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.deviceBox:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+}
+
+/* Name text */
+.deviceName {
+    margin-top: .5rem;
+    font-weight: bold;
+    font-size: 0.875rem;
+    color: $text-primary;
+}
+
+/* Box image container */
+.deviceImage {
+    width: 64px;
+    height: 64px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0 auto;
+}
+
+/* Example image rules */
+/*
+.device-slider .deviceImage {
+    background-image: url('./images/slider.png');
+}
+
+.device-light-sensor .deviceImage {
+    background-image: url('./images/light-sensor.png');
+}
+
+.device-proximity .deviceImage {
+    background-image: url('./images/proximity.png');
+}
+
+.device-heat .deviceImage {
+    background-image: url('./images/heat.png');
+}
+
+.device-tilt .deviceImage {
+    background-image: url('./images/tilt.png');
+}
+
+.device-pressure .deviceImage {
+    background-image: url('./images/pressure.png');
+} */
+
+.device-sam-button .deviceImage {
+    background-image: url('./images/button.svg');
+}
+
+/* .device-rgb-led .deviceImage {
+    background-image: url('./images/rgb-led.png');
+}
+
+.device-dc-motor .deviceImage {
+    background-image: url('./images/dc-motor.png');
+}
+
+.device-servo .deviceImage {
+    background-image: url('./images/servo.png');
+} */

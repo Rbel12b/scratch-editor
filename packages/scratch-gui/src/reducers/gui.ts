@@ -5,6 +5,7 @@ import cardsReducer, {cardsInitialState} from './cards';
 import colorPickerReducer, {colorPickerInitialState} from './color-picker';
 import connectionModalReducer, {connectionModalInitialState} from './connection-modal';
 import customProceduresReducer, {customProceduresInitialState} from './custom-procedures';
+import deviceSelectorReducer, {deviceSelectorInitialState} from './device-selector';
 import blockDragReducer, {blockDragInitialState} from './block-drag';
 import editorTabReducer, {editorTabInitialState} from './editor-tab';
 import hoveredTargetReducer, {hoveredTargetInitialState} from './hovered-target';
@@ -45,6 +46,7 @@ const buildInitialState = (config: GUIConfig) => ({
     config,
     connectionModal: connectionModalInitialState,
     customProcedures: customProceduresInitialState,
+    deviceSelector: deviceSelectorInitialState,
     editorTab: editorTabInitialState,
     mode: modeInitialState,
     hoveredTarget: hoveredTargetInitialState,
@@ -154,6 +156,7 @@ const guiReducer = combineReducers({
     connectionModal: connectionModalReducer,
     config: configReducer,
     customProcedures: customProceduresReducer,
+    deviceSelector: deviceSelectorReducer,
     editorTab: editorTabReducer,
     mode: modeReducer,
     hoveredTarget: hoveredTargetReducer,
