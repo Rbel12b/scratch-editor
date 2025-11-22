@@ -10,6 +10,7 @@ const SamLabsBLE = {
     ActorCharacteristic: '84fc1520-980c-11e4-8bed-0002a5d5c51b',
     StatusLedCharacteristic: '5baab0a0-980c-11e4-b5e9-0002a5d5c51b',
     SAMBotCommandCharacteristic: 'abcd1234-1234-1234-1234-0002a5d5c51b',
+    hexServiceUUID: '587ecb20-ddd3-11e4-9473-0002a5d5c51b',
     sendInterval: 100,
     sendRateMax: 10
 };
