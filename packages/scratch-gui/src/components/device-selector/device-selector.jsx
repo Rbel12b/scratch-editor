@@ -27,32 +27,118 @@ const DeviceSelector = ({visible, payload, onSubmit, onClose}) => {
             onRequestClose={onClose}
             overlayClassName={styles.modalOverlay}
         >
-            <Box className={styles.body}>
-                <h2>{'Devices'}</h2>
-
-                <div className={styles.deviceGrid}>
-                    {projectDevices.map(device => (
-                        <div
-                            key={device.displayName}
-                            className={classNames(
-                                styles.deviceBox,
-                                styles[`device-${device.name.replace(/\s+/g, '-').toLowerCase()}`]
-                            )}
-                        >
-                            <div className={styles.deviceImage} />
-                            <div className={styles.deviceName}>{device.displayName}</div>
+            <div className={styles.relativeWrapper}>
+                {/* Overlay shown while connecting */}
+                {payload.connecting ? (
+                    <div
+                        className={styles.connectingOverlay}
+                        aria-live="polite"
+                    >
+                        <div className={styles.connectingInner}>
+                            <svg
+                                width="48"
+                                height="48"
+                                viewBox="0 0 50 50"
+                                aria-hidden="true"
+                            >
+                                <circle
+                                    cx="25"
+                                    cy="25"
+                                    r="20"
+                                    stroke="#e0e0e0"
+                                    strokeWidth="4"
+                                    fill="none"
+                                />
+                                <path
+                                    d="M25 5 A20 20 0 0 1 45 25"
+                                    stroke="#0078d4"
+                                    strokeWidth="4"
+                                    strokeLinecap="round"
+                                    fill="none"
+                                >
+                                    <animateTransform
+                                        attributeType="xml"
+                                        attributeName="transform"
+                                        type="rotate"
+                                        from="0 25 25"
+                                        to="360 25 25"
+                                        dur="1s"
+                                        repeatCount="indefinite"
+                                    />
+                                </path>
+                            </svg>
+                            <div className={styles.connectingText}>
+                                {'Connecting to device...'}
+                            </div>
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ) : null}
 
-                <div className={styles.buttonRow}>
-                    {// eslint-disable-next-line react/jsx-no-bind
-                        <button onClick={() => onSubmit({value})}>
-                            {'OK'}
-                        </button>
-                    }
-                </div>
-            </Box>
+                <Box className={styles.body}>
+                    <h2>{'Devices'}</h2>
+
+                    <div className={styles.flexRow}>
+                        <div className={styles.flex1}>
+                            {projectDevices && projectDevices.length > 0 ? (
+                                <div className={styles.deviceGrid}>
+                                    {projectDevices.map(device => (
+                                        <div
+                                            key={device.displayName}
+                                            className={classNames(
+                                                styles.deviceBox,
+                                                styles[`device-${device.name.replace(/\s+/g, '-').toLowerCase()}`]
+                                            )}
+                                        >
+                                            <div className={styles.deviceImage} />
+                                            <div className={styles.deviceName}>{device.displayName}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className={styles.emptyState}>{'No devices in project'}</div>
+                            )}
+                        </div>
+
+                        <div className={styles.verticalDivider} />
+
+                        <div className={styles.flex1}>
+                            {connectedDevices && connectedDevices.length > 0 ? (
+                                <div className={styles.deviceGrid}>
+                                    {connectedDevices.map(device => (
+                                        <div
+                                            key={device.pairingId || device.name}
+                                            className={classNames(
+                                                styles.deviceBox,
+                                                // eslint-disable-next-line max-len
+                                                styles[`device-${(device.name || '').replace(/\s+/g, '-').toLowerCase()}`]
+                                            )}
+                                        >
+                                            <div className={styles.deviceImage} />
+                                            <div className={styles.deviceName}>{device.pairingId}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className={styles.emptyState}>{'No connected devices'}</div>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className={styles.buttonRow}>
+                        {// eslint-disable-next-line react/jsx-no-bind
+                            <button onClick={() => onSubmit({value})}>
+                                {'OK'}
+                            </button>
+                        }
+
+                        {// eslint-disable-next-line react/jsx-no-bind
+                            <button onClick={() => payload.onConnect({value})}>
+                                {'Connect New Device'}
+                            </button>
+                        }
+                    </div>
+                </Box>
+            </div>
         </Modal>
     );
 };
@@ -61,7 +147,8 @@ DeviceSelector.propTypes = {
     visible: PropTypes.bool.isRequired,
     payload: PropTypes.object,
     onSubmit: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    onConnect: PropTypes.func.isRequired
 };
 
 export default DeviceSelector;

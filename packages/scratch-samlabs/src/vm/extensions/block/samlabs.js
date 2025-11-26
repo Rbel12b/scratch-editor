@@ -144,6 +144,8 @@ class ExtensionBlocks {
             console.log('User chose:', data.value);
             this.selectedDevice = data.value;
         });
+
+        this.connect = this.connect.bind(this);
     }
 
     /**
@@ -449,15 +451,22 @@ class ExtensionBlocks {
         await device.writeActor(new Uint8Array([0, 0, 0]), false);
     }
 
-    async connectToDevice () {
-        await this.connect();
+    connectToDevice () {
         this.runtime.emit('OPEN_DEVICE_SELECTOR', {
             projectDeviceData: this.deviceData,
-            connectedDevices: this.deviceMap
+            connectedDevices: this.deviceMap,
+            onConnect: this.connect,
+            connecting: false
         });
     }
 
     async connect () {
+        this.runtime.emit('OPEN_DEVICE_SELECTOR', {
+            projectDeviceData: this.deviceData,
+            connectedDevices: this.deviceMap,
+            onConnect: this.connect,
+            connecting: true
+        });
         const device = new SAMDevice(this.runtime, this.extensionId);
         const connected = await device.connectToDevice(this.deviceMap, {
             filters: [{
@@ -470,6 +479,12 @@ class ExtensionBlocks {
             this.updateDeviceMenu();
             this.addDeviceData(device);
         }
+        this.runtime.emit('OPEN_DEVICE_SELECTOR', {
+            projectDeviceData: this.deviceData,
+            connectedDevices: this.deviceMap,
+            onConnect: this.connect,
+            connecting: false
+        });
     }
 
     /**

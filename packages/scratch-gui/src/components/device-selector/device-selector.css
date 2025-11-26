@@ -32,12 +32,60 @@
     text-align: center;
 }
 
+.relativeWrapper {
+    position: relative;
+}
+
+.connectingOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+.connectingInner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.connectingText {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #333;
+}
+
+.flexRow {
+    display: flex;
+    align-items: flex-start;
+}
+
+.flex1 {
+    flex: 1;
+}
+
+.verticalDivider {
+    width: 1px;
+    background-color: #e0e0e0;
+    margin: 0 16px;
+    align-self: stretch;
+}
+
 .button {
     margin: 1.5rem 0;
     font-weight: bolder;
     text-align: right;
     display: flex;
     justify-content: center;
+}
+
+.button-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
 }
 
 .button-row button {
@@ -93,44 +141,42 @@
     margin: 0 auto;
 }
 
-/* Example image rules */
-/*
-.device-slider .deviceImage {
-    background-image: url('./images/slider.png');
+.device-sam-potentiometer .deviceImage {
+    background-image: url('./images/Slider.svg');
 }
 
-.device-light-sensor .deviceImage {
-    background-image: url('./images/light-sensor.png');
+.device-sam-ldr .deviceImage {
+    background-image: url('./images/LightSensor.svg');
 }
 
-.device-proximity .deviceImage {
-    background-image: url('./images/proximity.png');
+.device-sam-ir-sensor .deviceImage {
+    background-image: url('./images/Proximity.svg');
 }
 
-.device-heat .deviceImage {
-    background-image: url('./images/heat.png');
+.device-sam-temperature .deviceImage {
+    background-image: url('./images/HeatSensor.svg');
 }
 
-.device-tilt .deviceImage {
-    background-image: url('./images/tilt.png');
+.device-sam-tilt .deviceImage {
+    background-image: url('./images/Tilt.svg');
 }
 
-.device-pressure .deviceImage {
-    background-image: url('./images/pressure.png');
-} */
+.device-sam-pressure .deviceImage {
+    background-image: url('./images/PressureSensor.svg');
+}
 
 .device-sam-button .deviceImage {
-    background-image: url('./images/button.svg');
+    background-image: url('./images/Button.svg');
 }
 
-/* .device-rgb-led .deviceImage {
-    background-image: url('./images/rgb-led.png');
+.device-sam-rgb-led .deviceImage {
+    background-image: url('./images/LED.svg');
 }
 
-.device-dc-motor .deviceImage {
-    background-image: url('./images/dc-motor.png');
+.device-sam-dc-motor .deviceImage {
+    background-image: url('./images/DCMotor.svg');
 }
 
-.device-servo .deviceImage {
-    background-image: url('./images/servo.png');
-} */
+.device-sam-servo-motor .deviceImage {
+    background-image: url('./images/Servo.svg');
+}
