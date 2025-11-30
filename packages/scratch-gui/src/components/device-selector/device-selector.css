@@ -93,8 +93,7 @@
 
 /* Scrollable column */
 .scrollColumn {
-    max-height: 360px;
-    /* adjust as needed */
+    max-height: 66.67vh;
     overflow-y: auto;
     padding-right: 8px;
     /* room for scrollbar */

@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import classNames from 'classnames';
 import styles from './device-selector.css';
 import {
@@ -22,6 +22,27 @@ const DeviceSelector = ({visible, payload, onSubmit, onClose}) => {
     useEffect(() => {
         setValue('');
     }, []);
+
+
+    const divARef = useRef(null);
+    const divBRef = useRef(null);
+
+    const handleScrollA = () => {
+        const a = divARef.current;
+        const b = divBRef.current;
+        if (b && Math.abs(b.scrollTop - a.scrollTop) > 1) {
+            b.scrollTop = a.scrollTop;
+        }
+    };
+
+    const handleScrollB = () => {
+        const a = divARef.current;
+        const b = divBRef.current;
+        if (a && Math.abs(a.scrollTop - b.scrollTop) > 1) {
+            a.scrollTop = b.scrollTop;
+        }
+    };
+
 
     if (!payload) payload = {mapping: []};
 
@@ -183,9 +204,15 @@ const DeviceSelector = ({visible, payload, onSubmit, onClose}) => {
                         onDragEnd={handleDragEnd}
                     >
                         <div className={styles.gridTwoColumns}>
+
                             <div className={styles.columnWrapper}>
                                 <div className={styles.columnHeader}>{'Project Devices'}</div>
-                                <div className={styles.scrollColumn}>
+                                <div
+                                    className={styles.scrollColumn}
+                                    ref={divARef}
+                                    // eslint-disable-next-line react/jsx-no-bind
+                                    onScroll={handleScrollA}
+                                >
                                     <SortableContext
                                         items={leftOrder}
                                         strategy={verticalListSortingStrategy}
@@ -214,7 +241,12 @@ const DeviceSelector = ({visible, payload, onSubmit, onClose}) => {
 
                             <div className={styles.columnWrapper}>
                                 <div className={styles.columnHeader}>{'Connected Devices'}</div>
-                                <div className={styles.scrollColumn}>
+                                <div
+                                    className={styles.scrollColumn}
+                                    ref={divBRef}
+                                    // eslint-disable-next-line react/jsx-no-bind
+                                    onScroll={handleScrollB}
+                                >
                                     <SortableContext
                                         items={rightOrder}
                                         strategy={verticalListSortingStrategy}
