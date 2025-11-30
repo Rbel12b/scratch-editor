@@ -15,6 +15,24 @@ class LEDArg {
     }
 }
 
+const colors = [
+    {r: 255, g: 0, b: 0}, // Red
+    {r: 0, g: 255, b: 0}, // Green
+    {r: 0, g: 0, b: 255}, // Blue
+    {r: 255, g: 255, b: 0}, // Yellow
+    {r: 0, g: 255, b: 255}, // Cyan
+    {r: 255, g: 0, b: 255}, // Magenta
+    {r: 255, g: 128, b: 0}, // Orange
+    {r: 128, g: 0, b: 255}, // Purple
+    {r: 128, g: 255, b: 0}, // Lime
+    {r: 0, g: 128, b: 128}, // Teal
+    {r: 255, g: 105, b: 180}, // Pink
+    {r: 135, g: 206, b: 235}, // Sky Blue
+    {r: 255, g: 255, b: 255}, // White
+    {r: 255, g: 240, b: 200}, // Warm White
+    {r: 0, g: 0, b: 128} // Deep Blue
+];
+
 /**
  * Formatter which is used for translation.
  * This will be replaced which is used in the runtime.
@@ -162,6 +180,7 @@ class ExtensionBlocks {
     }
 
     selectorResult (data) {
+        this.restoreColors();
         if (!data || !data.length) return;
 
         this.mapping = data;
@@ -538,6 +557,7 @@ class ExtensionBlocks {
     }
 
     connectToDevice () {
+        this.setColors();
         this.runtime.emit('OPEN_DEVICE_SELECTOR', {
             projectDeviceData: this.deviceData,
             connectedDevices: this.deviceMap,
@@ -584,6 +604,7 @@ class ExtensionBlocks {
             this.updateDeviceMenu();
             this.addDeviceData(device);
         }
+        this.setColors();
         this.runtime.emit('OPEN_DEVICE_SELECTOR', {
             projectDeviceData: this.deviceData,
             connectedDevices: this.deviceMap,
@@ -592,6 +613,31 @@ class ExtensionBlocks {
             mapping: this.mapping,
             disconnectDevice: this.disconnectDeviceById,
             removeDevice: this.removeDeviceById
+        });
+    }
+
+    setColors () {
+        let i = 0;
+        this.deviceMap.forEach(async device => {
+            const color = colors[i % colors.length];
+            i++;
+            device.glowColor = color;
+            await device.writeStatusLed(new Uint8Array([
+                color.r,
+                color.g,
+                color.b
+            ]));
+        });
+    }
+
+    restoreColors () {
+        this.deviceMap.forEach(async device => {
+            const color = {
+                r: device.lastStatusLEDValue[0] * 2.55,
+                g: device.lastStatusLEDValue[1] * 2.55,
+                b: device.lastStatusLEDValue[2] * 2.55
+            };
+            await this.setBlockLedColor(device, color);
         });
     }
 

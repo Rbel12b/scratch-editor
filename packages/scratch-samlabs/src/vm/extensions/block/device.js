@@ -180,7 +180,11 @@ class SAMDevice {
             this.statusLedBrightness = 1;
             this.lastStatusLEDValue = [100, 100, 100];
             this.writeStatusLed(new Uint8Array([255, 255, 255]));
-            return true;
+            return new Promise(resolve => {
+                window.setTimeout(() => {
+                    resolve(true);
+                }, 200);
+            });
         } catch (error) {
             console.log(error);
             return false;

@@ -274,6 +274,7 @@ const DeviceSelector = ({visible, payload, onSubmit, onClose}) => {
                                                     buttonCallback={payload.disconnectDevice ? () => {
                                                         payload.disconnectDevice(device.id);
                                                     } : null}
+                                                    color={device.glowColor}
                                                 />
                                             );
                                         })}

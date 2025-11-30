@@ -4,7 +4,7 @@ import {CSS} from '@dnd-kit/utilities';
 import styles from './device-selector.css';
 import PropTypes from 'prop-types';
 
-const SortableDevice = ({id, label, className, buttonText, buttonCallback}) => {
+const SortableDevice = ({id, label, className, buttonText, buttonCallback, color}) => {
     const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id});
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -23,6 +23,9 @@ const SortableDevice = ({id, label, className, buttonText, buttonCallback}) => {
                 <div
                     className={styles.deviceImage}
                     aria-hidden="true"
+                    style={{
+                        boxShadow: color ? `0 0 20px rgb(${color.r}, ${color.g}, ${color.b})` : 'none'
+                    }}
                 />
                 <div className={styles.deviceName}>{label}</div>
             </div>
@@ -45,7 +48,12 @@ SortableDevice.propTypes = {
     label: PropTypes.string,
     className: PropTypes.string.isRequired,
     buttonText: PropTypes.string,
-    buttonCallback: PropTypes.func
+    buttonCallback: PropTypes.func,
+    color: PropTypes.shape({
+        r: PropTypes.number,
+        g: PropTypes.number,
+        b: PropTypes.number
+    })
 };
 
 export default SortableDevice;
