@@ -289,7 +289,7 @@ class ExtensionBlocks {
                     blockType: BlockType.BUTTON,
                     text: formatMessage({
                         id: 'samlabs.connectToDevice',
-                        default: 'Devices'
+                        default: 'Connect a device'
                     })
                 },
                 {
