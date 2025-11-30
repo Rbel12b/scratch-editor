@@ -107,6 +107,10 @@ class ExtensionBlocks {
             // Replace 'formatMessage' to a formatter which is used in the runtime.
             formatMessage = runtime.formatMessage;
         }
+        /**
+         * Device data
+         * @type {Map<string, SAMDevice>}
+         */
         this.deviceMap = new Map(); // Store multiple devices
         this.numberOfConnectedDevices = 0;
         this.extensionId = 'samlabs';
@@ -140,19 +144,36 @@ class ExtensionBlocks {
         this.runtime.registerPeripheralExtension(this.extensionId, this);
         this.connectToDevice = this.connectToDevice.bind(this);
 
-        runtime.on('DEVICE_SELECTOR_RESULT', data => {
-            console.log('User chose:', data.value);
-            this.selectedDevice = data.value;
-        });
+        runtime.on('DEVICE_SELECTOR_RESULT', this.selectorResult.bind(this));
 
         this.connect = this.connect.bind(this);
+        /**
+         * @type {Array<{id:string, displayName:string}>}
+         */
+        this.mapping = [];
+
+        /**
+         * @type {Object.<string, string>}
+         */
+        this.deviceMapping = {};
+    }
+
+    selectorResult (data) {
+        if (!data || !data.length) return;
+
+        this.mapping = data;
+        this.deviceMapping = {};
+        data.forEach(item => {
+            this.deviceMapping[item.displayName] = item.id;
+        });
+        this.saveDeviceData();
     }
 
     /**
      * Persist an object into the project (.sb3) so it will travel with the project file.
      */
     saveDeviceData () {
-        this.runtime.samlabs_DeviceData = {devices: {}};
+        this.runtime.samlabs_DeviceData = {devices: {}, deviceMapping: this.deviceMapping};
         this.deviceData.devices.forEach((device, key) => {
             this.runtime.samlabs_DeviceData.devices[key] = device;
         });
@@ -174,6 +195,11 @@ class ExtensionBlocks {
             for (const [key, device] of Object.entries(savedDevices)) {
                 this.deviceData.devices.set(key, device);
             }
+        }
+        this.deviceMapping = this.runtime.samlabs_DeviceData.deviceMapping || {};
+        this.mapping = [];
+        for (const [name, id] of Object.entries(this.deviceMapping)) {
+            this.mapping.push({id: id, displayName: name});
         }
         this.destroyingProject = false;
     }
@@ -419,6 +445,18 @@ class ExtensionBlocks {
      * @returns {SAMDevice} the device
      */
     getDeviceFromId (id) {
+        if (this.destroyingProject) {
+            return null;
+        }
+        if (this.deviceMapping[id]) {
+            const mappedId = this.deviceMapping[id];
+            if (this.deviceMap.has(mappedId)) {
+                return this.deviceMap.get(mappedId);
+            }
+        }
+        if (!this.deviceMap.has(id)) {
+            return null;
+        }
         return this.deviceMap.get(id);
     }
 
@@ -456,7 +494,8 @@ class ExtensionBlocks {
             projectDeviceData: this.deviceData,
             connectedDevices: this.deviceMap,
             onConnect: this.connect,
-            connecting: false
+            connecting: false,
+            mapping: this.mapping
         });
     }
 
@@ -465,7 +504,8 @@ class ExtensionBlocks {
             projectDeviceData: this.deviceData,
             connectedDevices: this.deviceMap,
             onConnect: this.connect,
-            connecting: true
+            connecting: true,
+            mapping: this.mapping
         });
         const device = new SAMDevice(this.runtime, this.extensionId);
         const connected = await device.connectToDevice(this.deviceMap, {
@@ -475,7 +515,20 @@ class ExtensionBlocks {
             optionalServices: [SamLabsBLE.battServ, SamLabsBLE.SAMServ]
         });
         if (connected) {
-            this.deviceMap.set(device.displayName, device);
+            this.deviceMap.set(device.id, device);
+
+            let found = false;
+            for (const mapItem of this.mapping) {
+                if (mapItem.displayName === device.displayName) {
+                    found = true;
+                    mapItem.id = device.id;
+                    break;
+                }
+            }
+            if (!found) {
+                this.mapping.push({id: device.id, displayName: device.displayName});
+            }
+            this.deviceMapping[device.displayName] = device.id;
             this.updateDeviceMenu();
             this.addDeviceData(device);
         }
@@ -483,7 +536,8 @@ class ExtensionBlocks {
             projectDeviceData: this.deviceData,
             connectedDevices: this.deviceMap,
             onConnect: this.connect,
-            connecting: false
+            connecting: false,
+            mapping: this.mapping
         });
     }
 

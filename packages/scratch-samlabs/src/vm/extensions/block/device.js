@@ -204,6 +204,18 @@ class SAMDevice {
         // Request a Bluetooth device with the specified filter
         const device = await navigator.bluetooth.requestDevice(options);
 
+        try {
+            this.deviceMap.forEach(value => {
+                if (value.id === device.id) {
+                    console.log('Device already connected');
+                    throw new Error('Device already connected');
+                }
+            });
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
+
         this.device = device;
 
         console.log('Device found:', this.device);
@@ -263,6 +275,22 @@ class SAMDevice {
         this.SAMStatusLEDCharacteristic = await SAMServ.getCharacteristic(SamLabsBLE.StatusLedCharacteristic);
         console.log('Found statusled characteristic');
 
+        try {
+            this.hexIdChar = await SAMServ.getCharacteristic(SamLabsBLE.hexServiceUUID);
+            const value = await this.hexIdChar.readValue();
+            const bytes = [
+                value.getUint8(1),
+                value.getUint8(2)
+            ];
+            this.pairingId = bytes
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('')
+                .toLowerCase();
+
+        } catch (e) {
+            console.log('Hex characteristic not found');
+        }
+
         this.name = this.device.name;
 
         this.typeId = 0;
@@ -282,7 +310,7 @@ class SAMDevice {
 
         let sameDevices = 1;
         this.deviceMap.forEach(value => {
-            if (value.typeId === this.typeId) {
+            if (value.typeId === this.typeId && value.id !== this.device.id) {
                 sameDevices++;
             }
         });
@@ -423,6 +451,18 @@ class SAMDevice {
                 this._ble.disconnect();
                 return false;
             }
+            
+            try {
+                this.deviceMap.forEach(value => {
+                    if (value.id === this.deviceId) {
+                        console.log('Device already connected');
+                        throw new Error('Device already connected');
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+                return false;
+            }
 
             const device = this.device;
             console.log(device);
@@ -446,7 +486,7 @@ class SAMDevice {
 
             let sameDevices = 1;
             this.deviceMap.forEach(value => {
-                if (value.typeId === this.typeId) {
+                if (value.typeId === this.typeId && value.id !== device.peripheralId) {
                     sameDevices++;
                 }
             });
@@ -470,7 +510,7 @@ class SAMDevice {
         return true;
     }
 
-    _onConnect () {
+    async _onConnect () {
         console.log('connected to device');
         this._ble.startNotifications(
             SamLabsBLE.battServ,
@@ -482,6 +522,17 @@ class SAMDevice {
             SamLabsBLE.SensorCharacteristic,
             this.handleSensorNotifications.bind(this)
         );
+        const value = await this._ble.read(SamLabsBLE.battServ, SamLabsBLE.hexServiceUUID);
+        const data = Base64Util.base64ToUint8Array(value);
+        const bytes = [
+            data[1],
+            data[2]
+        ];
+        this.pairingId = bytes
+            .map(b => b.toString(16).padStart(2, '0'))
+            .join('')
+            .toLowerCase();
+        console.log(`pairing id: ${this.pairingId}`);
     }
 
     async scanForDevices () {

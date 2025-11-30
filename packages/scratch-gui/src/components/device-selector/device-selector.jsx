@@ -1,10 +1,20 @@
+/* eslint-disable require-jsdoc */
 import React, {useState, useEffect} from 'react';
+import classNames from 'classnames';
+import styles from './device-selector.css';
+import {
+    DndContext,
+    closestCenter
+} from '@dnd-kit/core';
+import {
+    SortableContext,
+    verticalListSortingStrategy,
+    arrayMove
+} from '@dnd-kit/sortable';
+import SortableDevice from './sortable-device';
 import Modal from 'react-modal';
 import PropTypes from 'prop-types';
 import Box from '../box/box.jsx';
-import classNames from 'classnames';
-
-import styles from './device-selector.css';
 
 const DeviceSelector = ({visible, payload, onSubmit, onClose}) => {
     const [value, setValue] = useState('');
@@ -13,11 +23,103 @@ const DeviceSelector = ({visible, payload, onSubmit, onClose}) => {
         setValue('');
     }, []);
 
-    if (!payload) return null;
+    if (!payload) payload = {mapping: []};
 
-    const projectDeviceData = payload.projectDeviceData ? payload.projectDeviceData : null;
+    const projectDeviceData = payload.projectDeviceData ? payload.projectDeviceData : {devices: new Map()};
     const projectDevices = projectDeviceData.devices ? Array.from(projectDeviceData.devices.values()) : [];
     const connectedDevices = payload.connectedDevices ? Array.from(payload.connectedDevices.values()) : [];
+
+    // Build initial orders from payload.mapping
+    const buildLeft = () =>
+        payload.mapping
+            .filter(m => projectDevices.some(d => d.displayName === m.displayName))
+            .map(m => m.displayName);
+
+    const buildRight = () =>
+        payload.mapping
+            .filter(m => connectedDevices.some(d => d.id === m.id))
+            .map(m => m.id);
+
+    const [leftOrder, setLeftOrder] = useState(buildLeft());
+    const [rightOrder, setRightOrder] = useState(buildRight());
+
+    const arraysEqual = (a, b) =>
+        a.length === b.length && a.every((x, i) => x === b[i]);
+
+
+    // keep orders in sync if payload or device lists change
+    useEffect(() => {
+        if (!payload) return;
+
+        const newLeft = buildLeft();
+        const newRight = buildRight();
+
+        if (!arraysEqual(newLeft, leftOrder)) {
+            setLeftOrder(newLeft);
+        }
+
+        if (!arraysEqual(newRight, rightOrder)) {
+            setRightOrder(newRight);
+        }
+    }, [payload]); // Only payload matters
+
+
+    const updateValue = (left, right) => {
+        const result = {left: [], right: []};
+
+        for (const displayName of left) {
+            const entry = payload.mapping.find(m => m.displayName === displayName);
+            if (entry) result.left.push(entry);
+        }
+
+        for (const id of right) {
+            const entry = payload.mapping.find(m => m.id === id);
+            if (entry) result.right.push(entry);
+        }
+
+        const mapping = [];
+        for (let i = 0; i < result.right.length; i++) {
+            if (i < result.left.length) {
+                mapping.push({
+                    displayName: result.left[i].displayName,
+                    id: result.right[i].id
+                });
+            }
+        }
+
+        setValue(mapping);
+    };
+
+    const handleDragEnd = event => {
+        const {active, over} = event;
+        if (!over) return;
+
+        const activeId = active.id;
+        const overId = over.id;
+
+        // same list? only allow sorting within same column
+        if (leftOrder.includes(activeId) && leftOrder.includes(overId)) {
+            const oldIndex = leftOrder.indexOf(activeId);
+            const newIndex = leftOrder.indexOf(overId);
+            const reordered = arrayMove(leftOrder, oldIndex, newIndex);
+            setLeftOrder(reordered);
+            updateValue(reordered, rightOrder);
+            return;
+        }
+
+        if (rightOrder.includes(activeId) && rightOrder.includes(overId)) {
+            const oldIndex = rightOrder.indexOf(activeId);
+            const newIndex = rightOrder.indexOf(overId);
+            const reordered = arrayMove(rightOrder, oldIndex, newIndex);
+            setRightOrder(reordered);
+            updateValue(leftOrder, reordered);
+            return;
+        }
+
+        // otherwise ignore cross-column drags
+    };
+
+    if (!payload) return null;
 
     return (
         <Modal
@@ -28,7 +130,7 @@ const DeviceSelector = ({visible, payload, onSubmit, onClose}) => {
             overlayClassName={styles.modalOverlay}
         >
             <div className={styles.relativeWrapper}>
-                {/* Overlay shown while connecting */}
+                {/* overlay while connecting */}
                 {payload.connecting ? (
                     <div
                         className={styles.connectingOverlay}
@@ -67,75 +169,94 @@ const DeviceSelector = ({visible, payload, onSubmit, onClose}) => {
                                     />
                                 </path>
                             </svg>
-                            <div className={styles.connectingText}>
-                                {'Connecting to device...'}
-                            </div>
+                            <div className={styles.connectingText}>{'Connecting to device...'}</div>
                         </div>
                     </div>
                 ) : null}
 
                 <Box className={styles.body}>
-                    <h2>{'Devices'}</h2>
+                    <h2 className={styles.heading}>{'Devices'}</h2>
 
-                    <div className={styles.flexRow}>
-                        <div className={styles.flex1}>
-                            {projectDevices && projectDevices.length > 0 ? (
-                                <div className={styles.deviceGrid}>
-                                    {projectDevices.map(device => (
-                                        <div
-                                            key={device.displayName}
-                                            className={classNames(
-                                                styles.deviceBox,
-                                                styles[`device-${device.name.replace(/\s+/g, '-').toLowerCase()}`]
-                                            )}
-                                        >
-                                            <div className={styles.deviceImage} />
-                                            <div className={styles.deviceName}>{device.displayName}</div>
-                                        </div>
-                                    ))}
+                    <DndContext
+                        collisionDetection={closestCenter}
+                        // eslint-disable-next-line react/jsx-no-bind
+                        onDragEnd={handleDragEnd}
+                    >
+                        <div className={styles.gridTwoColumns}>
+                            <div className={styles.columnWrapper}>
+                                <div className={styles.columnHeader}>{'Project Devices'}</div>
+                                <div className={styles.scrollColumn}>
+                                    <SortableContext
+                                        items={leftOrder}
+                                        strategy={verticalListSortingStrategy}
+                                    >
+                                        {leftOrder.map(key => {
+                                            const device = projectDevices.find(
+                                                d => d.displayName === key) || {displayName: key, name: key};
+                                            return (
+                                                <SortableDevice
+                                                    key={key}
+                                                    id={key}
+                                                    label={device.displayName}
+                                                    className={classNames(
+                                                        styles.deviceBox,
+                                                        styles[`device-${device.name
+                                                            .replace(/\s+/g, '-').toLowerCase()}`]
+                                                    )}
+                                                />
+                                            );
+                                        })}
+                                    </SortableContext>
                                 </div>
-                            ) : (
-                                <div className={styles.emptyState}>{'No devices in project'}</div>
-                            )}
-                        </div>
+                            </div>
 
-                        <div className={styles.verticalDivider} />
+                            <div className={styles.columnDivider} />
 
-                        <div className={styles.flex1}>
-                            {connectedDevices && connectedDevices.length > 0 ? (
-                                <div className={styles.deviceGrid}>
-                                    {connectedDevices.map(device => (
-                                        <div
-                                            key={device.pairingId || device.name}
-                                            className={classNames(
-                                                styles.deviceBox,
-                                                // eslint-disable-next-line max-len
-                                                styles[`device-${(device.name || '').replace(/\s+/g, '-').toLowerCase()}`]
-                                            )}
-                                        >
-                                            <div className={styles.deviceImage} />
-                                            <div className={styles.deviceName}>{device.pairingId}</div>
-                                        </div>
-                                    ))}
+                            <div className={styles.columnWrapper}>
+                                <div className={styles.columnHeader}>{'Connected Devices'}</div>
+                                <div className={styles.scrollColumn}>
+                                    <SortableContext
+                                        items={rightOrder}
+                                        strategy={verticalListSortingStrategy}
+                                    >
+                                        {rightOrder.map(key => {
+                                            const device = connectedDevices
+                                                .find(d => d.id === key) || {id: key, name: key};
+                                            return (
+                                                <SortableDevice
+                                                    key={key}
+                                                    id={key}
+                                                    label={device.pairingId}
+                                                    className={classNames(
+                                                        styles.deviceBox,
+                                                        styles[`device-${(device.name || '')
+                                                            .replace(/\s+/g, '-').toLowerCase()}`]
+                                                    )}
+                                                />
+                                            );
+                                        })}
+                                    </SortableContext>
                                 </div>
-                            ) : (
-                                <div className={styles.emptyState}>{'No connected devices'}</div>
-                            )}
+                            </div>
                         </div>
-                    </div>
+                    </DndContext>
 
                     <div className={styles.buttonRow}>
-                        {// eslint-disable-next-line react/jsx-no-bind
-                            <button onClick={() => onSubmit({value})}>
-                                {'OK'}
-                            </button>
-                        }
-
-                        {// eslint-disable-next-line react/jsx-no-bind
-                            <button onClick={() => payload.onConnect({value})}>
-                                {'Connect New Device'}
-                            </button>
-                        }
+                        <button
+                            className={styles.btn}
+                            // eslint-disable-next-line react/jsx-no-bind
+                            onClick={() => onSubmit(value)}
+                        >{'OK'}</button>
+                        <button
+                            className={styles.btnOutline}
+                            // eslint-disable-next-line react/jsx-no-bind
+                            onClick={() => payload.onConnect && payload.onConnect(value)}
+                        >{'Connect New Device'}</button>
+                        <button
+                            className={styles.btnGhost}
+                            // eslint-disable-next-line react/jsx-no-bind
+                            onClick={() => onClose && onClose()}
+                        >{'Cancel'}</button>
                     </div>
                 </Box>
             </div>
@@ -147,8 +268,7 @@ DeviceSelector.propTypes = {
     visible: PropTypes.bool.isRequired,
     payload: PropTypes.object,
     onSubmit: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
-    onConnect: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired
 };
 
 export default DeviceSelector;
