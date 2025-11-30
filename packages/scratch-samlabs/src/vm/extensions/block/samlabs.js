@@ -153,9 +153,12 @@ class ExtensionBlocks {
         this.mapping = [];
 
         /**
-         * @type {Object.<string, string>}
+         * @type {Object}
          */
         this.deviceMapping = {};
+
+        this.disconnectDeviceById = this.disconnectDeviceById.bind(this);
+        this.removeDeviceById = this.removeDeviceById.bind(this);
     }
 
     selectorResult (data) {
@@ -167,6 +170,51 @@ class ExtensionBlocks {
             this.deviceMapping[item.displayName] = item.id;
         });
         this.saveDeviceData();
+    }
+
+    async disconnectDeviceById (id) {
+        /**
+         * @type {SAMDevice}
+         */
+        const device = this.deviceMap.get(id);
+
+        if (!device) return;
+
+        await device.disconnect();
+
+        delete this.deviceMapping[device.displayName];
+        this.deviceMap.delete(id);
+        this.updateDeviceMenu();
+        this.saveDeviceData();
+
+        this.runtime.emit('OPEN_DEVICE_SELECTOR', {
+            projectDeviceData: this.deviceData,
+            connectedDevices: this.deviceMap,
+            onConnect: this.connect,
+            connecting: false,
+            mapping: this.mapping,
+            disconnectDevice: this.disconnectDeviceById,
+            removeDevice: this.removeDeviceById
+        });
+    }
+
+    removeDeviceById (id) {
+        this.disconnectDeviceById(id);
+
+        this.mapping = this.mapping.filter(item => item.id !== id);
+        this.deviceData.devices.delete(id);
+        this.saveDeviceData();
+        this.updateDeviceMenu();
+
+        this.runtime.emit('OPEN_DEVICE_SELECTOR', {
+            projectDeviceData: this.deviceData,
+            connectedDevices: this.deviceMap,
+            onConnect: this.connect,
+            connecting: false,
+            mapping: this.mapping,
+            disconnectDevice: this.disconnectDeviceById,
+            removeDevice: this.removeDeviceById
+        });
     }
 
     /**
@@ -495,7 +543,9 @@ class ExtensionBlocks {
             connectedDevices: this.deviceMap,
             onConnect: this.connect,
             connecting: false,
-            mapping: this.mapping
+            mapping: this.mapping,
+            disconnectDevice: this.disconnectDeviceById,
+            removeDevice: this.removeDeviceById
         });
     }
 
@@ -505,7 +555,9 @@ class ExtensionBlocks {
             connectedDevices: this.deviceMap,
             onConnect: this.connect,
             connecting: true,
-            mapping: this.mapping
+            mapping: this.mapping,
+            disconnectDevice: this.disconnectDeviceById,
+            removeDevice: this.removeDeviceById
         });
         const device = new SAMDevice(this.runtime, this.extensionId);
         const connected = await device.connectToDevice(this.deviceMap, {
@@ -537,7 +589,9 @@ class ExtensionBlocks {
             connectedDevices: this.deviceMap,
             onConnect: this.connect,
             connecting: false,
-            mapping: this.mapping
+            mapping: this.mapping,
+            disconnectDevice: this.disconnectDeviceById,
+            removeDevice: this.removeDeviceById
         });
     }
 

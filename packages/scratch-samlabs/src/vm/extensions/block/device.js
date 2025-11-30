@@ -451,7 +451,7 @@ class SAMDevice {
                 this._ble.disconnect();
                 return false;
             }
-            
+
             try {
                 this.deviceMap.forEach(value => {
                     if (value.id === this.deviceId) {

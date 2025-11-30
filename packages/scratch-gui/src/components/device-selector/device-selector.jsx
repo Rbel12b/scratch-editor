@@ -230,6 +230,11 @@ const DeviceSelector = ({visible, payload, onSubmit, onClose}) => {
                                                         styles[`device-${device.name
                                                             .replace(/\s+/g, '-').toLowerCase()}`]
                                                     )}
+                                                    buttonText={'Remove'}
+                                                    // eslint-disable-next-line react/jsx-no-bind
+                                                    buttonCallback={payload.removeDevice ? () => {
+                                                        payload.removeDevice(device.id);
+                                                    } : null}
                                                 />
                                             );
                                         })}
@@ -264,6 +269,11 @@ const DeviceSelector = ({visible, payload, onSubmit, onClose}) => {
                                                         styles[`device-${(device.name || '')
                                                             .replace(/\s+/g, '-').toLowerCase()}`]
                                                     )}
+                                                    buttonText={'Disconnect'}
+                                                    // eslint-disable-next-line react/jsx-no-bind
+                                                    buttonCallback={payload.disconnectDevice ? () => {
+                                                        payload.disconnectDevice(device.id);
+                                                    } : null}
                                                 />
                                             );
                                         })}
@@ -284,11 +294,6 @@ const DeviceSelector = ({visible, payload, onSubmit, onClose}) => {
                             // eslint-disable-next-line react/jsx-no-bind
                             onClick={() => payload.onConnect && payload.onConnect(value)}
                         >{'Connect New Device'}</button>
-                        <button
-                            className={styles.btnGhost}
-                            // eslint-disable-next-line react/jsx-no-bind
-                            onClick={() => onClose && onClose()}
-                        >{'Cancel'}</button>
                     </div>
                 </Box>
             </div>

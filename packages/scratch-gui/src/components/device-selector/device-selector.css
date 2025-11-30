@@ -158,6 +158,15 @@
     flex-shrink: 0;
 }
 
+.deviceButton {
+    padding: 8px 12px;
+    border-radius: 6px;
+    background-color: #af0000;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
 .buttonRow {
     display: flex;
     gap: 12px;
@@ -181,16 +190,6 @@
     border: 1px solid #cce4ff;
     cursor: pointer;
 }
-
-.btnGhost {
-    padding: 8px 12px;
-    border-radius: 6px;
-    background: transparent;
-    color: #333;
-    border: 1px solid transparent;
-    cursor: pointer;
-}
-
 
 .device-sam-potentiometer .deviceImage {
     background-image: url('./images/Slider.svg');
