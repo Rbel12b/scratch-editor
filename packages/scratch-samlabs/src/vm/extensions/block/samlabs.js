@@ -16,7 +16,7 @@ class LEDArg {
 }
 
 const colors = [
-    {r: 255, g: 0, b: 0}, // Red
+    // {r: 255, g: 0, b: 0}, // Red
     {r: 0, g: 255, b: 0}, // Green
     {r: 0, g: 0, b: 255}, // Blue
     {r: 255, g: 255, b: 0}, // Yellow
