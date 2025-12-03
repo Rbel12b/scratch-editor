@@ -21,6 +21,8 @@
     border-radius: $space;
     user-select: none;
     width: 500px;
+    max-width: calc(100vw - 32px);
+    box-sizing: border-box;
 
     color: $text-primary;
     overflow: hidden;
@@ -29,6 +31,9 @@
 .body {
     background: $ui-white;
     padding: 1.5rem 2.25rem;
+    text-align: center;
+    overflow-y: auto;
+    max-height: calc(100vh - 250px);
     text-align: center;
 }
 
@@ -93,7 +98,7 @@
 
 /* Scrollable column */
 .scrollColumn {
-    max-height: 66.67vh;
+    max-height: calc(100vh - 450px);
     overflow-y: auto;
     padding-right: 8px;
     /* room for scrollbar */
