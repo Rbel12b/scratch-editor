@@ -18,6 +18,8 @@ import huskylens from 'scratch-huskylens/src/gui/lib/libraries/extensions/entry/
 
 import pasco from './pasco';
 
+import gspread from './gspread';
+
 import controlplus from './controlplus';
 import duplotrain from './duplotrain';
 import legoble from './legoble';
@@ -240,6 +242,7 @@ const extensions = [
     },
     huskylens,
     pasco,
+    gspread,
     controlplus,
     duplotrain,
     legoble,

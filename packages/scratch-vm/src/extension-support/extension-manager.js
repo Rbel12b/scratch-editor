@@ -37,7 +37,8 @@ const builtinExtensions = {
     onegpioRoboHAT: () => require('../extensions/scratch3_onegpioRoboHAT'),
     onegpioRpiPico: () => require('../extensions/scratch3_onegpioRpiPico'),
     onegpioEsp32: () => require('../extensions/scratch3_onegpioEsp32'),
-    spikeprime: () => require('../extensions/scratch3_spikeprime')
+    spikeprime: () => require('../extensions/scratch3_spikeprime'),
+    googlesheetsadv: () => require('../extensions/gspread')
 };
 
 const customExtensions = {
