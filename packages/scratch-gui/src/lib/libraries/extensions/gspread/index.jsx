@@ -1,7 +1,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-// import iconImage from './googlesheetsadv.png';
+import iconImage from './icon.svg';
 // import insetImage from './googlesheetsadv-small.svg';
 
 const translationMap = {
@@ -20,7 +20,7 @@ export default {
             id="gui.extension.googlesheetsadv.name"
         />
     ),
-    // iconURL: iconImage,
+    iconURL: iconImage,
     // insetIconURL: insetImage,
     description: (
         <FormattedMessage
