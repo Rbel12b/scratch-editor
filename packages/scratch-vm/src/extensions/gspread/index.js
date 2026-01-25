@@ -192,9 +192,10 @@ class GoogleSheetsAdvanced {
         return fetch(this.apiUrl)
             .then(r => r.json())
             .then(data => {
+                console.log(data);
                 const rowIndex = args.RIGA - 1;
                 if (data && data.length > rowIndex) {
-                    return data[rowIndex][args.COLONNA - 1] ||
+                    return data[rowIndex][args.COLONNA] ||
                         formatMessage({id: 'gui.extension.googlesheetsadv.errorEmpty', default: 'Empty'});
                 }
                 return formatMessage({id: 'gui.extension.googlesheetsadv.errorRowNotFound', default: 'Row not found'});
